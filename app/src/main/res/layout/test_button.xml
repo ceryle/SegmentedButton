@@ -25,6 +25,6 @@
         android:layout_height="wrap_content"
         android:text="aaa"
         android:textColor="#FFF"
-        android:textSize="32sp"
+        android:textSize="24sp"
         android:textStyle="bold"/>
 </LinearLayout>

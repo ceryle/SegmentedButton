@@ -1,3 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="SegmentedButton">
+        <attr name="sb_image" format="integer"/>
+        <attr name="sb_imageTint" format="color"/>
+        <attr name="sb_imageWidth" format="dimension"/>
+        <attr name="sb_imageHeight" format="dimension"/>
+
+        <attr name="sb_ripple" format="boolean"/>
+        <attr name="sb_rippleColor" format="color"/>
+
+        <attr name="sb_backgroundColor" format="color"/>
+
+        <attr name="sb_text" format="string"/>
+        <attr name="sb_textColor" format="color"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="SegmentedButtonGroup">
+        <attr name="sbg_dividerSize" format="dimension"/>
+        <attr name="sbg_dividerPadding" format="dimension"/>
+        <attr name="sbg_dividerColor" format="color"/>
+        <attr name="sbg_dividerRadius" format="dimension"/>
+
+        <attr name="sbg_shadow" format="boolean"/>
+        <attr name="sbg_shadowElevation" format="dimension"/>
+        <attr name="sbg_shadowMargin" format="dimension"/>
+        <attr name="sbg_shadowMarginTop" format="dimension"/>
+        <attr name="sbg_shadowMarginBottom" format="dimension"/>
+        <attr name="sbg_shadowMarginLeft" format="dimension"/>
+        <attr name="sbg_shadowMarginRight" format="dimension"/>
+
+        <attr name="sbg_selectorColor" format="color"/>
+
+        <attr name="sbg_position" format="integer"/>
+        <attr name="sbg_radius" format="dimension"/>
+
+        <attr name="sbg_animateSelectorDuration" format="integer"/>
+        <attr name="sbg_animateSelector" format="integer">
+            <flag name="bounce" value="1"/>
+            <flag name="linear" value="2"/>
+            <flag name="fastOutSlowIn" value="3"/>
+            <flag name="decelerate" value="4"/>
+            <flag name="path" value="5"/>
+            <flag name="cycle" value="6"/>
+            <flag name="anticipate" value="7"/>
+            <flag name="accelerateDecelerate" value="8"/>
+            <flag name="accelerate" value="9"/>
+            <flag name="anticipateOvershoot" value="10"/>
+            <flag name="fastOutLinearIn" value="11"/>
+            <flag name="linearOutSlowIn" value="12"/>
+            <flag name="overshoot" value="13"/>
+        </attr>
+
+        <attr name="sbg_animateImagessbgale" format="float"/>
+        <attr name="sbg_animateImages_enterDuration" format="integer"/>
+        <attr name="sbg_animateImages_enter" format="integer">
+            <flag name="bounce" value="1"/>
+            <flag name="linear" value="2"/>
+            <flag name="fastOutSlowIn" value="3"/>
+            <flag name="decelerate" value="4"/>
+            <flag name="path" value="5"/>
+            <flag name="cycle" value="6"/>
+            <flag name="anticipate" value="7"/>
+            <flag name="accelerateDecelerate" value="8"/>
+            <flag name="accelerate" value="9"/>
+            <flag name="anticipateOvershoot" value="10"/>
+            <flag name="fastOutLinearIn" value="11"/>
+            <flag name="linearOutSlowIn" value="12"/>
+            <flag name="overshoot" value="13"/>
+        </attr>
+        <attr name="sbg_animateImages_exitDuration" format="integer"/>
+        <attr name="sbg_animateImages_exit" format="integer">
+            <flag name="bounce" value="1"/>
+            <flag name="linear" value="2"/>
+            <flag name="fastOutSlowIn" value="3"/>
+            <flag name="decelerate" value="4"/>
+            <flag name="path" value="5"/>
+            <flag name="cycle" value="6"/>
+            <flag name="anticipate" value="7"/>
+            <flag name="accelerateDecelerate" value="8"/>
+            <flag name="accelerate" value="9"/>
+            <flag name="anticipateOvershoot" value="10"/>
+            <flag name="fastOutLinearIn" value="11"/>
+            <flag name="linearOutSlowIn" value="12"/>
+            <flag name="overshoot" value="13"/>
+        </attr>
+
+        <attr name="sbg_animateTextssbgale" format="float"/>
+        <attr name="sbg_animateTexts_enterDuration" format="integer"/>
+        <attr name="sbg_animateTexts_enter" format="integer">
+            <flag name="bounce" value="1"/>
+            <flag name="linear" value="2"/>
+            <flag name="fastOutSlowIn" value="3"/>
+            <flag name="decelerate" value="4"/>
+            <flag name="path" value="5"/>
+            <flag name="cycle" value="6"/>
+            <flag name="anticipate" value="7"/>
+            <flag name="accelerateDecelerate" value="8"/>
+            <flag name="accelerate" value="9"/>
+            <flag name="anticipateOvershoot" value="10"/>
+            <flag name="fastOutLinearIn" value="11"/>
+            <flag name="linearOutSlowIn" value="12"/>
+            <flag name="overshoot" value="13"/>
+        </attr>
+        <attr name="sbg_animateTexts_exitDuration" format="integer"/>
+        <attr name="sbg_animateTexts_exit" format="integer">
+            <flag name="bounce" value="1"/>
+            <flag name="linear" value="2"/>
+            <flag name="fastOutSlowIn" value="3"/>
+            <flag name="decelerate" value="4"/>
+            <flag name="path" value="5"/>
+            <flag name="cycle" value="6"/>
+            <flag name="anticipate" value="7"/>
+            <flag name="accelerateDecelerate" value="8"/>
+            <flag name="accelerate" value="9"/>
+            <flag name="anticipateOvershoot" value="10"/>
+            <flag name="fastOutLinearIn" value="11"/>
+            <flag name="linearOutSlowIn" value="12"/>
+            <flag name="overshoot" value="13"/>
+        </attr>
+    </declare-styleable>
 </resources>
