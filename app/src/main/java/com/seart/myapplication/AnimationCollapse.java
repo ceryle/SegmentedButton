@@ -3,13 +3,14 @@ package com.seart.myapplication;
 import android.animation.ValueAnimator;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
 
 /**
  * Created by EGE on 16/08/2016.
  */
 public class AnimationCollapse {
 
-    public static void expand(final View v, int duration, int targetWidth) {
+    public static void expand(final View v, Interpolator interpolator, int duration, int targetWidth) {
 
         int prevWidth  = v.getWidth();
 
@@ -21,7 +22,7 @@ public class AnimationCollapse {
                 v.requestLayout();
             }
         });
-        valueAnimator.setInterpolator(new DecelerateInterpolator());
+        valueAnimator.setInterpolator(interpolator);
         valueAnimator.setDuration(duration);
         valueAnimator.start();
     }

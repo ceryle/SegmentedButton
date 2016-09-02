@@ -40,7 +40,7 @@ public class RippleHelper {
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public static RippleDrawable getPressedColorRippleDrawable(int normalColor, int pressedColor) {
+    public static Drawable getPressedColorRippleDrawable(int normalColor, int pressedColor) {
         return new RippleDrawable(getPressedColorSelector(normalColor, pressedColor), getColorDrawableFromColor(normalColor), null);
     }
 

@@ -6,10 +6,8 @@
               android:layout_height="wrap_content"
               android:orientation="horizontal"
               android:paddingBottom="4dp"
-              android:paddingLeft="12dp"
-              android:paddingRight="12dp"
-              android:gravity="center"
-              android:paddingTop="4dp">
+              android:paddingTop="4dp"
+              android:gravity="center">
 
     <ImageView
         android:id="@+id/test_button_imageView"
@@ -23,8 +21,8 @@
         android:id="@+id/test_button_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="aaa"
+        android:text="Button"
         android:textColor="#FFF"
-        android:textSize="24sp"
+        android:textSize="16sp"
         android:textStyle="bold"/>
 </LinearLayout>

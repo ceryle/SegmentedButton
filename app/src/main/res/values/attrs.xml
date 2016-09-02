@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="SegmentedButton">
-        <attr name="sb_image" format="integer"/>
+        <attr name="sb_image" format="reference"/>
         <attr name="sb_imageTint" format="color"/>
         <attr name="sb_imageWidth" format="dimension"/>
         <attr name="sb_imageHeight" format="dimension"/>

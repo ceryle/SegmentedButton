@@ -53,20 +53,6 @@ public class SegmentedButton extends LinearLayout {
         imageView = (ImageView) view.findViewById(R.id.test_button_imageView);
         textView = (TextView) view.findViewById(R.id.test_button_textView);
 
-
-
-
-/*
-        imgId = R.mipmap.ic_launcher;
-        textColor = android.R.color.white;
-        text = "aaa";
-        textSize = 24;
-
-        imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), imgId));
-        textView.setText(text);
-        textView.setTextColor(ContextCompat.getColor(getContext(), textColor));
-        textView.setTextSize(textSize);
-*/
         container.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,6 +63,10 @@ public class SegmentedButton extends LinearLayout {
         });
 
         RippleHelper.setRipple(container, Color.GRAY, Color.GREEN);
+
+        setOtherAttrs();
+        setTextAttrs();
+        setImageAttrs();
     }
 
     private int buttonImage, buttonImageTint, buttonTextColor, buttonBackgroundColor, buttonRippleColor, buttonImageWidth, buttonImageHeight;
@@ -136,6 +126,7 @@ public class SegmentedButton extends LinearLayout {
 
     private void setImageAttrs() {
         if (buttonImage != -1) {
+            imageView.setVisibility(VISIBLE);
             imageView.setImageResource(buttonImage);
             if (hasButtonImageTint)
                 imageView.setColorFilter(buttonImageTint);
@@ -161,25 +152,17 @@ public class SegmentedButton extends LinearLayout {
         RippleHelper.setRipple(container, colorId, buttonRippleColor);
     }
 
-    private int imgId, textColor, textSize;
-    private String text;
-
     public int getImgId() {
-        return imgId;
+        return buttonImage;
     }
 
     public String getText() {
-        return text;
+        return buttonText;
     }
 
     public int getTextColor() {
-        return textColor;
+        return buttonTextColor;
     }
-
-    public int getTextSize() {
-        return textSize;
-    }
-
 
     public void setBackgroundColor(int color) {
         container.setBackgroundColor(color);
@@ -190,28 +173,43 @@ public class SegmentedButton extends LinearLayout {
     }
 
     public void clone(SegmentedButton segmentedButton) {
-        // ImageView
-        if (0 != segmentedButton.getImgId())
-            imageView.setImageResource(segmentedButton.getImgId());
+        LinearLayout.LayoutParams imageParams =
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        imageView.setLayoutParams(imageParams);
 
-        LinearLayout.LayoutParams layoutParams2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        imageView.setLayoutParams(layoutParams2);
+        LinearLayout.LayoutParams textParams =
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        textView.setLayoutParams(textParams);
 
-        // TextView
-        if (null != segmentedButton.getText() && segmentedButton.getText().equals(""))
-            textView.setText(segmentedButton.getText());
 
-        if (0 != segmentedButton.getTextColor())
-            textView.setTextColor(ContextCompat.getColor(getContext(), segmentedButton.getTextColor()));
+        buttonText = segmentedButton.getText();
+        buttonTextColor = segmentedButton.getTextColor();
+        setTextAttrs();
 
-        if (0 != segmentedButton.getTextSize())
-            textView.setTextSize(segmentedButton.getTextSize());
+        buttonImage = segmentedButton.getButtonImage();
+        buttonImageHeight = segmentedButton.getButtonImageHeight();
+        buttonImageWidth = segmentedButton.getButtonImageWidth();
+        buttonImageTint = segmentedButton.getButtonImageTint();
+        hasButtonImageTint = segmentedButton.isHasButtonImageTint();
+        setImageAttrs();
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        textView.setLayoutParams(layoutParams);
-
+        buttonBackgroundColor = segmentedButton.getButtonBackgroundColor();
+        buttonRipple = segmentedButton.isButtonRipple();
+        buttonRippleColor = segmentedButton.getButtonRippleColor();
+        setOtherAttrs();
     }
 
+    public boolean isButtonRipple() {
+        return buttonRipple;
+    }
+
+    public int getButtonRippleColor() {
+        return buttonRippleColor;
+    }
+
+    public boolean isHasButtonImageTint() {
+        return hasButtonImageTint;
+    }
 
     private ArrayList<OnClickedButton> onClickedButtons = new ArrayList<>();
 
@@ -223,5 +221,23 @@ public class SegmentedButton extends LinearLayout {
         void onClickedButton(View view);
     }
 
+    public int getButtonImage() {
+        return buttonImage;
+    }
 
+    public int getButtonImageTint() {
+        return buttonImageTint;
+    }
+
+    public int getButtonImageWidth() {
+        return buttonImageWidth;
+    }
+
+    public int getButtonImageHeight() {
+        return buttonImageHeight;
+    }
+
+    public int getButtonBackgroundColor() {
+        return buttonBackgroundColor;
+    }
 }

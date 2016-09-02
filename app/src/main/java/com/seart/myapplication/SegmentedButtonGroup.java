@@ -11,7 +11,6 @@ import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -90,8 +89,8 @@ public class SegmentedButtonGroup extends RelativeLayout {
     private void toggleSegmentedButton(int position) {
         final int width = getWidth() / segmentedButtons.size();
 
-        AnimationCollapse.expand(leftGroup, animateSelectorDuration, width * (position - 1));
-        AnimationCollapse.expand(rightGroup, animateSelectorDuration, width * position);
+        AnimationCollapse.expand(leftGroup,interpolatorSelector, animateSelectorDuration, width * (position - 1));
+        AnimationCollapse.expand(rightGroup,interpolatorSelector, animateSelectorDuration, width * position);
     }
 
     @Override
@@ -133,7 +132,6 @@ public class SegmentedButtonGroup extends RelativeLayout {
                     }
                 });
 
-
                 // Right button group
                 SegmentedButton segmentedButton_right = new SegmentedButton(getContext());
                 segmentedButton_right.clone(segmentedButton_main);
@@ -160,20 +158,17 @@ public class SegmentedButtonGroup extends RelativeLayout {
     ArrayList<SegmentedButton> segmentedButtonsLeft = new ArrayList<>();
     ArrayList<SegmentedButton> segmentedButtonsRight = new ArrayList<>();
 
+    private int dividerColor, selectorColor, animateImages, animateTexts, animateImagesDuration
+            , animateTextsDuration, animateSelector, animateSelectorDuration, animateImagesExit, animateImagesExitDuration
+            , animateTextsExit, animateTextsExitDuration, position;
 
+    private float dividerSize, dividerRadius, dividerPadding, shadowElevation,
+            shadowMargin, shadowMarginTop, shadowMarginBottom, shadowMarginLeft, shadowMarginRight, radius;
 
-
-    private int dividerColor, bottomLineColor, selectorColor, animateImages, animateTexts, animateImagesDuration, animateTextsDuration, animateSelector, animateSelectorDuration, animateImagesExit, animateImagesExitDuration, animateTextsExit, animateTextsExitDuration, position, buttonPadding, buttonPaddingLeft, buttonPaddingRight, buttonPaddingTop, buttonPaddingBottom;
-
-    private float bottomLineSize, dividerSize, dividerRadius, dividerPadding, shadowElevation, selectorSize,
-            shadowMargin, shadowMarginTop, shadowMarginBottom, shadowMarginLeft, shadowMarginRight, radius, bottomLineRadius, selectorRadius, animateImagesScale, animateTextsScale;
-
-    private boolean shadow, bottomLineBringToFront, selectorBringToFront, selectorAboveOfBottomLine,
-            hasPadding, hasPaddingLeft, hasPaddingRight, hasPaddingTop, hasPaddingBottom;
+    private boolean shadow;
 
     private int lastPosition = 0;
 
-    @SuppressWarnings("ResourceType")
     private void getAttributes(AttributeSet attrs) {
         /** GET ATTRIBUTES FROM XML **/
         // Custom attributes
@@ -223,7 +218,6 @@ public class SegmentedButtonGroup extends RelativeLayout {
             add(LinearInterpolator.class);
             add(FastOutSlowInInterpolator.class);
             add(DecelerateInterpolator.class);
-            add(PathInterpolator.class);
             add(CycleInterpolator.class);
             add(AnticipateInterpolator.class);
             add(AccelerateDecelerateInterpolator.class);
@@ -246,5 +240,4 @@ public class SegmentedButtonGroup extends RelativeLayout {
             e.printStackTrace();
         }
     }
-
 }
