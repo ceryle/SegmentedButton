@@ -37,87 +37,82 @@
 
         <attr name="sbg_animateSelectorDuration" format="integer"/>
         <attr name="sbg_animateSelector" format="integer">
+            <flag name="fastOutSlowIn" value="0"/>
             <flag name="bounce" value="1"/>
             <flag name="linear" value="2"/>
-            <flag name="fastOutSlowIn" value="3"/>
-            <flag name="decelerate" value="4"/>
-            <flag name="path" value="5"/>
-            <flag name="cycle" value="6"/>
-            <flag name="anticipate" value="7"/>
-            <flag name="accelerateDecelerate" value="8"/>
-            <flag name="accelerate" value="9"/>
-            <flag name="anticipateOvershoot" value="10"/>
-            <flag name="fastOutLinearIn" value="11"/>
-            <flag name="linearOutSlowIn" value="12"/>
-            <flag name="overshoot" value="13"/>
+            <flag name="decelerate" value="3"/>
+            <flag name="cycle" value="4"/>
+            <flag name="anticipate" value="5"/>
+            <flag name="accelerateDecelerate" value="6"/>
+            <flag name="accelerate" value="7"/>
+            <flag name="anticipateOvershoot" value="8"/>
+            <flag name="fastOutLinearIn" value="9"/>
+            <flag name="linearOutSlowIn" value="10"/>
+            <flag name="overshoot" value="11"/>
         </attr>
 
         <attr name="sbg_animateImagessbgale" format="float"/>
         <attr name="sbg_animateImages_enterDuration" format="integer"/>
         <attr name="sbg_animateImages_enter" format="integer">
+            <flag name="fastOutSlowIn" value="0"/>
             <flag name="bounce" value="1"/>
             <flag name="linear" value="2"/>
-            <flag name="fastOutSlowIn" value="3"/>
-            <flag name="decelerate" value="4"/>
-            <flag name="path" value="5"/>
-            <flag name="cycle" value="6"/>
-            <flag name="anticipate" value="7"/>
-            <flag name="accelerateDecelerate" value="8"/>
-            <flag name="accelerate" value="9"/>
-            <flag name="anticipateOvershoot" value="10"/>
-            <flag name="fastOutLinearIn" value="11"/>
-            <flag name="linearOutSlowIn" value="12"/>
-            <flag name="overshoot" value="13"/>
+            <flag name="decelerate" value="3"/>
+            <flag name="cycle" value="4"/>
+            <flag name="anticipate" value="5"/>
+            <flag name="accelerateDecelerate" value="6"/>
+            <flag name="accelerate" value="7"/>
+            <flag name="anticipateOvershoot" value="8"/>
+            <flag name="fastOutLinearIn" value="9"/>
+            <flag name="linearOutSlowIn" value="10"/>
+            <flag name="overshoot" value="11"/>
         </attr>
         <attr name="sbg_animateImages_exitDuration" format="integer"/>
         <attr name="sbg_animateImages_exit" format="integer">
+            <flag name="fastOutSlowIn" value="0"/>
             <flag name="bounce" value="1"/>
             <flag name="linear" value="2"/>
-            <flag name="fastOutSlowIn" value="3"/>
-            <flag name="decelerate" value="4"/>
-            <flag name="path" value="5"/>
-            <flag name="cycle" value="6"/>
-            <flag name="anticipate" value="7"/>
-            <flag name="accelerateDecelerate" value="8"/>
-            <flag name="accelerate" value="9"/>
-            <flag name="anticipateOvershoot" value="10"/>
-            <flag name="fastOutLinearIn" value="11"/>
-            <flag name="linearOutSlowIn" value="12"/>
-            <flag name="overshoot" value="13"/>
+            <flag name="decelerate" value="3"/>
+            <flag name="cycle" value="4"/>
+            <flag name="anticipate" value="5"/>
+            <flag name="accelerateDecelerate" value="6"/>
+            <flag name="accelerate" value="7"/>
+            <flag name="anticipateOvershoot" value="8"/>
+            <flag name="fastOutLinearIn" value="9"/>
+            <flag name="linearOutSlowIn" value="10"/>
+            <flag name="overshoot" value="11"/>
         </attr>
 
         <attr name="sbg_animateTextssbgale" format="float"/>
         <attr name="sbg_animateTexts_enterDuration" format="integer"/>
         <attr name="sbg_animateTexts_enter" format="integer">
+            <flag name="fastOutSlowIn" value="0"/>
             <flag name="bounce" value="1"/>
             <flag name="linear" value="2"/>
-            <flag name="fastOutSlowIn" value="3"/>
-            <flag name="decelerate" value="4"/>
-            <flag name="path" value="5"/>
-            <flag name="cycle" value="6"/>
-            <flag name="anticipate" value="7"/>
-            <flag name="accelerateDecelerate" value="8"/>
-            <flag name="accelerate" value="9"/>
-            <flag name="anticipateOvershoot" value="10"/>
-            <flag name="fastOutLinearIn" value="11"/>
-            <flag name="linearOutSlowIn" value="12"/>
-            <flag name="overshoot" value="13"/>
+            <flag name="decelerate" value="3"/>
+            <flag name="cycle" value="4"/>
+            <flag name="anticipate" value="5"/>
+            <flag name="accelerateDecelerate" value="6"/>
+            <flag name="accelerate" value="7"/>
+            <flag name="anticipateOvershoot" value="8"/>
+            <flag name="fastOutLinearIn" value="9"/>
+            <flag name="linearOutSlowIn" value="10"/>
+            <flag name="overshoot" value="11"/>
         </attr>
         <attr name="sbg_animateTexts_exitDuration" format="integer"/>
         <attr name="sbg_animateTexts_exit" format="integer">
+            <flag name="fastOutSlowIn" value="0"/>
             <flag name="bounce" value="1"/>
             <flag name="linear" value="2"/>
-            <flag name="fastOutSlowIn" value="3"/>
-            <flag name="decelerate" value="4"/>
-            <flag name="path" value="5"/>
-            <flag name="cycle" value="6"/>
-            <flag name="anticipate" value="7"/>
-            <flag name="accelerateDecelerate" value="8"/>
-            <flag name="accelerate" value="9"/>
-            <flag name="anticipateOvershoot" value="10"/>
-            <flag name="fastOutLinearIn" value="11"/>
-            <flag name="linearOutSlowIn" value="12"/>
-            <flag name="overshoot" value="13"/>
+            <flag name="decelerate" value="3"/>
+            <flag name="cycle" value="4"/>
+            <flag name="anticipate" value="5"/>
+            <flag name="accelerateDecelerate" value="6"/>
+            <flag name="accelerate" value="7"/>
+            <flag name="anticipateOvershoot" value="8"/>
+            <flag name="fastOutLinearIn" value="9"/>
+            <flag name="linearOutSlowIn" value="10"/>
+            <flag name="overshoot" value="11"/>
         </attr>
     </declare-styleable>
 </resources>

@@ -10,7 +10,6 @@ import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -23,16 +22,14 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
-import android.view.animation.PathInterpolator;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
 /**
  * Created by EGE on 20.8.2016.
  */
-public class SegmentedButtonGroup extends RelativeLayout {
+public class SegmentedButtonGroup extends LinearLayout {
     private static final String TAG = "SegmentedButtonGroup";
 
     public SegmentedButtonGroup(Context context) {
@@ -53,10 +50,10 @@ public class SegmentedButtonGroup extends RelativeLayout {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public SegmentedButtonGroup(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init(attrs);
     }
 
     private LinearLayout mainGroup, leftGroup, rightGroup;
+    private RoundedCornerLayout roundedLayout;
 
     private void init(AttributeSet attrs) {
         getAttributes(attrs);
@@ -66,12 +63,28 @@ public class SegmentedButtonGroup extends RelativeLayout {
         mainGroup = (LinearLayout) view.findViewById(R.id.main_view);
         leftGroup = (LinearLayout) view.findViewById(R.id.left_view);
         rightGroup = (LinearLayout) view.findViewById(R.id.right_view);
+        roundedLayout = (RoundedCornerLayout) view.findViewById(R.id.ceryle_test_group_roundedCornerLayout);
 
         initInterpolations();
+        setCardViewAttrs();
+    }
+    private void setCardViewAttrs() {
+        if (shadow) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                roundedLayout.setElevation(shadowElevation);
+            }
+        }
+        /*LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) roundedLayout.getLayoutParams();
+        if (shadowMargin != -1) {
+            layoutParams.setMargins((int) shadowMargin, (int) shadowMargin, (int) shadowMargin, (int) shadowMargin);
+        } else {
+            layoutParams.setMargins((int) shadowMarginLeft, (int) shadowMarginTop, (int) shadowMarginRight, (int) shadowMarginBottom);
+        }*/
+
+        roundedLayout.setRadius(radius);
     }
 
     private LinearLayout.LayoutParams buttonParams;
-
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
@@ -213,10 +226,9 @@ public class SegmentedButtonGroup extends RelativeLayout {
 
     private void initInterpolations() {
         ArrayList<Class> interpolatorList = new ArrayList<Class>() {{
-            add(FastOutSlowInInterpolator.class); // default
+            add(FastOutSlowInInterpolator.class);
             add(BounceInterpolator.class);
             add(LinearInterpolator.class);
-            add(FastOutSlowInInterpolator.class);
             add(DecelerateInterpolator.class);
             add(CycleInterpolator.class);
             add(AnticipateInterpolator.class);
