@@ -173,15 +173,6 @@ public class SegmentedButton extends LinearLayout {
     }
 
     public void clone(SegmentedButton segmentedButton) {
-        LinearLayout.LayoutParams imageParams =
-                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        imageView.setLayoutParams(imageParams);
-
-        LinearLayout.LayoutParams textParams =
-                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        textView.setLayoutParams(textParams);
-
-
         buttonText = segmentedButton.getText();
         buttonTextColor = segmentedButton.getTextColor();
         setTextAttrs();

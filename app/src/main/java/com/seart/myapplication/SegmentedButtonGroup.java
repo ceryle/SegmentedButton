@@ -10,6 +10,7 @@ import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -68,23 +69,26 @@ public class SegmentedButtonGroup extends LinearLayout {
         initInterpolations();
         setCardViewAttrs();
     }
+
     private void setCardViewAttrs() {
         if (shadow) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 roundedLayout.setElevation(shadowElevation);
             }
         }
-        /*LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) roundedLayout.getLayoutParams();
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) roundedLayout.getLayoutParams();
         if (shadowMargin != -1) {
-            layoutParams.setMargins((int) shadowMargin, (int) shadowMargin, (int) shadowMargin, (int) shadowMargin);
+            layoutParams.setMargins(0, (int) shadowMargin, 0, (int) shadowMargin);
+            // layoutParams.setMargins((int) shadowMargin, (int) shadowMargin, (int) shadowMargin, (int) shadowMargin);
         } else {
             layoutParams.setMargins((int) shadowMarginLeft, (int) shadowMarginTop, (int) shadowMarginRight, (int) shadowMarginBottom);
-        }*/
+        }
 
         roundedLayout.setRadius(radius);
     }
 
     private LinearLayout.LayoutParams buttonParams;
+
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
@@ -102,8 +106,8 @@ public class SegmentedButtonGroup extends LinearLayout {
     private void toggleSegmentedButton(int position) {
         final int width = getWidth() / segmentedButtons.size();
 
-        AnimationCollapse.expand(leftGroup,interpolatorSelector, animateSelectorDuration, width * (position - 1));
-        AnimationCollapse.expand(rightGroup,interpolatorSelector, animateSelectorDuration, width * position);
+        AnimationCollapse.expand(leftGroup, interpolatorSelector, animateSelectorDuration, width * (position - 1));
+        AnimationCollapse.expand(rightGroup, interpolatorSelector, animateSelectorDuration, width * position);
     }
 
     @Override
@@ -171,9 +175,7 @@ public class SegmentedButtonGroup extends LinearLayout {
     ArrayList<SegmentedButton> segmentedButtonsLeft = new ArrayList<>();
     ArrayList<SegmentedButton> segmentedButtonsRight = new ArrayList<>();
 
-    private int dividerColor, selectorColor, animateImages, animateTexts, animateImagesDuration
-            , animateTextsDuration, animateSelector, animateSelectorDuration, animateImagesExit, animateImagesExitDuration
-            , animateTextsExit, animateTextsExitDuration, position;
+    private int dividerColor, selectorColor, animateImages, animateTexts, animateImagesDuration, animateTextsDuration, animateSelector, animateSelectorDuration, animateImagesExit, animateImagesExitDuration, animateTextsExit, animateTextsExitDuration, position;
 
     private float dividerSize, dividerRadius, dividerPadding, shadowElevation,
             shadowMargin, shadowMarginTop, shadowMarginBottom, shadowMarginLeft, shadowMarginRight, radius;
