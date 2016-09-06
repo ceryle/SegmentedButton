@@ -100,14 +100,13 @@ public class SegmentedButtonGroup extends LinearLayout {
                 segmentedButtonsLeft.get(i).setLayoutParams(buttonParams);
                 segmentedButtonsRight.get(i).setLayoutParams(buttonParams);
             }
+            buttonWidth = getWidth() / segmentedButtons.size();
         }
     }
 
     private void toggleSegmentedButton(int position) {
-        final int width = getWidth() / segmentedButtons.size();
-
-        AnimationCollapse.expand(leftGroup, interpolatorSelector, animateSelectorDuration, width * (position - 1));
-        AnimationCollapse.expand(rightGroup, interpolatorSelector, animateSelectorDuration, width * position);
+        AnimationCollapse.expand(leftGroup, interpolatorSelector, animateSelectorDuration, buttonWidth * (position - 1));
+        AnimationCollapse.expand(rightGroup, interpolatorSelector, animateSelectorDuration, buttonWidth * position);
     }
 
     @Override
@@ -168,6 +167,10 @@ public class SegmentedButtonGroup extends LinearLayout {
                     }
                 });
             }
+
+            if (position == segmentedButtons.size() - 1) {
+                setAnimationAttrs();
+            }
         }
     }
 
@@ -221,6 +224,22 @@ public class SegmentedButtonGroup extends LinearLayout {
         lastPosition = position;
 
         typedArray.recycle();
+    }
+
+    int buttonWidth = -1;
+    private boolean isAnimationAlreadySet = false;
+
+    private void setAnimationAttrs() {
+        if (segmentedButtons.size() > 0 && !isAnimationAlreadySet) {
+            isAnimationAlreadySet = true;
+            segmentedButtons.get(position).post(new Runnable() {
+                @Override
+                public void run() {
+                    AnimationCollapse.expand(leftGroup, interpolatorSelector, 0, buttonWidth * (position - 1));
+                    AnimationCollapse.expand(rightGroup, interpolatorSelector, 0, buttonWidth * position);
+                }
+            });
+        }
     }
 
     private Interpolator interpolatorImage, interpolatorText, interpolatorSelector;
