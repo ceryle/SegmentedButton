@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -52,7 +53,7 @@ public class SegmentedButton extends LinearLayout {
         container = (LinearLayout) view.findViewById(R.id.test_button_container);
         imageView = (ImageView) view.findViewById(R.id.test_button_imageView);
         textView = (TextView) view.findViewById(R.id.test_button_textView);
-
+/*
         container.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,9 +62,7 @@ public class SegmentedButton extends LinearLayout {
                 }
             }
         });
-
-        RippleHelper.setRipple(container, Color.GRAY, Color.GREEN);
-
+*/
         setOtherAttrs();
         setTextAttrs();
         setImageAttrs();
@@ -96,25 +95,7 @@ public class SegmentedButton extends LinearLayout {
     }
 
     private void setOtherAttrs() {
-        int backgroundColor = Color.WHITE;
-        int rippleColor = Color.GRAY;
-
-        boolean hasRipple = false;
-
-        if (buttonRippleColor != -1) {
-            rippleColor = buttonRippleColor;
-            hasRipple = true;
-        } else if (buttonRipple)
-            hasRipple = true;
-
-        if (buttonBackgroundColor != -1) {
-            backgroundColor = buttonBackgroundColor;
-        }
-
-        if (hasRipple)
-            RippleHelper.setRipple(container, backgroundColor, rippleColor);
-        else
-            container.setBackgroundColor(backgroundColor);
+        container.setBackgroundColor(buttonBackgroundColor);
     }
 
     public void setImageSizePixel(int width, int height) {
@@ -144,14 +125,6 @@ public class SegmentedButton extends LinearLayout {
     }
 
 
-    public void setSelectorColor() {
-        RippleHelper.setRipple(container, Color.RED, Color.GRAY);
-    }
-
-    public void setSelectorColor(int colorId) {
-        RippleHelper.setRipple(container, colorId, buttonRippleColor);
-    }
-
     public int getImgId() {
         return buttonImage;
     }
@@ -162,6 +135,10 @@ public class SegmentedButton extends LinearLayout {
 
     public int getTextColor() {
         return buttonTextColor;
+    }
+
+    public int getBackgroundColor() {
+        return buttonBackgroundColor;
     }
 
     public void setBackgroundColor(int color) {
@@ -230,5 +207,14 @@ public class SegmentedButton extends LinearLayout {
 
     public int getButtonBackgroundColor() {
         return buttonBackgroundColor;
+    }
+
+
+    protected void bounceImage(float scale, int duration, Interpolator interpolator) {
+        imageView.animate().setDuration(duration).setInterpolator(interpolator).scaleXBy(scale).scaleYBy(scale);
+    }
+
+    protected void bounceText(float scale, int duration, Interpolator interpolator) {
+        textView.animate().setDuration(duration).setInterpolator(interpolator).scaleXBy(scale).scaleYBy(scale);
     }
 }

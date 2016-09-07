@@ -2,7 +2,6 @@ package com.seart.myapplication;
 
 import android.animation.ValueAnimator;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 
 /**

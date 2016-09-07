@@ -15,17 +15,17 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"/>
 
-        <LinearLayout
+        <ImageView
+            android:scaleType="matrix"
             android:id="@+id/right_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"/>
+            android:layout_height="wrap_content"/>
 
-        <LinearLayout
+        <ImageView
+            android:scaleType="matrix"
             android:id="@+id/left_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"/>
+            android:layout_height="wrap_content"/>
 
     </com.seart.myapplication.RoundedCornerLayout>
 </LinearLayout>
