@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.PaintDrawable;
 import android.os.Build;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
@@ -23,6 +26,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -69,18 +73,23 @@ public class SegmentedButtonGroup extends LinearLayout {
         rightGroup = (ImageView) view.findViewById(R.id.right_view);
         roundedLayout = (RoundedCornerLayout) view.findViewById(R.id.ceryle_test_group_roundedCornerLayout);
 
+        initInterpolations();
+        setCardViewAttrs();
+        setContainerAttrs();
+
+
         mainGroup.post(new Runnable() {
             @Override
             public void run() {
-                int bColor = segmentedButtons.get(0).getBackgroundColor();
+                int bColor = ((ColorDrawable) buttons.get(0).getBackground()).getColor();
                 leftGroup.setImageBitmap(getViewBitmap(mainGroup));
 
-                for (int i = 0; i < segmentedButtons.size(); i++)
-                    segmentedButtons.get(i).setBackgroundColor(selectorColor);
+                for (int i = 0; i < buttons.size(); i++)
+                    buttons.get(i).setBackgroundColor(selectorColor);
                 rightGroup.setImageBitmap(getViewBitmap(mainGroup));
 
-                for (int i = 0; i < segmentedButtons.size(); i++)
-                    segmentedButtons.get(i).setBackgroundColor(bColor);
+                for (int i = 0; i < buttons.size(); i++)
+                    buttons.get(i).setBackgroundColor(bColor);
             }
         });
 
@@ -95,18 +104,12 @@ public class SegmentedButtonGroup extends LinearLayout {
                     case MotionEvent.ACTION_UP:
                         toggleSegmentedButton(position);
                         break;
-                    /*case MotionEvent.ACTION_MOVE:
-                        toggleSegmentedButtonX((int)event.getX());
-                        break;*/
                     default:
                         return false;
                 }
                 return true;
             }
         });
-
-        initInterpolations();
-        setCardViewAttrs();
     }
 
     private void setCardViewAttrs() {
@@ -133,72 +136,82 @@ public class SegmentedButtonGroup extends LinearLayout {
 
         if (changed) {
             if (null == buttonParams)
-                buttonParams = new LinearLayout.LayoutParams(getWidth() / segmentedButtons.size(), LayoutParams.WRAP_CONTENT);
-            for (int i = 0; i < segmentedButtonsLeft.size(); i++) {
-                segmentedButtonsLeft.get(i).setLayoutParams(buttonParams);
-                segmentedButtonsRight.get(i).setLayoutParams(buttonParams);
-            }
-            buttonWidth = getWidth() / segmentedButtons.size();
+                buttonParams = new LinearLayout.LayoutParams(getWidth() / buttons.size(), LayoutParams.WRAP_CONTENT);
+            buttonWidth = getWidth() / buttons.size() - 1;
         }
     }
 
     private void toggleSegmentedButton(int position) {
-        AnimationCollapse.expand(leftGroup, interpolatorSelector, animateSelectorDuration, buttonWidth * (position - 1));
-        AnimationCollapse.expand(rightGroup, interpolatorSelector, animateSelectorDuration, buttonWidth * position);
+        int leftWidth = buttonWidth * (position - 1) - dividerSize / 2 * (position - 1);
+        int rightWidth = buttonWidth * position - dividerSize / 2 * position;
+        AnimationCollapse.expand(leftGroup, interpolatorSelector, animateSelectorDuration, leftWidth);
+        AnimationCollapse.expand(rightGroup, interpolatorSelector, animateSelectorDuration, rightWidth);
     }
-
-    /*private void toggleSegmentedButtonX(int position) {
-        AnimationCollapse.expand(leftGroup, interpolatorSelector, animateSelectorDuration, position - buttonWidth);
-        AnimationCollapse.expand(rightGroup, interpolatorSelector, animateSelectorDuration, position);
-    }*/
 
     @Override
     public void addView(View child, int index, ViewGroup.LayoutParams params) {
         if (mainGroup == null || leftGroup == null || rightGroup == null) {
             super.addView(child, index, params);
         } else {
-            SegmentedButton segmentedButton_main = (SegmentedButton) child;
+
+            child.setClickable(false);
+            child.setFocusable(false);
 
             mainGroup.addView(child, index, params);
 
             LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1);
-            segmentedButton_main.setLayoutParams(param);
+            child.setLayoutParams(param);
 
-            segmentedButtons.add(segmentedButton_main);
-
-            /*final int c = segmentedButtons.size();
-            segmentedButton_main.setOnClickedButton(new SegmentedButton.OnClickedButton() {
-                @Override
-                public void onClickedButton(View view) {
-                    toggleSegmentedButton(c);
-                }
-            });*/
-
-            if (position == segmentedButtons.size() - 1) {
+            if (position == buttons.size() - 1) {
                 setAnimationAttrs();
+            }
+
+            if (child instanceof SegmentedButton) {
+                segmentedButtons.add((SegmentedButton) child);
+            } else {
+                buttons.add((Button) child);
             }
         }
     }
 
+
+    private void setContainerAttrs() {
+        RoundHelper.makeDividerRound(mainGroup, Color.WHITE, 0, dividerSize);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            mainGroup.setDividerPadding((int) 0);
+        }
+        mainGroup.setBackgroundColor(backgroundColor);
+    }
+
+
+    ArrayList<Button> buttons = new ArrayList<>();
     ArrayList<SegmentedButton> segmentedButtons = new ArrayList<>();
-    ArrayList<SegmentedButton> segmentedButtonsLeft = new ArrayList<>();
-    ArrayList<SegmentedButton> segmentedButtonsRight = new ArrayList<>();
 
-    private int selectorColor, animateImages, animateSelector, animateSelectorDuration, position;
-
-    private float shadowElevation,
-            shadowMargin, shadowMarginTop, shadowMarginBottom, shadowMarginLeft, shadowMarginRight, radius;
-
+    private int selectorColor, animateSelector, animateSelectorDuration, position, backgroundColor, dividerColor, selectorImage, selectorImageTint, selectorTextColor, dividerSize;
+    private float shadowElevation, shadowMargin, shadowMarginTop, shadowMarginBottom, shadowMarginLeft, shadowMarginRight, radius, dividerPadding, dividerRadius;
     private boolean shadow;
+    private String selectorText;
 
     private int lastPosition = 0;
+
 
     private void getAttributes(AttributeSet attrs) {
         /** GET ATTRIBUTES FROM XML **/
         // Custom attributes
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.SegmentedButtonGroup);
 
-        selectorColor = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_selectorColor, Color.BLUE);
+        dividerSize = (int) typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_dividerSize, 0);
+        dividerColor = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_dividerColor, Color.WHITE);
+        dividerPadding = typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_dividerPadding, 0);
+        dividerRadius = typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_dividerRadius, 0);
+
+        backgroundColor = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_backgroundColor, Color.WHITE);
+
+        selectorTextColor = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_selectorTextColor, Color.GRAY);
+        selectorText = typedArray.getString(R.styleable.SegmentedButtonGroup_sbg_selectorText);
+        selectorImage = typedArray.getResourceId(R.styleable.SegmentedButtonGroup_sbg_selectorImage, -1);
+        selectorImageTint = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_selectorImageTint, Color.GRAY);
+        selectorColor = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_selectorColor, Color.GRAY);
         animateSelector = typedArray.getInt(R.styleable.SegmentedButtonGroup_sbg_animateSelector, 0);
         animateSelectorDuration = typedArray.getInt(R.styleable.SegmentedButtonGroup_sbg_animateSelectorDuration, 500);
 
@@ -221,9 +234,9 @@ public class SegmentedButtonGroup extends LinearLayout {
     private boolean isAnimationAlreadySet = false;
 
     private void setAnimationAttrs() {
-        if (segmentedButtons.size() > 0 && !isAnimationAlreadySet) {
+        if (buttons.size() > 0 && !isAnimationAlreadySet) {
             isAnimationAlreadySet = true;
-            segmentedButtons.get(position).post(new Runnable() {
+            buttons.get(position).post(new Runnable() {
                 @Override
                 public void run() {
                     AnimationCollapse.expand(leftGroup, interpolatorSelector, 0, buttonWidth * (position - 1));
@@ -259,8 +272,8 @@ public class SegmentedButtonGroup extends LinearLayout {
     }
 
 
-    public ArrayList<SegmentedButton> getSegmentedButtons() {
-        return segmentedButtons;
+    public ArrayList<Button> getButtons() {
+        return buttons;
     }
 
 

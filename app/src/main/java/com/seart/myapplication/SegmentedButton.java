@@ -53,7 +53,7 @@ public class SegmentedButton extends LinearLayout {
         container = (LinearLayout) view.findViewById(R.id.test_button_container);
         imageView = (ImageView) view.findViewById(R.id.test_button_imageView);
         textView = (TextView) view.findViewById(R.id.test_button_textView);
-/*
+        /*
         container.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,7 +62,7 @@ public class SegmentedButton extends LinearLayout {
                 }
             }
         });
-*/
+        */
         setOtherAttrs();
         setTextAttrs();
         setImageAttrs();

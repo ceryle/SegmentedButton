@@ -17,6 +17,17 @@
 
 
     <declare-styleable name="SegmentedButtonGroup">
+
+
+        <attr name="sbg_selectorImage" format="reference"/>
+        <attr name="sbg_selectorImageTint" format="color"/>
+        <attr name="sbg_selectorText" format="string"/>
+        <attr name="sbg_selectorTextColor" format="color"/>
+        <attr name="sbg_selectorColor" format="color"/>
+
+
+        <attr name="sbg_backgroundColor" format="color"/>
+
         <attr name="sbg_dividerSize" format="dimension"/>
         <attr name="sbg_dividerPadding" format="dimension"/>
         <attr name="sbg_dividerColor" format="color"/>
@@ -30,7 +41,6 @@
         <attr name="sbg_shadowMarginLeft" format="dimension"/>
         <attr name="sbg_shadowMarginRight" format="dimension"/>
 
-        <attr name="sbg_selectorColor" format="color"/>
 
         <attr name="sbg_position" format="integer"/>
         <attr name="sbg_radius" format="dimension"/>
