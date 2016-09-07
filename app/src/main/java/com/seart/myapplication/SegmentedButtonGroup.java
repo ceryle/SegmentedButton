@@ -6,8 +6,6 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.PaintDrawable;
 import android.os.Build;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
@@ -26,7 +24,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -81,15 +78,24 @@ public class SegmentedButtonGroup extends LinearLayout {
         mainGroup.post(new Runnable() {
             @Override
             public void run() {
-                int bColor = ((ColorDrawable) buttons.get(0).getBackground()).getColor();
+                int backgColor = ((ColorDrawable) buttons.get(0).getBackground()).getColor();
+                int tintColor = buttons.get(0).getTint();
+                int textColor = buttons.get(0).getCurrentTextColor();
+
                 leftGroup.setImageBitmap(getViewBitmap(mainGroup));
 
-                for (int i = 0; i < buttons.size(); i++)
+                for (int i = 0; i < buttons.size(); i++){
                     buttons.get(i).setBackgroundColor(selectorColor);
+                    buttons.get(i).setTint(selectorImageTint);
+                    buttons.get(i).setTextColor(selectorTextColor);
+                }
                 rightGroup.setImageBitmap(getViewBitmap(mainGroup));
 
-                for (int i = 0; i < buttons.size(); i++)
-                    buttons.get(i).setBackgroundColor(bColor);
+                for (int i = 0; i < buttons.size(); i++){
+                    buttons.get(i).setBackgroundColor(backgColor);
+                    buttons.get(i).setTint(tintColor);
+                    buttons.get(i).setTextColor(textColor);
+                }
             }
         });
 
@@ -159,7 +165,7 @@ public class SegmentedButtonGroup extends LinearLayout {
 
             mainGroup.addView(child, index, params);
 
-            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1);
+            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1);
             child.setLayoutParams(param);
 
             if (position == buttons.size() - 1) {
@@ -169,7 +175,7 @@ public class SegmentedButtonGroup extends LinearLayout {
             if (child instanceof SegmentedButton) {
                 segmentedButtons.add((SegmentedButton) child);
             } else {
-                buttons.add((Button) child);
+                buttons.add((TintButton) child);
             }
         }
     }
@@ -184,7 +190,7 @@ public class SegmentedButtonGroup extends LinearLayout {
     }
 
 
-    ArrayList<Button> buttons = new ArrayList<>();
+    ArrayList<TintButton> buttons = new ArrayList<>();
     ArrayList<SegmentedButton> segmentedButtons = new ArrayList<>();
 
     private int selectorColor, animateSelector, animateSelectorDuration, position, backgroundColor, dividerColor, selectorImage, selectorImageTint, selectorTextColor, dividerSize;
@@ -272,7 +278,7 @@ public class SegmentedButtonGroup extends LinearLayout {
     }
 
 
-    public ArrayList<Button> getButtons() {
+    public ArrayList<TintButton> getButtons() {
         return buttons;
     }
 

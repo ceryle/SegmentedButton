@@ -77,7 +77,7 @@ public class SegmentedButton extends LinearLayout {
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.SegmentedButton);
 
         buttonImage = typedArray.getResourceId(R.styleable.SegmentedButton_sb_image, -1);
-        buttonImageTint = typedArray.getColor(R.styleable.SegmentedButton_sb_imageTint, 0);
+        buttonImageTint = typedArray.getColor(R.styleable.SegmentedButton_sb_imageTint, Color.WHITE);
         hasButtonImageTint = typedArray.hasValue(R.styleable.SegmentedButton_sb_imageTint);
         buttonImageWidth = (int) typedArray.getDimension(R.styleable.SegmentedButton_sb_imageWidth, -1);
         buttonImageHeight = (int) typedArray.getDimension(R.styleable.SegmentedButton_sb_imageHeight, -1);

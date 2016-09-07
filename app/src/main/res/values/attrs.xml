@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="TintButton">
+        <attr name="buttonImageTint" format="color"/>
+        <attr name="imageWidth" format="dimension"/>
+        <attr name="imageHeight" format="dimension"/>
+    </declare-styleable>
+
     <declare-styleable name="SegmentedButton">
         <attr name="sb_image" format="reference"/>
         <attr name="sb_imageTint" format="color"/>

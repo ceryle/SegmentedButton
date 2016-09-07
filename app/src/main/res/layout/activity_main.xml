@@ -12,6 +12,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
 
+        app:sbg_selectorColor="#0F0"
+        app:sbg_selectorImageTint="#ABC"
+        app:sbg_selectorTextColor="#501"
+
         app:sbg_animateSelectorDuration="500"
 
         app:sbg_backgroundColor="@color/colorAccent"
@@ -21,60 +25,47 @@
         app:sbg_dividerSize="3dp"
         app:sbg_position="1"
         app:sbg_radius="15dp"
-        app:sbg_selectorColor="#0F0"
         app:sbg_shadow="true"
         app:sbg_shadowElevation="3dp"
         app:sbg_shadowMargin="4dp">
 
-        <Button
+        <com.seart.myapplication.TintButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
 
+            app:buttonImageTint="@color/red_700"
+            app:imageHeight="24dp"
+            app:imageWidth="24dp"
+
             android:drawableLeft="@mipmap/ic_launcher"
-            android:drawableTint="@color/colorPrimaryDark"
             android:padding="4dp"
 
             android:text="B1"
             android:textColor="#FFF"/>
 
-        <Button
+        <com.seart.myapplication.TintButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
+            app:buttonImageTint="@color/red_700"
 
-            android:drawableLeft="@mipmap/ic_launcher"
-            android:drawableTint="@color/colorPrimaryDark"
             android:padding="4dp"
 
             android:text="B2"
             android:textColor="#FFF"/>
 
-        <Button
+        <com.seart.myapplication.TintButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
+            app:buttonImageTint="@color/red_700"
 
-            android:drawableLeft="@mipmap/ic_launcher"
-            android:drawableTint="@color/colorPrimaryDark"
+            android:drawableRight="@drawable/test_image"
             android:padding="4dp"
 
             android:text="B3"
             android:textColor="#FFF"/>
-
-
-        <!--
-        <com.seart.myapplication.SegmentedButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            app:sb_backgroundColor="@color/colorAccent"
-            app:sb_image="@mipmap/ic_launcher"
-
-            app:sb_imageTint="@color/colorPrimaryDark"
-            app:sb_text="button3"
-            app:sb_textColor="#FFF"/>
-        -->
 
     </com.seart.myapplication.SegmentedButtonGroup>
 
