@@ -4,7 +4,6 @@
     <color name="chat_user_reply_background_color">#c8f0ff</color>
     <color name="chat_company_reply_background_color">#F5F5F5</color>
     <color name="transparent">@android:color/transparent</color>
-    <color name="orange">@android:color/holo_blue_light</color>
     <color name="background_tab_pressed">#6633B5E5</color>
 
     <color name="color_tab_1">#388E3C</color>

@@ -1,7 +1,6 @@
 package com.seart.myapplication;
 
 import android.animation.ValueAnimator;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Interpolator;
 
