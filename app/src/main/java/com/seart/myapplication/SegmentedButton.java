@@ -3,23 +3,20 @@ package com.seart.myapplication;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
+import android.text.TextPaint;
+import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Interpolator;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import java.util.ArrayList;
+import android.widget.Button;
 
 /**
- * Created by EGE on 20.8.2016.
+ * Created by EGE on 07/09/2016.
  */
-public class SegmentedButton extends LinearLayout {
+public class SegmentedButton extends Button {
     public SegmentedButton(Context context) {
         super(context);
         init(null);
@@ -41,180 +38,122 @@ public class SegmentedButton extends LinearLayout {
         init(attrs);
     }
 
-    private TextView textView;
-    private ImageView imageView;
-    private LinearLayout container;
-
     private void init(AttributeSet attrs) {
         getAttributes(attrs);
-
-        View view = inflate(getContext(), R.layout.test_button, this);
-
-        container = (LinearLayout) view.findViewById(R.id.test_button_container);
-        imageView = (ImageView) view.findViewById(R.id.test_button_imageView);
-        textView = (TextView) view.findViewById(R.id.test_button_textView);
-        /*
-        container.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                for (int i = 0; i < onClickedButtons.size(); i++) {
-                    onClickedButtons.get(i).onClickedButton(view);
-                }
-            }
-        });
-        */
-        setOtherAttrs();
-        setTextAttrs();
-        setImageAttrs();
+        setImageTint(buttonImageTint);
     }
 
-    private int buttonImage, buttonImageTint, buttonTextColor, buttonBackgroundColor, buttonRippleColor, buttonImageWidth, buttonImageHeight;
-
-    private String buttonText;
-    private boolean buttonRipple, hasButtonImageTint;
-
-    private void getAttributes(AttributeSet attrs) {
-        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.SegmentedButton);
-
-        buttonImage = typedArray.getResourceId(R.styleable.SegmentedButton_sb_image, -1);
-        buttonImageTint = typedArray.getColor(R.styleable.SegmentedButton_sb_imageTint, Color.WHITE);
-        hasButtonImageTint = typedArray.hasValue(R.styleable.SegmentedButton_sb_imageTint);
-        buttonImageWidth = (int) typedArray.getDimension(R.styleable.SegmentedButton_sb_imageWidth, -1);
-        buttonImageHeight = (int) typedArray.getDimension(R.styleable.SegmentedButton_sb_imageHeight, -1);
-
-        buttonText = typedArray.getString(R.styleable.SegmentedButton_sb_text);
-        buttonTextColor = typedArray.getColor(R.styleable.SegmentedButton_sb_textColor, Color.BLACK);
-
-        buttonRipple = typedArray.getBoolean(R.styleable.SegmentedButton_sb_ripple, false);
-        buttonRippleColor = typedArray.getColor(R.styleable.SegmentedButton_sb_rippleColor, -1);
-
-        buttonBackgroundColor = typedArray.getColor(R.styleable.SegmentedButton_sb_backgroundColor, Color.WHITE);
-
-        typedArray.recycle();
-
-    }
-
-    private void setOtherAttrs() {
-        container.setBackgroundColor(buttonBackgroundColor);
-    }
-
-    public void setImageSizePixel(int width, int height) {
-        if (width != -1)
-            imageView.getLayoutParams().width = width;
-        if (height != -1)
-            imageView.getLayoutParams().height = height;
-    }
-
-    private void setImageAttrs() {
-        if (buttonImage != -1) {
-            imageView.setVisibility(VISIBLE);
-            imageView.setImageResource(buttonImage);
-            if (hasButtonImageTint)
-                imageView.setColorFilter(buttonImageTint);
-        } else {
-            imageView.setVisibility(GONE);
-        }
-
-        if (buttonImageWidth != -1)
-            setImageSizePixel(buttonImageWidth, buttonImageHeight);
-    }
-
-    private void setTextAttrs() {
-        textView.setText(buttonText);
-        textView.setTextColor(buttonTextColor);
-    }
-
-
-    public int getImgId() {
-        return buttonImage;
-    }
-
-    public String getText() {
-        return buttonText;
-    }
-
-    public int getTextColor() {
-        return buttonTextColor;
-    }
-
-    public int getBackgroundColor() {
-        return buttonBackgroundColor;
-    }
-
-    public void setBackgroundColor(int color) {
-        container.setBackgroundColor(color);
-    }
-
-    public void setImageColor(int color) {
-        imageView.setColorFilter(color);
-    }
-
-    public void clone(SegmentedButton segmentedButton) {
-        buttonText = segmentedButton.getText();
-        buttonTextColor = segmentedButton.getTextColor();
-        setTextAttrs();
-
-        buttonImage = segmentedButton.getButtonImage();
-        buttonImageHeight = segmentedButton.getButtonImageHeight();
-        buttonImageWidth = segmentedButton.getButtonImageWidth();
-        buttonImageTint = segmentedButton.getButtonImageTint();
-        hasButtonImageTint = segmentedButton.isHasButtonImageTint();
-        setImageAttrs();
-
-        buttonBackgroundColor = segmentedButton.getButtonBackgroundColor();
-        buttonRipple = segmentedButton.isButtonRipple();
-        buttonRippleColor = segmentedButton.getButtonRippleColor();
-        setOtherAttrs();
-    }
-
-    public boolean isButtonRipple() {
-        return buttonRipple;
-    }
-
-    public int getButtonRippleColor() {
-        return buttonRippleColor;
-    }
-
-    public boolean isHasButtonImageTint() {
-        return hasButtonImageTint;
-    }
-
-    private ArrayList<OnClickedButton> onClickedButtons = new ArrayList<>();
-
-    public void setOnClickedButton(OnClickedButton onClickedButton) {
-        onClickedButtons.add(onClickedButton);
-    }
-
-    public interface OnClickedButton {
-        void onClickedButton(View view);
-    }
-
-    public int getButtonImage() {
-        return buttonImage;
-    }
-
-    public int getButtonImageTint() {
+    public int getImageTint(){
         return buttonImageTint;
     }
 
-    public int getButtonImageWidth() {
-        return buttonImageWidth;
+    public void setImageTint(int color){
+        int pos = 0;
+        Drawable drawable = null;
+
+        if (getCompoundDrawables().length > 0) {
+            for (int i = 0; i < getCompoundDrawables().length; i++) {
+                if (getCompoundDrawables()[i] != null) {
+                    pos = i;
+                    drawable = getCompoundDrawables()[i];
+                }
+            }
+
+            if (drawable != null) {
+                drawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
+
+                /*if (buttonImageWidth != -1 && buttonImageHeight != -1) {
+                    drawable.copyBounds(drawableBounds);
+                    drawableBounds.offset(0, 0);
+                    drawableBounds.top = 0;
+                    drawableBounds.bottom = buttonImageHeight;
+                    drawableBounds.right = buttonImageWidth;
+                    drawableBounds.bottom = buttonImageHeight;
+                    drawable.setBounds(drawableBounds);
+                }*/
+                if (pos == 0)
+                    setCompoundDrawables(drawable, null, null, null);
+                else if (pos == 1)
+                    setCompoundDrawables(null, drawable, null, null);
+                else if (pos == 2)
+                    setCompoundDrawables(null, null, drawable, null);
+                else
+                    setCompoundDrawables(null, null, null, drawable);
+            }
+        }
     }
 
-    public int getButtonImageHeight() {
-        return buttonImageHeight;
+
+    private int buttonImageTint;
+    private boolean hasButtonImageTint;
+
+    private void getAttributes(AttributeSet attrs) {
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.SegmentedButton);
+        buttonImageTint = typedArray.getColor(R.styleable.SegmentedButton_buttonImageTint, 0);
+        hasButtonImageTint = typedArray.hasValue(R.styleable.SegmentedButton_buttonImageTint);
+        typedArray.recycle();
     }
 
-    public int getButtonBackgroundColor() {
-        return buttonBackgroundColor;
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+
+        if (!changed) return;
+
+        calcCenteredButton();
     }
+    private static final int LEFT = 0, TOP = 1, RIGHT = 2, BOTTOM = 3;
 
+    // Pre-allocate objects for layout measuring
+    private Rect textBounds = new Rect();
+    private Rect drawableBounds = new Rect();
 
-    protected void bounceImage(float scale, int duration, Interpolator interpolator) {
-        imageView.animate().setDuration(duration).setInterpolator(interpolator).scaleXBy(scale).scaleYBy(scale);
-    }
+    private void calcCenteredButton(){
 
-    protected void bounceText(float scale, int duration, Interpolator interpolator) {
-        textView.animate().setDuration(duration).setInterpolator(interpolator).scaleXBy(scale).scaleYBy(scale);
+        final CharSequence text = getText();
+        if (!TextUtils.isEmpty(text)) {
+            TextPaint textPaint = getPaint();
+            textPaint.getTextBounds(text.toString(), 0, text.length(), textBounds);
+        } else {
+            textBounds.setEmpty();
+        }
+
+        final int width = getWidth() - (getPaddingLeft() + getPaddingRight());
+        final int height = getWidth() - (getPaddingTop() + getPaddingBottom());
+
+        final Drawable[] drawables = getCompoundDrawables();
+
+        if (drawables[LEFT] != null) {
+            drawables[LEFT].copyBounds(drawableBounds);
+            int leftOffset =
+                    (width - (textBounds.width() + drawableBounds.width()) + getRightPaddingOffset()) / 2 - getCompoundDrawablePadding();
+            drawableBounds.offset(leftOffset, 0);
+            //drawableBounds.set(leftOffset, drawableBounds.top, leftOffset + drawableBounds.width(), drawableBounds.bottom);
+            drawables[LEFT].setBounds(drawableBounds);
+        }
+
+        else if (drawables[RIGHT] != null) {
+            drawables[RIGHT].copyBounds(drawableBounds);
+            int rightOffset =
+                    ((textBounds.width() + drawableBounds.width()) - width + getLeftPaddingOffset()) / 2 + getCompoundDrawablePadding();
+            drawableBounds.offset(rightOffset, 0);
+            drawables[RIGHT].setBounds(drawableBounds);
+        }
+
+        else if (drawables[TOP] != null) {
+            drawables[TOP].copyBounds(drawableBounds);
+            int topOffset =
+                    (height-(textBounds.height() + drawableBounds.height()) + getBottomPaddingOffset()) / 2 + getCompoundDrawablePadding();
+            drawableBounds.offset(0, topOffset);
+            drawables[TOP].setBounds(drawableBounds);
+        }
+
+        else{
+            drawables[BOTTOM].copyBounds(drawableBounds);
+            int bottomOffset =
+                    ((textBounds.height() + drawableBounds.height()) - height + getTopPaddingOffset()) / 2 + getCompoundDrawablePadding();
+            drawableBounds.offset(0, bottomOffset);
+            drawables[BOTTOM].setBounds(drawableBounds);
+        }
     }
 }

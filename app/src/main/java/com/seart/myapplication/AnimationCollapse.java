@@ -13,8 +13,6 @@ public class AnimationCollapse {
     public static void expand(final View v, Interpolator interpolator, int duration, int targetWidth) {
 
         int prevWidth  = v.getWidth();
-        Log.d("aaaaa", "expand: "+ prevWidth);
-        Log.d("aaaaa", "targetWidth: "+ prevWidth);
 
         ValueAnimator valueAnimator = ValueAnimator.ofInt(prevWidth, targetWidth);
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {

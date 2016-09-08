@@ -1,33 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="TintButton">
-        <attr name="buttonImageTint" format="color"/>
-        <attr name="imageWidth" format="dimension"/>
-        <attr name="imageHeight" format="dimension"/>
-    </declare-styleable>
-
     <declare-styleable name="SegmentedButton">
-        <attr name="sb_image" format="reference"/>
-        <attr name="sb_imageTint" format="color"/>
-        <attr name="sb_imageWidth" format="dimension"/>
-        <attr name="sb_imageHeight" format="dimension"/>
-
-        <attr name="sb_ripple" format="boolean"/>
-        <attr name="sb_rippleColor" format="color"/>
-
-        <attr name="sb_backgroundColor" format="color"/>
-
-        <attr name="sb_text" format="string"/>
-        <attr name="sb_textColor" format="color"/>
+        <attr name="buttonImageTint" format="color"/>
     </declare-styleable>
-
 
     <declare-styleable name="SegmentedButtonGroup">
 
-
-        <attr name="sbg_selectorImage" format="reference"/>
         <attr name="sbg_selectorImageTint" format="color"/>
-        <attr name="sbg_selectorText" format="string"/>
         <attr name="sbg_selectorTextColor" format="color"/>
         <attr name="sbg_selectorColor" format="color"/>
 

@@ -4,13 +4,17 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.PaintDrawable;
 import android.os.Build;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +28,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -78,45 +83,30 @@ public class SegmentedButtonGroup extends LinearLayout {
         mainGroup.post(new Runnable() {
             @Override
             public void run() {
-                int backgColor = ((ColorDrawable) buttons.get(0).getBackground()).getColor();
-                int tintColor = buttons.get(0).getTint();
-                int textColor = buttons.get(0).getCurrentTextColor();
-
-                leftGroup.setImageBitmap(getViewBitmap(mainGroup));
-
-                for (int i = 0; i < buttons.size(); i++){
-                    buttons.get(i).setBackgroundColor(selectorColor);
-                    buttons.get(i).setTint(selectorImageTint);
-                    buttons.get(i).setTextColor(selectorTextColor);
-                }
-                rightGroup.setImageBitmap(getViewBitmap(mainGroup));
-
-                for (int i = 0; i < buttons.size(); i++){
-                    buttons.get(i).setBackgroundColor(backgColor);
-                    buttons.get(i).setTint(tintColor);
-                    buttons.get(i).setTextColor(textColor);
-                }
+                if (!isInEditMode())
+                    updateMovingViews();
             }
         });
-
-
         mainGroup.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                int position = (int) event.getX() / buttonWidth + 1;
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         break;
                     case MotionEvent.ACTION_UP:
-                        toggleSegmentedButton(position);
+                        rect = new Rect(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
+                        if (rect.contains((int) event.getX(), (int) event.getY())) {
+                            int position = (int) event.getX() / (int)buttonWidth + 1;
+                            toggleSegmentedButton(position);
+                        }
                         break;
-                    default:
-                        return false;
                 }
                 return true;
             }
         });
     }
+
+    private Rect rect;
 
     private void setCardViewAttrs() {
         if (shadow) {
@@ -143,15 +133,72 @@ public class SegmentedButtonGroup extends LinearLayout {
         if (changed) {
             if (null == buttonParams)
                 buttonParams = new LinearLayout.LayoutParams(getWidth() / buttons.size(), LayoutParams.WRAP_CONTENT);
-            buttonWidth = getWidth() / buttons.size() - 1;
+            buttonWidth = getWidth() / (float) buttons.size();
+        }
+
+        if (!isInEditMode())
+            if (!changed) return;
+        updateMovingViews();
+    }
+
+    class ButtonAttribute {
+        int backgroundColor, imageTintColor, textColor;
+
+        public void setBackgroundColor(int backgroundColor) {
+            this.backgroundColor = backgroundColor;
+        }
+
+        public void setImageTintColor(int imageTintColor) {
+            this.imageTintColor = imageTintColor;
+        }
+
+        public void setTextColor(int textColor) {
+            this.textColor = textColor;
         }
     }
 
+    ArrayList<ButtonAttribute> buttonAttributes = new ArrayList<>();
+
+    private void updateMovingViews() {
+        leftGroup.setImageBitmap(getViewBitmap(mainGroup));
+
+        for (int i = 0; i < buttons.size(); i++) {
+
+            ButtonAttribute buttonAttribute = new ButtonAttribute();
+            buttonAttribute.setTextColor(buttons.get(i).getCurrentTextColor());
+            if ((buttons.get(i).getBackground()) instanceof ColorDrawable)
+                buttonAttribute.setBackgroundColor(((ColorDrawable) buttons.get(i).getBackground()).getColor());
+            if (buttons.get(i) instanceof SegmentedButton)
+                buttonAttribute.setImageTintColor(((SegmentedButton) buttons.get(i)).getImageTint());
+            buttonAttributes.add(buttonAttribute);
+
+            buttons.get(i).setBackgroundColor(selectorColor);
+
+            if (buttons.get(i) instanceof SegmentedButton)
+                ((SegmentedButton) buttons.get(i)).setImageTint(selectorImageTint);
+            buttons.get(i).setTextColor(selectorTextColor);
+        }
+        mainGroup.setBackgroundColor(selectorColor);
+        rightGroup.setImageBitmap(getViewBitmap(mainGroup));
+
+        for (int i = 0; i < buttons.size(); i++) {
+            buttons.get(i).setBackgroundColor(buttonAttributes.get(i).backgroundColor);
+            buttons.get(i).setTextColor(buttonAttributes.get(i).textColor);
+
+            if (buttons.get(i) instanceof SegmentedButton)
+                ((SegmentedButton) buttons.get(i)).setImageTint(buttonAttributes.get(i).imageTintColor);
+        }
+        mainGroup.setBackgroundColor(backgroundColor);
+    }
+
     private void toggleSegmentedButton(int position) {
-        int leftWidth = buttonWidth * (position - 1) - dividerSize / 2 * (position - 1);
-        int rightWidth = buttonWidth * position - dividerSize / 2 * position;
+        int leftWidth = (int) (buttonWidth * (position - 1));
+        int rightWidth = (int) (buttonWidth * position - dividerSize);
         AnimationCollapse.expand(leftGroup, interpolatorSelector, animateSelectorDuration, leftWidth);
         AnimationCollapse.expand(rightGroup, interpolatorSelector, animateSelectorDuration, rightWidth);
+
+        if (null != onClickedButtonPosition)
+            onClickedButtonPosition.onClickedButtonPosition(position - 1);
     }
 
     @Override
@@ -172,34 +219,29 @@ public class SegmentedButtonGroup extends LinearLayout {
                 setAnimationAttrs();
             }
 
-            if (child instanceof SegmentedButton) {
-                segmentedButtons.add((SegmentedButton) child);
-            } else {
-                buttons.add((TintButton) child);
-            }
+            if (child instanceof SegmentedButton)
+                buttons.add((SegmentedButton) child);
+            else
+                buttons.add((Button) child);
         }
     }
 
 
     private void setContainerAttrs() {
-        RoundHelper.makeDividerRound(mainGroup, Color.WHITE, 0, dividerSize);
+        RoundHelper.makeDividerRound(mainGroup, dividerColor, (int) dividerRadius, dividerSize);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            mainGroup.setDividerPadding((int) 0);
+            mainGroup.setDividerPadding((int) dividerPadding);
         }
-        mainGroup.setBackgroundColor(backgroundColor);
     }
 
 
-    ArrayList<TintButton> buttons = new ArrayList<>();
-    ArrayList<SegmentedButton> segmentedButtons = new ArrayList<>();
+    ArrayList<Button> buttons = new ArrayList<>();
 
-    private int selectorColor, animateSelector, animateSelectorDuration, position, backgroundColor, dividerColor, selectorImage, selectorImageTint, selectorTextColor, dividerSize;
+    private int selectorColor, animateSelector, animateSelectorDuration, position, backgroundColor, dividerColor, selectorImageTint, selectorTextColor, dividerSize;
     private float shadowElevation, shadowMargin, shadowMarginTop, shadowMarginBottom, shadowMarginLeft, shadowMarginRight, radius, dividerPadding, dividerRadius;
     private boolean shadow;
-    private String selectorText;
 
     private int lastPosition = 0;
-
 
     private void getAttributes(AttributeSet attrs) {
         /** GET ATTRIBUTES FROM XML **/
@@ -214,8 +256,6 @@ public class SegmentedButtonGroup extends LinearLayout {
         backgroundColor = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_backgroundColor, Color.WHITE);
 
         selectorTextColor = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_selectorTextColor, Color.GRAY);
-        selectorText = typedArray.getString(R.styleable.SegmentedButtonGroup_sbg_selectorText);
-        selectorImage = typedArray.getResourceId(R.styleable.SegmentedButtonGroup_sbg_selectorImage, -1);
         selectorImageTint = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_selectorImageTint, Color.GRAY);
         selectorColor = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_selectorColor, Color.GRAY);
         animateSelector = typedArray.getInt(R.styleable.SegmentedButtonGroup_sbg_animateSelector, 0);
@@ -236,7 +276,7 @@ public class SegmentedButtonGroup extends LinearLayout {
         typedArray.recycle();
     }
 
-    int buttonWidth = -1;
+    float buttonWidth = -1;
     private boolean isAnimationAlreadySet = false;
 
     private void setAnimationAttrs() {
@@ -245,8 +285,10 @@ public class SegmentedButtonGroup extends LinearLayout {
             buttons.get(position).post(new Runnable() {
                 @Override
                 public void run() {
-                    AnimationCollapse.expand(leftGroup, interpolatorSelector, 0, buttonWidth * (position - 1));
-                    AnimationCollapse.expand(rightGroup, interpolatorSelector, 0, buttonWidth * position);
+                    int leftWidth = (int) (buttonWidth * (position - 1));
+                    int rightWidth = (int) (buttonWidth * position - dividerSize);
+                    AnimationCollapse.expand(leftGroup, interpolatorSelector, 0, leftWidth);
+                    AnimationCollapse.expand(rightGroup, interpolatorSelector, 0, rightWidth);
                 }
             });
         }
@@ -278,42 +320,41 @@ public class SegmentedButtonGroup extends LinearLayout {
     }
 
 
-    public ArrayList<TintButton> getButtons() {
-        return buttons;
+    private OnClickedButtonPosition onClickedButtonPosition;
+
+    public void setOnClickedButtonPosition(OnClickedButtonPosition onClickedButtonPosition) {
+        this.onClickedButtonPosition = onClickedButtonPosition;
+    }
+
+    public interface OnClickedButtonPosition {
+        void onClickedButtonPosition(int position);
     }
 
 
     /**
      * Draw the view into a bitmap.
      */
-    private Bitmap getViewBitmap(View v) {
-        v.clearFocus();
-        v.setPressed(false);
+    private Bitmap getViewBitmap(View view) {
+        setContainerAttrs();
 
-        boolean willNotCache = v.willNotCacheDrawing();
-        v.setWillNotCacheDrawing(false);
+        //Get the dimensions of the view so we can re-layout the view at its current size
+        //and create a bitmap of the same size
+        int width = view.getWidth();
+        int height = view.getHeight();
 
-        // Reset the drawing cache background color to fully transparent
-        // for the duration of this operation
-        int color = v.getDrawingCacheBackgroundColor();
-        v.setDrawingCacheBackgroundColor(0);
+        int measuredWidth = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
+        int measuredHeight = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY);
 
-        if (color != 0) {
-            v.destroyDrawingCache();
-        }
-        v.buildDrawingCache();
-        Bitmap cacheBitmap = v.getDrawingCache();
-        if (cacheBitmap == null) {
-            return null;
-        }
+        //Cause the view to re-layout
+        view.measure(measuredWidth, measuredHeight);
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
 
-        Bitmap bitmap = Bitmap.createBitmap(cacheBitmap);
+        //Create a bitmap backed Canvas to draw the view into
+        Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(b);
 
-        // Restore the view
-        v.destroyDrawingCache();
-        v.setWillNotCacheDrawing(willNotCache);
-        v.setDrawingCacheBackgroundColor(color);
-
-        return bitmap;
+        //Now that the view is laid out and we have a canvas, ask the view to draw itself into the canvas
+        view.draw(c);
+        return b;
     }
 }
