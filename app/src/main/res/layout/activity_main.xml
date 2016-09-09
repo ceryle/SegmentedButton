@@ -19,7 +19,7 @@
         app:sbg_dividerPadding="10dp"
 
         app:sbg_dividerSize="4dp"
-        app:sbg_position="1"
+        app:sbg_position="2"
         app:sbg_radius="15dp"
 
         app:sbg_selectorColor="@color/blue_100"
@@ -41,19 +41,18 @@
         <com.seart.myapplication.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/ic_launcher"
+            android:text="B-2"
             android:drawablePadding="4dp"
             android:padding="4dp"
-            android:text="B-1"
             android:textColor="@color/red_700"
             app:buttonImageTint="@color/red_700"/>
         <com.seart.myapplication.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/ic_launcher"
+            android:drawableRight="@mipmap/ic_launcher"
             android:drawablePadding="4dp"
             android:padding="4dp"
-            android:text="B-1"
+            android:text="B-3"
             android:textColor="@color/red_700"
             app:buttonImageTint="@color/red_700"/>
 

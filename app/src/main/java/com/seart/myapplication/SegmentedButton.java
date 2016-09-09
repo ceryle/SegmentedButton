@@ -148,7 +148,7 @@ public class SegmentedButton extends Button {
             drawables[TOP].setBounds(drawableBounds);
         }
 
-        else{
+        else if (drawables[BOTTOM] != null) {
             drawables[BOTTOM].copyBounds(drawableBounds);
             int bottomOffset =
                     ((textBounds.height() + drawableBounds.height()) - height + getTopPaddingOffset()) / 2 + getCompoundDrawablePadding();

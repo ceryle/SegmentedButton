@@ -78,13 +78,13 @@ public class SegmentedButtonGroup extends LinearLayout {
         setContainerAttrs();
 
 
-        mainGroup.post(new Runnable() {
+        /*mainGroup.post(new Runnable() {
             @Override
             public void run() {
                 if (!isInEditMode())
                     updateMovingViews();
             }
-        });
+        });*/
         mainGroup.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -94,7 +94,7 @@ public class SegmentedButtonGroup extends LinearLayout {
                     case MotionEvent.ACTION_UP:
                         rect = new Rect(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
                         if (rect.contains((int) event.getX(), (int) event.getY())) {
-                            int position = (int) event.getX() / (int) buttonWidth + 1;
+                            int position = (int) event.getX() / (int) buttonWidth;
                             toggleSegmentedButton(position);
                         }
                         break;
@@ -156,10 +156,10 @@ public class SegmentedButtonGroup extends LinearLayout {
     ArrayList<ButtonAttribute> buttonAttributes = new ArrayList<>();
 
     private void updateMovingViews() {
+        mainGroup.setBackgroundColor(backgroundColor);
         leftGroup.setImageBitmap(getViewBitmap(mainGroup));
 
         for (int i = 0; i < buttons.size(); i++) {
-
             ButtonAttribute buttonAttribute = new ButtonAttribute();
             buttonAttribute.setTextColor(buttons.get(i).getCurrentTextColor());
             if (buttons.get(i) instanceof SegmentedButton)
@@ -170,6 +170,7 @@ public class SegmentedButtonGroup extends LinearLayout {
                 ((SegmentedButton) buttons.get(i)).setImageTint(selectorImageTint);
             buttons.get(i).setTextColor(selectorTextColor);
         }
+
         mainGroup.setBackgroundColor(selectorColor);
         rightGroup.setImageBitmap(getViewBitmap(mainGroup));
 
@@ -183,13 +184,13 @@ public class SegmentedButtonGroup extends LinearLayout {
     }
 
     private void toggleSegmentedButton(int position) {
-        int leftWidth = (int) (buttonWidth * (position - 1));
-        int rightWidth = (int) (buttonWidth * position);
+        int leftWidth = (int) (buttonWidth * (position));
+        int rightWidth = (int) (buttonWidth * (position + 1));
         AnimationCollapse.expand(leftGroup, interpolatorSelector, animateSelectorDuration, Math.max(0, leftWidth - margin));
         AnimationCollapse.expand(rightGroup, interpolatorSelector, animateSelectorDuration, Math.max(0, rightWidth - margin));
 
         if (null != onClickedButtonPosition)
-            onClickedButtonPosition.onClickedButtonPosition(position - 1);
+            onClickedButtonPosition.onClickedButtonPosition(position);
     }
 
     @Override
@@ -205,21 +206,18 @@ public class SegmentedButtonGroup extends LinearLayout {
 
             LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1);
             child.setLayoutParams(param);
-
-            if (position == buttons.size() - 1) {
-                setAnimationAttrs();
-            }
-
-
             child.setBackgroundColor(ContextCompat.getColor(getContext(), android.R.color.transparent));
 
             if (child instanceof SegmentedButton)
                 buttons.add((SegmentedButton) child);
             else
                 buttons.add((Button) child);
+
+            if (position == buttons.size() - 1) {
+                setAnimationAttrs();
+            }
         }
     }
-
 
     private void setContainerAttrs() {
         RoundHelper.makeDividerRound(mainGroup, dividerColor, (int) dividerRadius, dividerSize);
@@ -229,7 +227,6 @@ public class SegmentedButtonGroup extends LinearLayout {
         if (isInEditMode())
             mainGroup.setBackgroundColor(backgroundColor);
     }
-
 
     ArrayList<Button> buttons = new ArrayList<>();
 
@@ -269,7 +266,7 @@ public class SegmentedButtonGroup extends LinearLayout {
         typedArray.recycle();
     }
 
-    float buttonWidth = -1;
+    float buttonWidth = 0;
     private boolean isAnimationAlreadySet = false;
 
     private void setAnimationAttrs() {
@@ -278,8 +275,8 @@ public class SegmentedButtonGroup extends LinearLayout {
             buttons.get(position).post(new Runnable() {
                 @Override
                 public void run() {
-                    int leftWidth = (int) (buttonWidth * (position - 1));
-                    int rightWidth = (int) (buttonWidth * position);
+                    int leftWidth = (int) (buttonWidth * position);
+                    int rightWidth = (int) (buttonWidth * (position + 1));
                     AnimationCollapse.expand(leftGroup, interpolatorSelector, 0, Math.max(0, leftWidth - margin));
                     AnimationCollapse.expand(rightGroup, interpolatorSelector, 0, Math.max(0, rightWidth - margin));
                 }
