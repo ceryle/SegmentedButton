@@ -19,7 +19,7 @@
         app:sbg_dividerPadding="10dp"
 
         app:sbg_dividerSize="4dp"
-        app:sbg_position="2"
+        app:sbg_position="1"
         app:sbg_radius="15dp"
 
         app:sbg_selectorColor="@color/blue_100"

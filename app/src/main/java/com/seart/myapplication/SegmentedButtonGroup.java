@@ -77,14 +77,6 @@ public class SegmentedButtonGroup extends LinearLayout {
         setCardViewAttrs();
         setContainerAttrs();
 
-
-        /*mainGroup.post(new Runnable() {
-            @Override
-            public void run() {
-                if (!isInEditMode())
-                    updateMovingViews();
-            }
-        });*/
         mainGroup.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -139,6 +131,8 @@ public class SegmentedButtonGroup extends LinearLayout {
 
         if (!isInEditMode())
             updateMovingViews();
+
+        setAnimationAttrs();
     }
 
     class ButtonAttribute {
@@ -212,10 +206,6 @@ public class SegmentedButtonGroup extends LinearLayout {
                 buttons.add((SegmentedButton) child);
             else
                 buttons.add((Button) child);
-
-            if (position == buttons.size() - 1) {
-                setAnimationAttrs();
-            }
         }
     }
 
@@ -234,17 +224,16 @@ public class SegmentedButtonGroup extends LinearLayout {
     private float shadowElevation, shadowMargin, shadowMarginTop, shadowMarginBottom, shadowMarginLeft, shadowMarginRight, radius, dividerPadding, dividerRadius;
     private boolean shadow;
 
+    /**
+     * Custom attributes
+     **/
     private void getAttributes(AttributeSet attrs) {
-        /** GET ATTRIBUTES FROM XML **/
-        // Custom attributes
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.SegmentedButtonGroup);
 
         dividerSize = (int) typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_dividerSize, 0);
         dividerColor = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_dividerColor, Color.WHITE);
         dividerPadding = typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_dividerPadding, 0);
         dividerRadius = typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_dividerRadius, 0);
-
-        backgroundColor = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_backgroundColor, Color.WHITE);
 
         selectorTextColor = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_selectorTextColor, Color.GRAY);
         selectorImageTint = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_selectorImageTint, Color.GRAY);
@@ -259,9 +248,10 @@ public class SegmentedButtonGroup extends LinearLayout {
         shadowMarginBottom = typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_shadowMarginBottom, 0);
         shadowMarginLeft = typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_shadowMarginLeft, 0);
         shadowMarginRight = typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_shadowMarginRight, 0);
-        radius = typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_radius, 0);
 
+        radius = typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_radius, 0);
         position = typedArray.getInt(R.styleable.SegmentedButtonGroup_sbg_position, 0);
+        backgroundColor = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_backgroundColor, Color.WHITE);
 
         typedArray.recycle();
     }
@@ -272,15 +262,10 @@ public class SegmentedButtonGroup extends LinearLayout {
     private void setAnimationAttrs() {
         if (buttons.size() > 0 && !isAnimationAlreadySet) {
             isAnimationAlreadySet = true;
-            buttons.get(position).post(new Runnable() {
-                @Override
-                public void run() {
-                    int leftWidth = (int) (buttonWidth * position);
-                    int rightWidth = (int) (buttonWidth * (position + 1));
-                    AnimationCollapse.expand(leftGroup, interpolatorSelector, 0, Math.max(0, leftWidth - margin));
-                    AnimationCollapse.expand(rightGroup, interpolatorSelector, 0, Math.max(0, rightWidth - margin));
-                }
-            });
+            int leftWidth = (int) (buttonWidth * position);
+            int rightWidth = (int) (buttonWidth * (position + 1));
+            AnimationCollapse.expand(leftGroup, interpolatorSelector, 0, Math.max(0, leftWidth - margin));
+            AnimationCollapse.expand(rightGroup, interpolatorSelector, 0, Math.max(0, rightWidth - margin));
         }
     }
 
