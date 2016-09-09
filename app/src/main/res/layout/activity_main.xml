@@ -12,13 +12,16 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
 
-        app:sbg_animateSelectorDuration="500"
+        app:sbg_animateSelector="bounce"
+        app:sbg_animateSelectorDuration="1000"
         app:sbg_backgroundColor="@color/red_200"
+
         app:sbg_dividerColor="#FFF"
 
         app:sbg_dividerPadding="10dp"
+        app:sbg_dividerRadius="10dp"
+        app:sbg_dividerSize="2dp"
 
-        app:sbg_dividerSize="4dp"
         app:sbg_position="1"
         app:sbg_radius="15dp"
 
@@ -38,25 +41,25 @@
             android:text="B-1"
             android:textColor="@color/red_700"
             app:buttonImageTint="@color/red_700"/>
+
         <com.seart.myapplication.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="B-2"
             android:drawablePadding="4dp"
             android:padding="4dp"
+            android:text="B-2"
             android:textColor="@color/red_700"
             app:buttonImageTint="@color/red_700"/>
+
         <com.seart.myapplication.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableRight="@mipmap/ic_launcher"
             android:drawablePadding="4dp"
+            android:drawableRight="@mipmap/ic_launcher"
             android:padding="4dp"
             android:text="B-3"
             android:textColor="@color/red_700"
             app:buttonImageTint="@color/red_700"/>
 
-
     </com.seart.myapplication.SegmentedButtonGroup>
-
 </LinearLayout>

@@ -189,16 +189,15 @@ public class SegmentedButtonGroup extends LinearLayout {
 
     @Override
     public void addView(View child, int index, ViewGroup.LayoutParams params) {
-        if (mainGroup == null || leftGroup == null || rightGroup == null) {
+        if (mainGroup == null) {
             super.addView(child, index, params);
         } else {
-
             child.setClickable(false);
             child.setFocusable(false);
 
             mainGroup.addView(child, index, params);
 
-            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1);
+            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1);
             child.setLayoutParams(param);
             child.setBackgroundColor(ContextCompat.getColor(getContext(), android.R.color.transparent));
 
