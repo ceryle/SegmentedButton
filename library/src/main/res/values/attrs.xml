@@ -10,9 +10,6 @@
         <attr name="sbg_selectorTextColor" format="color"/>
         <attr name="sbg_selectorColor" format="color"/>
 
-
-        <attr name="sbg_backgroundColor" format="color"/>
-
         <attr name="sbg_dividerSize" format="dimension"/>
         <attr name="sbg_dividerPadding" format="dimension"/>
         <attr name="sbg_dividerColor" format="color"/>
@@ -26,9 +23,9 @@
         <attr name="sbg_shadowMarginLeft" format="dimension"/>
         <attr name="sbg_shadowMarginRight" format="dimension"/>
 
-
         <attr name="sbg_position" format="integer"/>
         <attr name="sbg_radius" format="dimension"/>
+        <attr name="sbg_backgroundColor" format="color"/>
 
         <attr name="sbg_animateSelectorDuration" format="integer"/>
         <attr name="sbg_animateSelector" format="integer">

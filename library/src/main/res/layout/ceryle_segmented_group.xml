@@ -10,7 +10,6 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:background="@color/colorAccent"
             android:showDividers="middle"
             android:id="@+id/main_view"
             android:layout_width="match_parent"
