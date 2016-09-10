@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2016 Ege Aker <egeaker@gmail.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package co.ceryle.segmentedcontrol;
 
 import android.annotation.TargetApi;
@@ -33,6 +48,9 @@ import android.widget.LinearLayout;
 import com.ceryle.segmentedcontrol.R;
 
 import java.util.ArrayList;
+
+import co.ceryle.segmentedcontrol.util.AnimationCollapse;
+import co.ceryle.segmentedcontrol.util.RoundHelper;
 
 /**
  * Created by EGE on 20.8.2016.
@@ -129,7 +147,7 @@ public class SegmentedButtonGroup extends LinearLayout {
 
         if (null == buttonParams)
             buttonParams = new LinearLayout.LayoutParams(getWidth() / buttons.size(), LayoutParams.WRAP_CONTENT);
-        buttonWidth = (getWidth()-margin*2) / (float) buttons.size();
+        buttonWidth = (getWidth() - margin * 2) / (float) buttons.size();
 
         if (!isInEditMode())
             updateMovingViews();

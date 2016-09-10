@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package co.ceryle.segmentedcontrol;
+package co.ceryle.segmentedcontrol.util;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -76,7 +76,7 @@ public class RippleHelper {
         return new RippleDrawable(getPressedColorSelector(pressedColor), null, new ShapeDrawable());
     }
 
-    public static ColorStateList getPressedColorSelector( int pressedColor) {
+    public static ColorStateList getPressedColorSelector(int pressedColor) {
         return new ColorStateList(
                 new int[][]{
                         new int[]{}

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package co.ceryle.segmentedcontrol;
+package co.ceryle.segmentedcontrol.util;
 
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
@@ -44,7 +44,7 @@ public class RoundHelper {
     }
 
 
-    public static void makeDividerRound(LinearLayout layout, int dividerColor, int dividerRadius, int dividerSize){
+    public static void makeDividerRound(LinearLayout layout, int dividerColor, int dividerRadius, int dividerSize) {
         GradientDrawable gradient = getGradientDrawable(dividerColor, dividerRadius, dividerSize);
         layout.setDividerDrawable(gradient);
     }

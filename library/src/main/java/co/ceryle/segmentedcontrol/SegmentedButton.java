@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2016 Ege Aker <egeaker@gmail.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package co.ceryle.segmentedcontrol;
 
 import android.annotation.TargetApi;
@@ -45,11 +60,11 @@ public class SegmentedButton extends Button {
         setImageTint(buttonImageTint);
     }
 
-    public int getImageTint(){
+    public int getImageTint() {
         return buttonImageTint;
     }
 
-    public void setImageTint(int color){
+    public void setImageTint(int color) {
         int pos = 0;
         Drawable drawable = null;
 
@@ -104,13 +119,14 @@ public class SegmentedButton extends Button {
 
         calcCenteredButton();
     }
+
     private static final int LEFT = 0, TOP = 1, RIGHT = 2, BOTTOM = 3;
 
     // Pre-allocate objects for layout measuring
     private Rect textBounds = new Rect();
     private Rect drawableBounds = new Rect();
 
-    private void calcCenteredButton(){
+    private void calcCenteredButton() {
 
         final CharSequence text = getText();
         if (!TextUtils.isEmpty(text)) {
@@ -132,25 +148,19 @@ public class SegmentedButton extends Button {
             drawableBounds.offset(leftOffset, 0);
             //drawableBounds.set(leftOffset, drawableBounds.top, leftOffset + drawableBounds.width(), drawableBounds.bottom);
             drawables[LEFT].setBounds(drawableBounds);
-        }
-
-        else if (drawables[RIGHT] != null) {
+        } else if (drawables[RIGHT] != null) {
             drawables[RIGHT].copyBounds(drawableBounds);
             int rightOffset =
                     ((textBounds.width() + drawableBounds.width()) - width + getLeftPaddingOffset()) / 2 + getCompoundDrawablePadding();
             drawableBounds.offset(rightOffset, 0);
             drawables[RIGHT].setBounds(drawableBounds);
-        }
-
-        else if (drawables[TOP] != null) {
+        } else if (drawables[TOP] != null) {
             drawables[TOP].copyBounds(drawableBounds);
             int topOffset =
-                    (height-(textBounds.height() + drawableBounds.height()) + getBottomPaddingOffset()) / 2 + getCompoundDrawablePadding();
+                    (height - (textBounds.height() + drawableBounds.height()) + getBottomPaddingOffset()) / 2 + getCompoundDrawablePadding();
             drawableBounds.offset(0, topOffset);
             drawables[TOP].setBounds(drawableBounds);
-        }
-
-        else if (drawables[BOTTOM] != null) {
+        } else if (drawables[BOTTOM] != null) {
             drawables[BOTTOM].copyBounds(drawableBounds);
             int bottomOffset =
                     ((textBounds.height() + drawableBounds.height()) - height + getTopPaddingOffset()) / 2 + getCompoundDrawablePadding();
