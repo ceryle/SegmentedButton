@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.seart.myapplication.SegmentedButtonGroup
+    <co.ceryle.segmentedcontrol.SegmentedButtonGroup
         android:id="@+id/segmentedButtonGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
         app:sbg_shadowElevation="3dp"
         app:sbg_shadowMargin="4dp">
 
-        <com.seart.myapplication.SegmentedButton
+        <co.ceryle.segmentedcontrol.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@mipmap/ic_launcher"
@@ -42,7 +42,7 @@
             android:textColor="@color/red_700"
             app:buttonImageTint="@color/red_700"/>
 
-        <com.seart.myapplication.SegmentedButton
+        <co.ceryle.segmentedcontrol.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="4dp"
@@ -51,7 +51,7 @@
             android:textColor="@color/red_700"
             app:buttonImageTint="@color/red_700"/>
 
-        <com.seart.myapplication.SegmentedButton
+        <co.ceryle.segmentedcontrol.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="4dp"
@@ -61,5 +61,5 @@
             android:textColor="@color/red_700"
             app:buttonImageTint="@color/red_700"/>
 
-    </com.seart.myapplication.SegmentedButtonGroup>
+    </co.ceryle.segmentedcontrol.SegmentedButtonGroup>
 </LinearLayout>

@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/Segmented Button.iml" filepath="$PROJECT_DIR$/Segmented Button.iml" />
       <module fileurl="file://$PROJECT_DIR$/Segmented Control.iml" filepath="$PROJECT_DIR$/Segmented Control.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
     </modules>
   </component>
 </project>

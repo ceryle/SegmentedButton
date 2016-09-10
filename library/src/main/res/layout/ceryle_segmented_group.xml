@@ -3,7 +3,7 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
 
-    <com.seart.myapplication.RoundedCornerLayout
+    <co.ceryle.segmentedcontrol.RoundedCornerLayout
         android:id="@+id/ceryle_test_group_roundedCornerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,5 +29,5 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-    </com.seart.myapplication.RoundedCornerLayout>
+    </co.ceryle.segmentedcontrol.RoundedCornerLayout>
 </LinearLayout>
