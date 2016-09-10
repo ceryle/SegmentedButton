@@ -10,23 +10,22 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:showDividers="middle"
             android:id="@+id/main_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"/>
 
         <ImageView
-            android:scaleType="matrix"
             android:id="@+id/right_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:scaleType="matrix"/>
 
         <ImageView
-            android:scaleType="matrix"
             android:id="@+id/left_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:scaleType="matrix"/>
 
     </co.ceryle.segmentedcontrol.RoundedCornerLayout>
 </LinearLayout>

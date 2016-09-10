@@ -6,6 +6,10 @@
 
     <declare-styleable name="SegmentedButtonGroup">
 
+
+        <attr name="sbg_ripple" format="boolean"/>
+        <attr name="sbg_rippleColor" format="color"/>
+
         <attr name="sbg_selectorImageTint" format="color"/>
         <attr name="sbg_selectorTextColor" format="color"/>
         <attr name="sbg_selectorColor" format="color"/>

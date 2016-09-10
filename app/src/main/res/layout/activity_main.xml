@@ -12,6 +12,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
 
+        app:sbg_ripple="true"
+        app:sbg_rippleColor="@color/red"
+
         app:sbg_animateSelector="bounce"
         app:sbg_animateSelectorDuration="1000"
         app:sbg_backgroundColor="@color/red_200"

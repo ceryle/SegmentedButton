@@ -117,7 +117,7 @@ public class SegmentedButton extends Button {
 
         if (!changed) return;
 
-        calcCenteredButton();
+        //calcCenteredButton();
     }
 
     private static final int LEFT = 0, TOP = 1, RIGHT = 2, BOTTOM = 3;
