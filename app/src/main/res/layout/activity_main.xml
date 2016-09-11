@@ -23,7 +23,7 @@
 
         app:sbg_dividerPadding="10dp"
         app:sbg_dividerRadius="10dp"
-        app:sbg_dividerSize="2dp"
+        app:sbg_dividerSize="20dp"
 
         app:sbg_position="1"
         app:sbg_radius="15dp"

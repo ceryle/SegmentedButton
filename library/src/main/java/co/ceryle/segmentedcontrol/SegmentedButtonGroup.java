@@ -103,11 +103,11 @@ public class SegmentedButtonGroup extends LinearLayout {
         rippleContainer.setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int) buttonHeight));
         roundedLayout.addView(rippleContainer);
 
-        rippleContainer.setShowDividers(SHOW_DIVIDER_MIDDLE);
-        RoundHelper.makeDividerRound(rippleContainer, dividerColor, (int) dividerRadius, dividerSize);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+        // rippleContainer.setShowDividers(SHOW_DIVIDER_MIDDLE);
+        // RoundHelper.makeDividerRound(rippleContainer, dividerColor, (int) dividerRadius, dividerSize);
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             rippleContainer.setDividerPadding((int) dividerPadding);
-        }
+        }*/
 
         for (int i = 0; i < buttons.size(); i++) {
             View view = new View(getContext());
@@ -127,6 +127,24 @@ public class SegmentedButtonGroup extends LinearLayout {
             else if (ripple)
                 RippleHelper.setSelectableItemBackground(getContext(), view);
         }
+
+
+
+        LinearLayout dividerContainer = new LinearLayout(getContext());
+        dividerContainer.setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int) buttonHeight));
+
+        dividerContainer.setShowDividers(SHOW_DIVIDER_MIDDLE);
+        RoundHelper.makeDividerRound(dividerContainer, dividerColor, (int) dividerRadius, dividerSize);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            dividerContainer.setDividerPadding((int) dividerPadding);
+        }
+
+        for (int i = 0; i < buttons.size(); i++) {
+            View view = new View(getContext());
+            view.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1));
+            dividerContainer.addView(view);
+        }
+        roundedLayout.addView(dividerContainer);
     }
 
 
