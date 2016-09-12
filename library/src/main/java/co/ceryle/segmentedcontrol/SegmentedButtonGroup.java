@@ -96,6 +96,19 @@ public class SegmentedButtonGroup extends LinearLayout {
         setCardViewAttrs();
         setContainerAttrs();
 
+
+        mainGroup.post(new Runnable() {
+            @Override
+            public void run() {
+
+                initRippleViews();
+                toggleSegmentedButton(position, 0);
+
+                if (!isInEditMode())
+                    updateMovingViews();
+            }
+        });
+
     }
 
     private void initRippleViews() {
@@ -118,7 +131,7 @@ public class SegmentedButtonGroup extends LinearLayout {
             view.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    toggleSegmentedButton(pos);
+                    toggleSegmentedButton(pos, animateSelectorDuration);
                 }
             });
 
@@ -178,7 +191,7 @@ public class SegmentedButtonGroup extends LinearLayout {
         buttonWidth = (getWidth() - margin * 2) / (float) buttons.size();
         buttonHeight = (getHeight() - margin * 2);
 
-        if (!callOnce) {
+        /*if (!callOnce) {
             initRippleViews();
             setAnimationAttrs();
 
@@ -186,10 +199,8 @@ public class SegmentedButtonGroup extends LinearLayout {
                 updateMovingViews();
 
             callOnce = true;
-        }
+        }*/
     }
-
-    private boolean callOnce = false;
 
     class ButtonAttribute {
         int imageTintColor, textColor;
@@ -233,11 +244,11 @@ public class SegmentedButtonGroup extends LinearLayout {
         mainGroup.setBackgroundColor(backgroundColor);
     }
 
-    private void toggleSegmentedButton(int position) {
+    private void toggleSegmentedButton(int position, int duration) {
         int leftWidth = (int) (buttonWidth * (position));
         int rightWidth = (int) (buttonWidth * (position + 1));
-        AnimationCollapse.expand(leftGroup, interpolatorSelector, animateSelectorDuration, Math.max(0, leftWidth));
-        AnimationCollapse.expand(rightGroup, interpolatorSelector, animateSelectorDuration, Math.max(0, rightWidth));
+        AnimationCollapse.expand(leftGroup, interpolatorSelector, duration, Math.max(0, leftWidth));
+        AnimationCollapse.expand(rightGroup, interpolatorSelector, duration, Math.max(0, rightWidth));
 
         if (null != onClickedButtonPosition)
             onClickedButtonPosition.onClickedButtonPosition(position);
@@ -316,17 +327,7 @@ public class SegmentedButtonGroup extends LinearLayout {
     }
 
     float buttonWidth = 0;
-    private boolean isAnimationAlreadySet = false;
 
-    private void setAnimationAttrs() {
-        if (buttons.size() > 0 && !isAnimationAlreadySet) {
-            isAnimationAlreadySet = true;
-            int leftWidth = (int) (buttonWidth * position);
-            int rightWidth = (int) (buttonWidth * (position + 1));
-            AnimationCollapse.expand(leftGroup, interpolatorSelector, 0, Math.max(0, leftWidth));
-            AnimationCollapse.expand(rightGroup, interpolatorSelector, 0, Math.max(0, rightWidth));
-        }
-    }
 
     private Interpolator interpolatorSelector;
 
