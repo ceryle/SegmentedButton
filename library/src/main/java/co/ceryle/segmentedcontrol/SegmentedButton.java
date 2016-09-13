@@ -33,6 +33,7 @@ import com.ceryle.segmentedcontrol.R;
 /**
  * Created by EGE on 07/09/2016.
  */
+
 public class SegmentedButton extends Button {
     public SegmentedButton(Context context) {
         super(context);
@@ -57,7 +58,11 @@ public class SegmentedButton extends Button {
 
     private void init(AttributeSet attrs) {
         getAttributes(attrs);
-        setImageTint(buttonImageTint);
+
+        if(hasButtonImageTint)
+            setImageTint(buttonImageTint);
+
+        setTransformationMethod(null);
     }
 
     public int getImageTint() {
@@ -97,6 +102,9 @@ public class SegmentedButton extends Button {
                 else
                     setCompoundDrawables(null, null, null, drawable);
             }
+
+
+
         }
     }
 
@@ -117,7 +125,7 @@ public class SegmentedButton extends Button {
 
         if (!changed) return;
 
-        //calcCenteredButton();
+        calcCenteredButton();
     }
 
     private static final int LEFT = 0, TOP = 1, RIGHT = 2, BOTTOM = 3;

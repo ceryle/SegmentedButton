@@ -142,7 +142,6 @@ public class SegmentedButtonGroup extends LinearLayout {
         }
 
 
-
         LinearLayout dividerContainer = new LinearLayout(getContext());
         dividerContainer.setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int) buttonHeight));
 
