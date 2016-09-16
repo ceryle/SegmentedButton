@@ -27,6 +27,7 @@ import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -43,6 +44,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.ceryle.segmentedcontrol.R;
 
@@ -78,7 +80,7 @@ public class SegmentedButtonGroup extends LinearLayout {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    private LinearLayout mainGroup;
+    private LinearLayout mainGroup, rippleContainer, dividerContainer;
     private ImageView leftGroup, rightGroup;
     private RoundedCornerLayout roundedLayout;
 
@@ -92,73 +94,21 @@ public class SegmentedButtonGroup extends LinearLayout {
         rightGroup = (ImageView) findViewById(R.id.right_view);
         roundedLayout = (RoundedCornerLayout) findViewById(R.id.ceryle_test_group_roundedCornerLayout);
 
+        rippleContainer = (LinearLayout) findViewById(R.id.rippleContainer);
+        dividerContainer = (LinearLayout) findViewById(R.id.dividerContainer);
+
         initInterpolations();
         setCardViewAttrs();
         setContainerAttrs();
 
-
-        mainGroup.post(new Runnable() {
-            @Override
-            public void run() {
-
-                initRippleViews();
-                toggleSegmentedButton(position, 0);
-
-                if (!isInEditMode())
-                    updateMovingViews();
-            }
-        });
-
+        // pre init rippleParams
+        rippleParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1);
+        leftBitmapParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        rightBitmapParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
     }
 
-    private void initRippleViews() {
-        LinearLayout rippleContainer = new LinearLayout(getContext());
-        rippleContainer.setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int) buttonHeight));
-        roundedLayout.addView(rippleContainer);
-
-        // rippleContainer.setShowDividers(SHOW_DIVIDER_MIDDLE);
-        // RoundHelper.makeDividerRound(rippleContainer, dividerColor, (int) dividerRadius, dividerSize);
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            rippleContainer.setDividerPadding((int) dividerPadding);
-        }*/
-
-        for (int i = 0; i < buttons.size(); i++) {
-            View view = new View(getContext());
-            view.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1));
-            rippleContainer.addView(view);
-
-            final int pos = i;
-            view.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    toggleSegmentedButton(pos, animateSelectorDuration);
-                }
-            });
-
-            if (hasRippleColor)
-                RippleHelper.setRipple(view, rippleColor);
-            else if (ripple)
-                RippleHelper.setSelectableItemBackground(getContext(), view);
-        }
-
-
-        LinearLayout dividerContainer = new LinearLayout(getContext());
-        dividerContainer.setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int) buttonHeight));
-
-        dividerContainer.setShowDividers(SHOW_DIVIDER_MIDDLE);
-        RoundHelper.makeDividerRound(dividerContainer, dividerColor, (int) dividerRadius, dividerSize);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            dividerContainer.setDividerPadding((int) dividerPadding);
-        }
-
-        for (int i = 0; i < buttons.size(); i++) {
-            View view = new View(getContext());
-            view.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1));
-            dividerContainer.addView(view);
-        }
-        roundedLayout.addView(dividerContainer);
-    }
-
+    private LinearLayout.LayoutParams rippleParams;
+    private FrameLayout.LayoutParams leftBitmapParams, rightBitmapParams;
 
     private void setCardViewAttrs() {
         if (shadow) {
@@ -179,26 +129,44 @@ public class SegmentedButtonGroup extends LinearLayout {
 
     private int margin;
 
-    float buttonHeight;
+    private float buttonHeight;
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-
         if (!changed) return;
 
         buttonWidth = (getWidth() - margin * 2) / (float) buttons.size();
         buttonHeight = (getHeight() - margin * 2);
 
-        /*if (!callOnce) {
-            initRippleViews();
-            setAnimationAttrs();
+        rippleParams.height = (int) buttonHeight;
 
+        leftBitmapParams.width = (int) (buttonWidth * (position));
+        leftBitmapParams.height = (int) buttonHeight;
+        rightBitmapParams.width = (int) (buttonWidth * (position + 1));
+        rightBitmapParams.height = (int) buttonHeight;
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        for (int i = 0; i < rippleViews.size(); i++) {
+            rippleViews.get(i).setLayoutParams(rippleParams);
+            dividerViews.get(i).setLayoutParams(rippleParams);
+        }
+
+        leftGroup.setLayoutParams(leftBitmapParams);
+        rightGroup.setLayoutParams(rightBitmapParams);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+        if (getHeight() > 0) {
             if (!isInEditMode())
                 updateMovingViews();
-
-            callOnce = true;
-        }*/
+        }
     }
 
     class ButtonAttribute {
@@ -271,8 +239,49 @@ public class SegmentedButtonGroup extends LinearLayout {
                 buttons.add((SegmentedButton) child);
             else
                 buttons.add((Button) child);
+
+            initRippleViews(buttons.size() - 1);
         }
     }
+
+
+    ArrayList<View> rippleViews = new ArrayList<>();
+    ArrayList<View> dividerViews = new ArrayList<>();
+
+    private void initRippleViews(final int pos) {
+        // Ripple Views
+        View view = new View(getContext());
+        view.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 0, 1));
+        rippleContainer.addView(view);
+
+        view.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleSegmentedButton(pos, animateSelectorDuration);
+            }
+        });
+        rippleViews.add(view);
+
+        if (hasRippleColor)
+            RippleHelper.setRipple(view, rippleColor);
+        else if (ripple)
+            RippleHelper.setSelectableItemBackground(getContext(), view);
+
+
+        // Divider Views
+        dividerContainer.setShowDividers(SHOW_DIVIDER_MIDDLE);
+        RoundHelper.makeDividerRound(dividerContainer, dividerColor, (int) dividerRadius, dividerSize);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            dividerContainer.setDividerPadding((int) dividerPadding);
+        }
+
+        View dividerView = new View(getContext());
+        dividerView.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 0, 1));
+        dividerContainer.addView(dividerView);
+
+        dividerViews.add(dividerView);
+    }
+
 
     private void setContainerAttrs() {
         RoundHelper.makeDividerRound(mainGroup, dividerColor, (int) dividerRadius, dividerSize);

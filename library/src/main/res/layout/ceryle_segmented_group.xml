@@ -28,5 +28,21 @@
             android:layout_height="wrap_content"
             android:scaleType="matrix"/>
 
+        <LinearLayout
+            android:focusable="true"
+            android:clickable="true"
+            android:orientation="horizontal"
+            android:id="@+id/rippleContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <LinearLayout
+            android:focusable="false"
+            android:clickable="false"
+            android:orientation="horizontal"
+            android:id="@+id/dividerContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
     </co.ceryle.segmentedcontrol.RoundedCornerLayout>
 </LinearLayout>
