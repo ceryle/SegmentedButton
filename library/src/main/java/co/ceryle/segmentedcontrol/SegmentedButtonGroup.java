@@ -27,7 +27,6 @@ import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -44,7 +43,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.ceryle.segmentedcontrol.R;
 
@@ -84,7 +82,6 @@ public class SegmentedButtonGroup extends LinearLayout {
     private ImageView leftGroup, rightGroup;
     private RoundedCornerLayout roundedLayout;
 
-
     private void init(AttributeSet attrs) {
         getAttributes(attrs);
         inflate(getContext(), R.layout.ceryle_segmented_group, this);
@@ -105,6 +102,15 @@ public class SegmentedButtonGroup extends LinearLayout {
         rippleParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1);
         leftBitmapParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         rightBitmapParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+
+
+        /*post(new Runnable() {
+            @Override
+            public void run() {
+                if (!isInEditMode())
+                    updateMovingViews();
+            }
+        });*/
     }
 
     private LinearLayout.LayoutParams rippleParams;
@@ -129,15 +135,13 @@ public class SegmentedButtonGroup extends LinearLayout {
 
     private int margin;
 
-    private float buttonHeight;
-
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
         if (!changed) return;
 
         buttonWidth = (getWidth() - margin * 2) / (float) buttons.size();
-        buttonHeight = (getHeight() - margin * 2);
+        float buttonHeight = (getHeight() - margin * 2);
 
         rippleParams.height = (int) buttonHeight;
 
@@ -145,6 +149,7 @@ public class SegmentedButtonGroup extends LinearLayout {
         leftBitmapParams.height = (int) buttonHeight;
         rightBitmapParams.width = (int) (buttonWidth * (position + 1));
         rightBitmapParams.height = (int) buttonHeight;
+
     }
 
     @Override
@@ -157,31 +162,20 @@ public class SegmentedButtonGroup extends LinearLayout {
 
         leftGroup.setLayoutParams(leftBitmapParams);
         rightGroup.setLayoutParams(rightBitmapParams);
+        sizeChanged = true;
     }
+
+    private boolean sizeChanged = false;
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    protected void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
 
-        if (getHeight() > 0) {
-            if (!isInEditMode())
-                updateMovingViews();
+        if (!isInEditMode() && sizeChanged) {
+            updateMovingViews();
+            sizeChanged = false;
         }
     }
-
-    class ButtonAttribute {
-        int imageTintColor, textColor;
-
-        public void setImageTintColor(int imageTintColor) {
-            this.imageTintColor = imageTintColor;
-        }
-
-        public void setTextColor(int textColor) {
-            this.textColor = textColor;
-        }
-    }
-
-    ArrayList<ButtonAttribute> buttonAttributes = new ArrayList<>();
 
     private void updateMovingViews() {
         mainGroup.setBackgroundColor(backgroundColor);
@@ -210,6 +204,20 @@ public class SegmentedButtonGroup extends LinearLayout {
         }
         mainGroup.setBackgroundColor(backgroundColor);
     }
+
+    private class ButtonAttribute {
+        int imageTintColor, textColor;
+
+        public void setImageTintColor(int imageTintColor) {
+            this.imageTintColor = imageTintColor;
+        }
+
+        public void setTextColor(int textColor) {
+            this.textColor = textColor;
+        }
+    }
+
+    private ArrayList<ButtonAttribute> buttonAttributes = new ArrayList<>();
 
     private void toggleSegmentedButton(int position, int duration) {
         int leftWidth = (int) (buttonWidth * (position));
@@ -382,8 +390,8 @@ public class SegmentedButtonGroup extends LinearLayout {
 
         //Get the dimensions of the view so we can re-layout the view at its current size
         //and create a bitmap of the same size
-        int width = view.getWidth();
-        int height = view.getHeight();
+        int width = view.getMeasuredWidth();
+        int height = view.getMeasuredHeight();
 
         int measuredWidth = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
         int measuredHeight = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY);
