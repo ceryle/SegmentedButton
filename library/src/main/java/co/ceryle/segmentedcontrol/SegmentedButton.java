@@ -62,7 +62,7 @@ public class SegmentedButton extends Button {
 
         if(hasButtonImageTint)
             setImageTint(buttonImageTint);
-        scaleButtonDrawables(this, buttonImageScale);
+        scaleButtonDrawables(buttonImageScale);
 
         setTransformationMethod(null);
     }
@@ -179,8 +179,8 @@ public class SegmentedButton extends Button {
         }
     }
 
-    public static void scaleButtonDrawables(Button btn, double fitFactor) {
-        Drawable[] drawables = btn.getCompoundDrawables();
+    public void scaleButtonDrawables(double fitFactor) {
+        Drawable[] drawables = getCompoundDrawables();
 
         for (int i = 0; i < drawables.length; i++) {
             if (drawables[i] != null) {
@@ -191,13 +191,13 @@ public class SegmentedButton extends Button {
                         (int) (drawables[i].getIntrinsicHeight() * fitFactor));
                 ScaleDrawable sd = new ScaleDrawable(drawables[i], 0, drawables[i].getIntrinsicWidth(), drawables[i].getIntrinsicHeight());
                 if(i == 0) {
-                    btn.setCompoundDrawables(sd.getDrawable(), drawables[1], drawables[2], drawables[3]);
+                    setCompoundDrawables(sd.getDrawable(), drawables[1], drawables[2], drawables[3]);
                 } else if(i == 1) {
-                    btn.setCompoundDrawables(drawables[0], sd.getDrawable(), drawables[2], drawables[3]);
+                    setCompoundDrawables(drawables[0], sd.getDrawable(), drawables[2], drawables[3]);
                 } else if(i == 2) {
-                    btn.setCompoundDrawables(drawables[0], drawables[1], sd.getDrawable(), drawables[3]);
+                    setCompoundDrawables(drawables[0], drawables[1], sd.getDrawable(), drawables[3]);
                 } else {
-                    btn.setCompoundDrawables(drawables[0], drawables[1], drawables[2], sd.getDrawable());
+                    setCompoundDrawables(drawables[0], drawables[1], drawables[2], sd.getDrawable());
                 }
             }
         }
