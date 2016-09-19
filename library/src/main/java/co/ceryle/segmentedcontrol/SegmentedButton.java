@@ -22,6 +22,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.os.Build;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -61,6 +62,7 @@ public class SegmentedButton extends Button {
 
         if(hasButtonImageTint)
             setImageTint(buttonImageTint);
+        scaleButtonDrawables(this, buttonImageScale);
 
         setTransformationMethod(null);
     }
@@ -102,20 +104,18 @@ public class SegmentedButton extends Button {
                 else
                     setCompoundDrawables(null, null, null, drawable);
             }
-
-
-
         }
     }
 
-
     private int buttonImageTint;
     private boolean hasButtonImageTint;
+    private float buttonImageScale;
 
     private void getAttributes(AttributeSet attrs) {
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.SegmentedButton);
         buttonImageTint = typedArray.getColor(R.styleable.SegmentedButton_buttonImageTint, 0);
         hasButtonImageTint = typedArray.hasValue(R.styleable.SegmentedButton_buttonImageTint);
+        buttonImageScale = typedArray.getFloat(R.styleable.SegmentedButton_buttonImageScale, 1);
         typedArray.recycle();
     }
 
@@ -126,6 +126,8 @@ public class SegmentedButton extends Button {
         if (!changed) return;
 
         calcCenteredButton();
+
+
     }
 
     private static final int LEFT = 0, TOP = 1, RIGHT = 2, BOTTOM = 3;
@@ -176,4 +178,29 @@ public class SegmentedButton extends Button {
             drawables[BOTTOM].setBounds(drawableBounds);
         }
     }
+
+    public static void scaleButtonDrawables(Button btn, double fitFactor) {
+        Drawable[] drawables = btn.getCompoundDrawables();
+
+        for (int i = 0; i < drawables.length; i++) {
+            if (drawables[i] != null) {
+                if (drawables[i] instanceof ScaleDrawable) {
+                    drawables[i].setLevel(1);
+                }
+                drawables[i].setBounds(0, 0, (int) (drawables[i].getIntrinsicWidth() * fitFactor),
+                        (int) (drawables[i].getIntrinsicHeight() * fitFactor));
+                ScaleDrawable sd = new ScaleDrawable(drawables[i], 0, drawables[i].getIntrinsicWidth(), drawables[i].getIntrinsicHeight());
+                if(i == 0) {
+                    btn.setCompoundDrawables(sd.getDrawable(), drawables[1], drawables[2], drawables[3]);
+                } else if(i == 1) {
+                    btn.setCompoundDrawables(drawables[0], sd.getDrawable(), drawables[2], drawables[3]);
+                } else if(i == 2) {
+                    btn.setCompoundDrawables(drawables[0], drawables[1], sd.getDrawable(), drawables[3]);
+                } else {
+                    btn.setCompoundDrawables(drawables[0], drawables[1], drawables[2], sd.getDrawable());
+                }
+            }
+        }
+    }
+
 }

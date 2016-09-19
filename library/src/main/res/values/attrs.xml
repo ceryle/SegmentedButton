@@ -2,10 +2,10 @@
 <resources>
     <declare-styleable name="SegmentedButton">
         <attr name="buttonImageTint" format="color"/>
+        <attr name="buttonImageScale" format="float"/>
     </declare-styleable>
 
     <declare-styleable name="SegmentedButtonGroup">
-
 
         <attr name="sbg_ripple" format="boolean"/>
         <attr name="sbg_rippleColor" format="color"/>
