@@ -161,9 +161,9 @@ public class SegmentedButton extends Button {
             //drawableBounds.set(leftOffset, drawableBounds.top, leftOffset + drawableBounds.width(), drawableBounds.bottom);
             drawables[LEFT].setBounds(drawableBounds);
 
-            drawables[LEFT].setBounds(0, 0, (int) (drawables[LEFT].getIntrinsicWidth() * buttonImageScale), (int) (drawables[LEFT].getIntrinsicHeight() * buttonImageScale));
-            ScaleDrawable sd = new ScaleDrawable(drawables[LEFT], 0, drawables[LEFT].getIntrinsicWidth(), drawables[LEFT].getIntrinsicHeight());
-            setCompoundDrawables(sd.getDrawable(), drawables[1], drawables[2], drawables[3]);
+            //drawables[LEFT].setBounds(0, 0, (int) (drawables[LEFT].getIntrinsicWidth() * buttonImageScale), (int) (drawables[LEFT].getIntrinsicHeight() * buttonImageScale));
+            //ScaleDrawable sd = new ScaleDrawable(drawables[LEFT], 0, drawables[LEFT].getIntrinsicWidth(), drawables[LEFT].getIntrinsicHeight());
+            //setCompoundDrawables(sd.getDrawable(), drawables[1], drawables[2], drawables[3]);
 
 
         } else if (drawables[RIGHT] != null) {
