@@ -60,9 +60,11 @@ public class SegmentedButton extends Button {
     private void init(AttributeSet attrs) {
         getAttributes(attrs);
 
-        if(hasButtonImageTint)
+        if (hasButtonImageTint)
             setImageTint(buttonImageTint);
-        scaleButtonDrawables(buttonImageScale);
+
+        if (buttonImageScale != 1)
+            scaleButtonDrawables(buttonImageScale);
 
         setTransformationMethod(null);
     }
@@ -158,6 +160,12 @@ public class SegmentedButton extends Button {
             drawableBounds.offset(leftOffset, 0);
             //drawableBounds.set(leftOffset, drawableBounds.top, leftOffset + drawableBounds.width(), drawableBounds.bottom);
             drawables[LEFT].setBounds(drawableBounds);
+
+            drawables[LEFT].setBounds(0, 0, (int) (drawables[LEFT].getIntrinsicWidth() * buttonImageScale), (int) (drawables[LEFT].getIntrinsicHeight() * buttonImageScale));
+            ScaleDrawable sd = new ScaleDrawable(drawables[LEFT], 0, drawables[LEFT].getIntrinsicWidth(), drawables[LEFT].getIntrinsicHeight());
+            setCompoundDrawables(sd.getDrawable(), drawables[1], drawables[2], drawables[3]);
+
+
         } else if (drawables[RIGHT] != null) {
             drawables[RIGHT].copyBounds(drawableBounds);
             int rightOffset =
@@ -190,11 +198,11 @@ public class SegmentedButton extends Button {
                 drawables[i].setBounds(0, 0, (int) (drawables[i].getIntrinsicWidth() * fitFactor),
                         (int) (drawables[i].getIntrinsicHeight() * fitFactor));
                 ScaleDrawable sd = new ScaleDrawable(drawables[i], 0, drawables[i].getIntrinsicWidth(), drawables[i].getIntrinsicHeight());
-                if(i == 0) {
+                if (i == 0) {
                     setCompoundDrawables(sd.getDrawable(), drawables[1], drawables[2], drawables[3]);
-                } else if(i == 1) {
+                } else if (i == 1) {
                     setCompoundDrawables(drawables[0], sd.getDrawable(), drawables[2], drawables[3]);
-                } else if(i == 2) {
+                } else if (i == 2) {
                     setCompoundDrawables(drawables[0], drawables[1], sd.getDrawable(), drawables[3]);
                 } else {
                     setCompoundDrawables(drawables[0], drawables[1], drawables[2], sd.getDrawable());
