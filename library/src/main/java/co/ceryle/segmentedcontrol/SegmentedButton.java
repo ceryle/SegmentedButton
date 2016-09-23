@@ -75,6 +75,10 @@ public class SegmentedButton extends Button {
         return buttonImageTint;
     }
 
+    public boolean hasImageTint(){
+        return hasButtonImageTint;
+    }
+
     public void setImageTint(int color) {
         int pos = 0;
         Drawable drawable = null;

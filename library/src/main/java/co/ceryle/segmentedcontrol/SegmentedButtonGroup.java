@@ -157,7 +157,8 @@ public class SegmentedButtonGroup extends LinearLayout {
         super.onSizeChanged(w, h, oldw, oldh);
         for (int i = 0; i < rippleViews.size(); i++) {
             rippleViews.get(i).setLayoutParams(rippleParams);
-            dividerViews.get(i).setLayoutParams(rippleParams);
+            if (hasDivider)
+                dividerViews.get(i).setLayoutParams(rippleParams);
         }
 
         leftGroup.setLayoutParams(leftBitmapParams);
@@ -188,7 +189,7 @@ public class SegmentedButtonGroup extends LinearLayout {
                 buttonAttribute.setImageTintColor(((SegmentedButton) buttons.get(i)).getImageTint());
             buttonAttributes.add(buttonAttribute);
 
-            if (buttons.get(i) instanceof SegmentedButton)
+            if (buttons.get(i) instanceof SegmentedButton && ((SegmentedButton) buttons.get(i)).hasImageTint())
                 ((SegmentedButton) buttons.get(i)).setImageTint(selectorImageTint);
             buttons.get(i).setTextColor(selectorTextColor);
         }
@@ -199,7 +200,7 @@ public class SegmentedButtonGroup extends LinearLayout {
         for (int i = 0; i < buttons.size(); i++) {
             buttons.get(i).setTextColor(buttonAttributes.get(i).textColor);
 
-            if (buttons.get(i) instanceof SegmentedButton)
+            if (buttons.get(i) instanceof SegmentedButton && ((SegmentedButton) buttons.get(i)).hasImageTint())
                 ((SegmentedButton) buttons.get(i)).setImageTint(buttonAttributes.get(i).imageTintColor);
         }
         mainGroup.setBackgroundColor(backgroundColor);
@@ -276,6 +277,8 @@ public class SegmentedButtonGroup extends LinearLayout {
             RippleHelper.setSelectableItemBackground(getContext(), view);
 
 
+        if (!hasDivider)
+            return;
         // Divider Views
         dividerContainer.setShowDividers(SHOW_DIVIDER_MIDDLE);
         RoundHelper.makeDividerRound(dividerContainer, dividerColor, (int) dividerRadius, dividerSize);
@@ -304,7 +307,7 @@ public class SegmentedButtonGroup extends LinearLayout {
 
     private int selectorColor, animateSelector, animateSelectorDuration, position, backgroundColor, dividerColor, selectorImageTint, selectorTextColor, dividerSize, rippleColor;
     private float shadowElevation, shadowMargin, shadowMarginTop, shadowMarginBottom, shadowMarginLeft, shadowMarginRight, radius, dividerPadding, dividerRadius;
-    private boolean shadow, ripple, hasRippleColor;
+    private boolean shadow, ripple, hasRippleColor, hasDivider;
 
     /**
      * Custom attributes
@@ -312,6 +315,7 @@ public class SegmentedButtonGroup extends LinearLayout {
     private void getAttributes(AttributeSet attrs) {
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.SegmentedButtonGroup);
 
+        hasDivider = typedArray.hasValue(R.styleable.SegmentedButtonGroup_sbg_dividerSize);
         dividerSize = (int) typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_dividerSize, 0);
         dividerColor = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_dividerColor, Color.WHITE);
         dividerPadding = typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_dividerPadding, 0);
