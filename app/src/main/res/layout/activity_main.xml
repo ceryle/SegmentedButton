@@ -137,6 +137,7 @@
 
             app:sbg_rippleColor="@color/blue_300"
             app:sbg_selectorColor="@color/yellow_600"
+            app:sbg_selectorImageTint="@color/black"
             app:sbg_shadow="true"
             app:sbg_shadowElevation="5dp"
             app:sbg_shadowMargin="6dp">
@@ -145,6 +146,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/b1"
+                app:buttonImageTint="@color/yellow_600"
                 android:drawablePadding="4dp"
                 android:padding="4dp"
                 app:buttonImageScale="0.4" />
@@ -153,6 +155,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/b2"
+                app:buttonImageTint="@color/DarkRed"
                 android:drawablePadding="4dp"
                 android:padding="4dp"
                 app:buttonImageScale="0.4" />
@@ -212,7 +215,7 @@
 
         app:sbg_radius="2dp"
         app:sbg_rippleColor="@color/red_200"
-        app:sbg_selectorColor="@color/green_400"
+        app:sbg_selectorColor="@color/green_200"
         app:sbg_selectorImageTint="@color/red_400"
 
         app:sbg_shadow="true"
