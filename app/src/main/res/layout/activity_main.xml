@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
 
     <co.ceryle.segmentedcontrol.SegmentedButtonGroup
@@ -33,25 +33,25 @@
         app:sbg_shadowMargin="4dp">
 
         <Button
-            android:minHeight="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minHeight="10dp"
             android:text="Button 1"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"/>
 
         <Button
-            android:minHeight="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minHeight="10dp"
             android:text="Button 2"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"/>
 
         <Button
-            android:minHeight="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minHeight="10dp"
             android:text="Button 3"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"/>
 
     </co.ceryle.segmentedcontrol.SegmentedButtonGroup>
 
@@ -92,7 +92,7 @@
             android:padding="4dp"
             android:text="Bruce"
             android:textColor="@color/black"
-            app:buttonImageScale="0.4" />
+            app:buttonImageScale="0.4"/>
 
         <co.ceryle.segmentedcontrol.SegmentedButton
             android:layout_width="wrap_content"
@@ -102,7 +102,7 @@
             android:padding="4dp"
             android:text="Clark"
             android:textColor="@color/black"
-            app:buttonImageScale="0.4" />
+            app:buttonImageScale="0.4"/>
 
         <co.ceryle.segmentedcontrol.SegmentedButton
             android:layout_width="wrap_content"
@@ -112,7 +112,7 @@
             android:padding="4dp"
             android:text="Diana"
             android:textColor="@color/black"
-            app:buttonImageScale="0.4" />
+            app:buttonImageScale="0.4"/>
 
     </co.ceryle.segmentedcontrol.SegmentedButtonGroup>
 
@@ -146,19 +146,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/b1"
-                app:buttonImageTint="@color/yellow_600"
                 android:drawablePadding="4dp"
-                android:padding="4dp"
-                app:buttonImageScale="0.4" />
+                android:padding="10dp"
+                app:buttonImageScale="0.4"
+                app:buttonImageTint="@color/yellow_600"/>
 
             <co.ceryle.segmentedcontrol.SegmentedButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/b2"
-                app:buttonImageTint="@color/DarkRed"
                 android:drawablePadding="4dp"
-                android:padding="4dp"
-                app:buttonImageScale="0.4" />
+                android:padding="10dp"
+                app:buttonImageScale="0.4"
+                app:buttonImageTint="@color/DarkRed"/>
 
         </co.ceryle.segmentedcontrol.SegmentedButtonGroup>
 
@@ -186,16 +186,16 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/b17"
                 android:drawablePadding="4dp"
-                android:padding="4dp"
-                app:buttonImageScale="0.4" />
+                android:padding="10dp"
+                app:buttonImageScale="0.4"/>
 
             <co.ceryle.segmentedcontrol.SegmentedButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/b6"
                 android:drawablePadding="4dp"
-                android:padding="4dp"
-                app:buttonImageScale="0.4" />
+                android:padding="10dp"
+                app:buttonImageScale="0.4"/>
 
         </co.ceryle.segmentedcontrol.SegmentedButtonGroup>
     </LinearLayout>
@@ -227,35 +227,35 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/b9"
             android:padding="4dp"
-            app:buttonImageScale="0.4" />
+            app:buttonImageScale="0.4"/>
 
         <co.ceryle.segmentedcontrol.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/b8"
             android:padding="4dp"
-            app:buttonImageScale="0.4" />
+            app:buttonImageScale="0.4"/>
 
         <co.ceryle.segmentedcontrol.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/b11"
             android:padding="4dp"
-            app:buttonImageScale="0.4" />
+            app:buttonImageScale="0.4"/>
 
         <co.ceryle.segmentedcontrol.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/b13"
             android:padding="4dp"
-            app:buttonImageScale="0.4" />
+            app:buttonImageScale="0.4"/>
 
         <co.ceryle.segmentedcontrol.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/b12"
             android:padding="4dp"
-            app:buttonImageScale="0.4" />
+            app:buttonImageScale="0.4"/>
 
 
     </co.ceryle.segmentedcontrol.SegmentedButtonGroup>
@@ -284,41 +284,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/b7"
-            android:padding="4dp"
+            android:padding="10dp"
             app:buttonImageScale="0.4"
-            app:buttonImageTint="@color/white" />
+            app:buttonImageTint="@color/white"/>
 
         <co.ceryle.segmentedcontrol.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/b7"
-            android:padding="4dp"
+            android:padding="10dp"
             app:buttonImageScale="0.4"
-            app:buttonImageTint="@color/white" />
+            app:buttonImageTint="@color/white"/>
 
         <co.ceryle.segmentedcontrol.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/b7"
-            android:padding="4dp"
+            android:padding="10dp"
             app:buttonImageScale="0.4"
-            app:buttonImageTint="@color/white" />
+            app:buttonImageTint="@color/white"/>
 
         <co.ceryle.segmentedcontrol.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/b7"
-            android:padding="4dp"
+            android:padding="10dp"
             app:buttonImageScale="0.4"
-            app:buttonImageTint="@color/white" />
+            app:buttonImageTint="@color/white"/>
 
         <co.ceryle.segmentedcontrol.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/b7"
-            android:padding="4dp"
+            android:padding="10dp"
             app:buttonImageScale="0.4"
-            app:buttonImageTint="@color/white" />
+            app:buttonImageTint="@color/white"/>
 
     </co.ceryle.segmentedcontrol.SegmentedButtonGroup>
 </LinearLayout>
