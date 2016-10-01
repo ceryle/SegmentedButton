@@ -66,10 +66,8 @@ public class SegmentedButton extends Button {
         if (hasButtonImageTint)
             setImageTint(buttonImageTint);
 
-        if (buttonImageScale != 1){
-           scaleButtonDrawables(buttonImageScale);
-            //scaleImage(getCompoundDrawables()[0], buttonImageScale);
-        }
+        if (buttonImageScale != 1)
+            scaleButtonDrawables(buttonImageScale);
 
         setTransformationMethod(null);
     }
@@ -78,7 +76,7 @@ public class SegmentedButton extends Button {
         return buttonImageTint;
     }
 
-    public boolean hasImageTint(){
+    public boolean hasImageTint() {
         return hasButtonImageTint;
     }
 
@@ -176,27 +174,6 @@ public class SegmentedButton extends Button {
         }
     }
 
-    public Drawable scaleImage (Drawable image, float scaleFactor) {
-
-        if ((image == null) || !(image instanceof BitmapDrawable)) {
-            return image;
-        }
-
-        Bitmap b = ((BitmapDrawable)image).getBitmap();
-
-        int sizeX = Math.round(image.getIntrinsicWidth() * scaleFactor);
-        int sizeY = Math.round(image.getIntrinsicHeight() * scaleFactor);
-
-        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, sizeX, sizeY, false);
-
-        image = new BitmapDrawable(getResources(), bitmapResized);
-
-        setCompoundDrawables(image, null, null, null);
-
-        return image;
-
-    }
-
     public void setImageTint(int color) {
         int pos = 0;
         Drawable drawable = null;
@@ -224,4 +201,28 @@ public class SegmentedButton extends Button {
         }
     }
 
+
+    public int getButtonImageTint() {
+        return buttonImageTint;
+    }
+
+    public void setButtonImageTint(int buttonImageTint) {
+        this.buttonImageTint = buttonImageTint;
+    }
+
+    public float getButtonImageScale() {
+        return buttonImageScale;
+    }
+
+    public void setButtonImageScale(float buttonImageScale) {
+        this.buttonImageScale = buttonImageScale;
+    }
+
+    public boolean isHasButtonImageTint() {
+        return hasButtonImageTint;
+    }
+
+    public void setHasButtonImageTint(boolean hasButtonImageTint) {
+        this.hasButtonImageTint = hasButtonImageTint;
+    }
 }
