@@ -1,5 +1,6 @@
 package co.ceryle.segmentedcontrol;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -20,13 +21,9 @@ public class MainActivity extends AppCompatActivity {
         });*/
 
 
-       final SegmentedButtonGroup segmentedButtonGroup = (SegmentedButtonGroup) findViewById(R.id.segmentedButtonGroup);
-        segmentedButtonGroup.post(new Runnable() {
-            @Override
-            public void run() {
-                segmentedButtonGroup.setPosition(2, 0);
-            }
-        });
+        final SegmentedButtonGroup segmentedButtonGroup = (SegmentedButtonGroup) findViewById(R.id.segmentedButtonGroup);
+        segmentedButtonGroup.setPosition(2, 0);
 
+        segmentedButtonGroup.setDividerColor(Color.BLUE);
     }
 }
