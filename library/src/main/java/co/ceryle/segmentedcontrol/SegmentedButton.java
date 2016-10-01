@@ -22,6 +22,7 @@ import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ScaleDrawable;
 import android.os.Build;
@@ -65,8 +66,10 @@ public class SegmentedButton extends Button {
         if (hasButtonImageTint)
             setImageTint(buttonImageTint);
 
-        if (buttonImageScale != 1)
-            scaleButtonDrawables(buttonImageScale);
+        if (buttonImageScale != 1){
+           scaleButtonDrawables(buttonImageScale);
+            //scaleImage(getCompoundDrawables()[0], buttonImageScale);
+        }
 
         setTransformationMethod(null);
     }
@@ -79,32 +82,6 @@ public class SegmentedButton extends Button {
         return hasButtonImageTint;
     }
 
-    public void setImageTint(int color) {
-        int pos = 0;
-        Drawable drawable = null;
-
-        if (getCompoundDrawables().length > 0) {
-            for (int i = 0; i < getCompoundDrawables().length; i++) {
-                if (getCompoundDrawables()[i] != null) {
-                    pos = i;
-                    drawable = getCompoundDrawables()[i];
-                }
-            }
-
-            if (drawable != null) {
-                drawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
-
-                if (pos == 0)
-                    setCompoundDrawables(drawable, null, null, null);
-                else if (pos == 1)
-                    setCompoundDrawables(null, drawable, null, null);
-                else if (pos == 2)
-                    setCompoundDrawables(null, null, drawable, null);
-                else
-                    setCompoundDrawables(null, null, null, drawable);
-            }
-        }
-    }
 
     private int buttonImageTint;
     private boolean hasButtonImageTint;
@@ -184,11 +161,10 @@ public class SegmentedButton extends Button {
                 if (drawables[i] instanceof ScaleDrawable) {
                     drawables[i].setLevel(1);
                 }
-                drawables[i].setBounds(0, 0, (int) (drawables[i].getIntrinsicWidth() * fitFactor),
-                        (int) (drawables[i].getIntrinsicHeight() * fitFactor));
                 ScaleDrawable sd = new ScaleDrawable(drawables[i], 0, drawables[i].getIntrinsicWidth(), drawables[i].getIntrinsicHeight());
+                drawables[i].setBounds(0, 0, (int) (drawables[i].getIntrinsicWidth() * fitFactor), (int) (drawables[i].getIntrinsicHeight() * fitFactor));
                 if (i == 0) {
-                    setCompoundDrawables(sd.getDrawable(), drawables[1], drawables[2], drawables[3]);
+                    setCompoundDrawables(drawables[i], drawables[1], drawables[2], drawables[3]);
                 } else if (i == 1) {
                     setCompoundDrawables(drawables[0], sd.getDrawable(), drawables[2], drawables[3]);
                 } else if (i == 2) {
@@ -196,6 +172,54 @@ public class SegmentedButton extends Button {
                 } else {
                     setCompoundDrawables(drawables[0], drawables[1], drawables[2], sd.getDrawable());
                 }
+            }
+        }
+    }
+
+    public Drawable scaleImage (Drawable image, float scaleFactor) {
+
+        if ((image == null) || !(image instanceof BitmapDrawable)) {
+            return image;
+        }
+
+        Bitmap b = ((BitmapDrawable)image).getBitmap();
+
+        int sizeX = Math.round(image.getIntrinsicWidth() * scaleFactor);
+        int sizeY = Math.round(image.getIntrinsicHeight() * scaleFactor);
+
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, sizeX, sizeY, false);
+
+        image = new BitmapDrawable(getResources(), bitmapResized);
+
+        setCompoundDrawables(image, null, null, null);
+
+        return image;
+
+    }
+
+    public void setImageTint(int color) {
+        int pos = 0;
+        Drawable drawable = null;
+
+        if (getCompoundDrawables().length > 0) {
+            for (int i = 0; i < getCompoundDrawables().length; i++) {
+                if (getCompoundDrawables()[i] != null) {
+                    pos = i;
+                    drawable = getCompoundDrawables()[i];
+                }
+            }
+
+            if (drawable != null) {
+                drawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
+
+                if (pos == 0)
+                    setCompoundDrawables(drawable, null, null, null);
+                else if (pos == 1)
+                    setCompoundDrawables(null, drawable, null, null);
+                else if (pos == 2)
+                    setCompoundDrawables(null, null, drawable, null);
+                else
+                    setCompoundDrawables(null, null, null, drawable);
             }
         }
     }

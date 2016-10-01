@@ -20,7 +20,13 @@ public class MainActivity extends AppCompatActivity {
         });*/
 
 
-        SegmentedButtonGroup segmentedButtonGroup = (SegmentedButtonGroup) findViewById(R.id.segmentedButtonGroup);
+       final SegmentedButtonGroup segmentedButtonGroup = (SegmentedButtonGroup) findViewById(R.id.segmentedButtonGroup);
+        segmentedButtonGroup.post(new Runnable() {
+            @Override
+            public void run() {
+                segmentedButtonGroup.setPosition(2, 0);
+            }
+        });
 
     }
 }

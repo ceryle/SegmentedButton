@@ -114,11 +114,11 @@ public class SegmentedButtonGroup extends LinearLayout {
         }
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) roundedLayout.getLayoutParams();
         if (shadowMargin != -1) {
-            layoutParams.setMargins( shadowMargin,  shadowMargin,  shadowMargin, shadowMargin);
-            margin =  shadowMargin;
+            layoutParams.setMargins(shadowMargin, shadowMargin, shadowMargin, shadowMargin);
+            margin = shadowMargin;
         } else {
-            layoutParams.setMargins( shadowMarginLeft, shadowMarginTop, shadowMarginRight, shadowMarginBottom);
-            margin =  shadowMarginLeft + shadowMarginRight;
+            layoutParams.setMargins(shadowMarginLeft, shadowMarginTop, shadowMarginRight, shadowMarginBottom);
+            margin = shadowMarginLeft + shadowMarginRight;
         }
         roundedLayout.setRadius(radius);
     }
@@ -210,7 +210,18 @@ public class SegmentedButtonGroup extends LinearLayout {
 
     private ArrayList<ButtonAttribute> buttonAttributes = new ArrayList<>();
 
-    private void setPosition(int position, int duration) {
+
+    public void setPosition(final int position, final int duration) {
+        this.position = position;
+        post(new Runnable() {
+            @Override
+            public void run() {
+                toggle(position, duration);
+            }
+        });
+    }
+
+    private void toggle(int position, int duration) {
         int leftWidth = (int) (buttonWidth * (position));
         int rightWidth = (int) (buttonWidth * (position + 1));
         AnimationCollapse.expand(leftGroup, interpolatorSelector, duration, Math.max(0, leftWidth));
@@ -256,7 +267,7 @@ public class SegmentedButtonGroup extends LinearLayout {
         view.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                setPosition(pos, animateSelectorDuration);
+                toggle(pos, animateSelectorDuration);
             }
         });
         rippleViews.add(view);
@@ -295,8 +306,7 @@ public class SegmentedButtonGroup extends LinearLayout {
 
     private ArrayList<Button> buttons = new ArrayList<>();
 
-    private int selectorColor, animateSelector, animateSelectorDuration, position, backgroundColor, dividerColor, selectorImageTint, selectorTextColor, dividerSize
-            , rippleColor, dividerPadding, dividerRadius, shadowMargin, shadowMarginTop, shadowMarginBottom, shadowMarginLeft, shadowMarginRight;
+    private int selectorColor, animateSelector, animateSelectorDuration, position, backgroundColor, dividerColor, selectorImageTint, selectorTextColor, dividerSize, rippleColor, dividerPadding, dividerRadius, shadowMargin, shadowMarginTop, shadowMarginBottom, shadowMarginLeft, shadowMarginRight;
     private float shadowElevation, radius;
     private boolean shadow, ripple, hasRippleColor, hasDivider;
 

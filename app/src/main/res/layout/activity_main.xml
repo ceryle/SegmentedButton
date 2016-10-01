@@ -23,6 +23,8 @@
 
         app:sbg_radius="2dp"
 
+        app:sbg_position="1"
+
         app:sbg_ripple="true"
         app:sbg_rippleColor="@color/grey_500"
 
@@ -72,7 +74,6 @@
         app:sbg_dividerRadius="10dp"
         app:sbg_dividerSize="1dp"
 
-        app:sbg_position="1"
         app:sbg_radius="2dp"
 
         app:sbg_ripple="true"
