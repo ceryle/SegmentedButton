@@ -206,23 +206,28 @@ public class SegmentedButton extends Button {
         return buttonImageTint;
     }
 
-    public void setButtonImageTint(int buttonImageTint) {
-        this.buttonImageTint = buttonImageTint;
-    }
 
     public float getButtonImageScale() {
         return buttonImageScale;
+    }
+
+
+    public boolean isHasButtonImageTint() {
+        return hasButtonImageTint;
+    }
+
+    /*
+    public void setHasButtonImageTint(boolean hasButtonImageTint) {
+
+        this.hasButtonImageTint = hasButtonImageTint;
     }
 
     public void setButtonImageScale(float buttonImageScale) {
         this.buttonImageScale = buttonImageScale;
     }
 
-    public boolean isHasButtonImageTint() {
-        return hasButtonImageTint;
+    public void setButtonImageTint(int buttonImageTint) {
+        this.buttonImageTint = buttonImageTint;
     }
-
-    public void setHasButtonImageTint(boolean hasButtonImageTint) {
-        this.hasButtonImageTint = hasButtonImageTint;
-    }
+    */
 }
