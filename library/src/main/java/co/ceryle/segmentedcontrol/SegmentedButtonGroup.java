@@ -56,7 +56,6 @@ import co.ceryle.segmentedcontrol.util.RoundHelper;
  * Created by EGE on 20.8.2016.
  */
 public class SegmentedButtonGroup extends LinearLayout {
-    private static final String TAG = "SegmentedButtonGroup";
 
     public SegmentedButtonGroup(Context context) {
         super(context);
@@ -102,15 +101,6 @@ public class SegmentedButtonGroup extends LinearLayout {
         rippleParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1);
         leftBitmapParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         rightBitmapParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-
-
-        /*post(new Runnable() {
-            @Override
-            public void run() {
-                if (!isInEditMode())
-                    updateMovingViews();
-            }
-        });*/
     }
 
     private LinearLayout.LayoutParams rippleParams;
@@ -124,11 +114,11 @@ public class SegmentedButtonGroup extends LinearLayout {
         }
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) roundedLayout.getLayoutParams();
         if (shadowMargin != -1) {
-            layoutParams.setMargins((int) shadowMargin, (int) shadowMargin, (int) shadowMargin, (int) shadowMargin);
-            margin = (int) shadowMargin;
+            layoutParams.setMargins( shadowMargin,  shadowMargin,  shadowMargin, shadowMargin);
+            margin =  shadowMargin;
         } else {
-            layoutParams.setMargins((int) shadowMarginLeft, (int) shadowMarginTop, (int) shadowMarginRight, (int) shadowMarginBottom);
-            margin = (int) shadowMarginLeft + (int) shadowMarginRight;
+            layoutParams.setMargins( shadowMarginLeft, shadowMarginTop, shadowMarginRight, shadowMarginBottom);
+            margin =  shadowMarginLeft + shadowMarginRight;
         }
         roundedLayout.setRadius(radius);
     }
@@ -173,12 +163,12 @@ public class SegmentedButtonGroup extends LinearLayout {
         super.dispatchDraw(canvas);
 
         if (!isInEditMode() && sizeChanged) {
-            updateMovingViews();
+            updateViews();
             sizeChanged = false;
         }
     }
 
-    private void updateMovingViews() {
+    private void updateViews() {
         mainGroup.setBackgroundColor(backgroundColor);
         leftGroup.setImageBitmap(getViewBitmap(mainGroup));
 
@@ -220,7 +210,7 @@ public class SegmentedButtonGroup extends LinearLayout {
 
     private ArrayList<ButtonAttribute> buttonAttributes = new ArrayList<>();
 
-    private void toggleSegmentedButton(int position, int duration) {
+    private void setPosition(int position, int duration) {
         int leftWidth = (int) (buttonWidth * (position));
         int rightWidth = (int) (buttonWidth * (position + 1));
         AnimationCollapse.expand(leftGroup, interpolatorSelector, duration, Math.max(0, leftWidth));
@@ -254,8 +244,8 @@ public class SegmentedButtonGroup extends LinearLayout {
     }
 
 
-    ArrayList<View> rippleViews = new ArrayList<>();
-    ArrayList<View> dividerViews = new ArrayList<>();
+    private ArrayList<View> rippleViews = new ArrayList<>();
+    private ArrayList<View> dividerViews = new ArrayList<>();
 
     private void initRippleViews(final int pos) {
         // Ripple Views
@@ -266,7 +256,7 @@ public class SegmentedButtonGroup extends LinearLayout {
         view.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                toggleSegmentedButton(pos, animateSelectorDuration);
+                setPosition(pos, animateSelectorDuration);
             }
         });
         rippleViews.add(view);
@@ -281,9 +271,9 @@ public class SegmentedButtonGroup extends LinearLayout {
             return;
         // Divider Views
         dividerContainer.setShowDividers(SHOW_DIVIDER_MIDDLE);
-        RoundHelper.makeDividerRound(dividerContainer, dividerColor, (int) dividerRadius, dividerSize);
+        RoundHelper.makeDividerRound(dividerContainer, dividerColor, dividerRadius, dividerSize);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            dividerContainer.setDividerPadding((int) dividerPadding);
+            dividerContainer.setDividerPadding(dividerPadding);
         }
 
         View dividerView = new View(getContext());
@@ -295,18 +285,19 @@ public class SegmentedButtonGroup extends LinearLayout {
 
 
     private void setContainerAttrs() {
-        RoundHelper.makeDividerRound(mainGroup, dividerColor, (int) dividerRadius, dividerSize);
+        RoundHelper.makeDividerRound(mainGroup, dividerColor, dividerRadius, dividerSize);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            mainGroup.setDividerPadding((int) dividerPadding);
+            mainGroup.setDividerPadding(dividerPadding);
         }
         if (isInEditMode())
             mainGroup.setBackgroundColor(backgroundColor);
     }
 
-    ArrayList<Button> buttons = new ArrayList<>();
+    private ArrayList<Button> buttons = new ArrayList<>();
 
-    private int selectorColor, animateSelector, animateSelectorDuration, position, backgroundColor, dividerColor, selectorImageTint, selectorTextColor, dividerSize, rippleColor;
-    private float shadowElevation, shadowMargin, shadowMarginTop, shadowMarginBottom, shadowMarginLeft, shadowMarginRight, radius, dividerPadding, dividerRadius;
+    private int selectorColor, animateSelector, animateSelectorDuration, position, backgroundColor, dividerColor, selectorImageTint, selectorTextColor, dividerSize
+            , rippleColor, dividerPadding, dividerRadius, shadowMargin, shadowMarginTop, shadowMarginBottom, shadowMarginLeft, shadowMarginRight;
+    private float shadowElevation, radius;
     private boolean shadow, ripple, hasRippleColor, hasDivider;
 
     /**
@@ -318,8 +309,8 @@ public class SegmentedButtonGroup extends LinearLayout {
         hasDivider = typedArray.hasValue(R.styleable.SegmentedButtonGroup_sbg_dividerSize);
         dividerSize = (int) typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_dividerSize, 0);
         dividerColor = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_dividerColor, Color.WHITE);
-        dividerPadding = typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_dividerPadding, 0);
-        dividerRadius = typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_dividerRadius, 0);
+        dividerPadding = (int) typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_dividerPadding, 0);
+        dividerRadius = (int) typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_dividerRadius, 0);
 
         selectorTextColor = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_selectorTextColor, Color.GRAY);
         selectorImageTint = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_selectorImageTint, Color.GRAY);
@@ -329,11 +320,11 @@ public class SegmentedButtonGroup extends LinearLayout {
 
         shadow = typedArray.getBoolean(R.styleable.SegmentedButtonGroup_sbg_shadow, false);
         shadowElevation = typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_shadowElevation, 0);
-        shadowMargin = typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_shadowMargin, -1);
-        shadowMarginTop = typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_shadowMarginTop, 0);
-        shadowMarginBottom = typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_shadowMarginBottom, 0);
-        shadowMarginLeft = typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_shadowMarginLeft, 0);
-        shadowMarginRight = typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_shadowMarginRight, 0);
+        shadowMargin = (int) typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_shadowMargin, -1);
+        shadowMarginTop = (int) typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_shadowMarginTop, 0);
+        shadowMarginBottom = (int) typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_shadowMarginBottom, 0);
+        shadowMarginLeft = (int) typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_shadowMarginLeft, 0);
+        shadowMarginRight = (int) typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_shadowMarginRight, 0);
 
         radius = typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_radius, 0);
         position = typedArray.getInt(R.styleable.SegmentedButtonGroup_sbg_position, 0);
@@ -346,9 +337,7 @@ public class SegmentedButtonGroup extends LinearLayout {
         typedArray.recycle();
     }
 
-    float buttonWidth = 0;
-
-
+    private float buttonWidth = 0;
     private Interpolator interpolatorSelector;
 
     private void initInterpolations() {
@@ -385,7 +374,6 @@ public class SegmentedButtonGroup extends LinearLayout {
         void onClickedButtonPosition(int position);
     }
 
-
     /**
      * Draw the view into a bitmap.
      */
@@ -411,5 +399,204 @@ public class SegmentedButtonGroup extends LinearLayout {
         //Now that the view is laid out and we have a canvas, ask the view to draw itself into the canvas
         view.draw(c);
         return b;
+    }
+
+
+    public int getSelectorColor() {
+        return selectorColor;
+    }
+
+    public void setSelectorColor(int selectorColor) {
+        this.selectorColor = selectorColor;
+    }
+
+    public int getSelectorAnimation() {
+        return animateSelector;
+    }
+
+    public void setSelectorAnimation(int animateSelector) {
+        this.animateSelector = animateSelector;
+    }
+
+    public int getSelectorAnimationDuration() {
+        return animateSelectorDuration;
+    }
+
+    public void setSelectorAnimationDuration(int animateSelectorDuration) {
+        this.animateSelectorDuration = animateSelectorDuration;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public int getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    @Override
+    public void setBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    public int getDividerColor() {
+        return dividerColor;
+    }
+
+    public void setDividerColor(int dividerColor) {
+        this.dividerColor = dividerColor;
+    }
+
+    public int getSelectorImageTint() {
+        return selectorImageTint;
+    }
+
+    public void setSelectorImageTint(int selectorImageTint) {
+        this.selectorImageTint = selectorImageTint;
+    }
+
+    public int getSelectorTextColor() {
+        return selectorTextColor;
+    }
+
+    public void setSelectorTextColor(int selectorTextColor) {
+        this.selectorTextColor = selectorTextColor;
+    }
+
+    public int getDividerSize() {
+        return dividerSize;
+    }
+
+    public void setDividerSize(int dividerSize) {
+        this.dividerSize = dividerSize;
+    }
+
+    public int getRippleColor() {
+        return rippleColor;
+    }
+
+    public void setRippleColor(int rippleColor) {
+        this.rippleColor = rippleColor;
+    }
+
+    public float getShadowElevation() {
+        return shadowElevation;
+    }
+
+    public void setShadowElevation(float shadowElevation) {
+        this.shadowElevation = shadowElevation;
+    }
+
+    public float getShadowMargin() {
+        return shadowMargin;
+    }
+
+    public void setShadowMargin(int shadowMargin) {
+        this.shadowMargin = shadowMargin;
+    }
+
+    public float getShadowMarginTop() {
+        return shadowMarginTop;
+    }
+
+    public void setShadowMarginTop(int shadowMarginTop) {
+        this.shadowMarginTop = shadowMarginTop;
+    }
+
+    public float getShadowMarginBottom() {
+        return shadowMarginBottom;
+    }
+
+    public void setShadowMarginBottom(int shadowMarginBottom) {
+        this.shadowMarginBottom = shadowMarginBottom;
+    }
+
+    public float getShadowMarginLeft() {
+        return shadowMarginLeft;
+    }
+
+    public void setShadowMarginLeft(int shadowMarginLeft) {
+        this.shadowMarginLeft = shadowMarginLeft;
+    }
+
+    public float getShadowMarginRight() {
+        return shadowMarginRight;
+    }
+
+    public void setShadowMarginRight(int shadowMarginRight) {
+        this.shadowMarginRight = shadowMarginRight;
+    }
+
+    public float getRadius() {
+        return radius;
+    }
+
+    public void setRadius(float radius) {
+        this.radius = radius;
+    }
+
+    @Override
+    public int getDividerPadding() {
+        return dividerPadding;
+    }
+
+    public void setDividerPadding(int dividerPadding) {
+        this.dividerPadding = dividerPadding;
+    }
+
+    public float getDividerRadius() {
+        return dividerRadius;
+    }
+
+    public void setDividerRadius(int dividerRadius) {
+        this.dividerRadius = dividerRadius;
+    }
+
+    public boolean isShadow() {
+        return shadow;
+    }
+
+    public void setShadow(boolean shadow) {
+        this.shadow = shadow;
+    }
+
+    public boolean isHasDivider() {
+        return hasDivider;
+    }
+
+    public void setHasDivider(boolean hasDivider) {
+        this.hasDivider = hasDivider;
+    }
+
+    public boolean isHasRippleColor() {
+        return hasRippleColor;
+    }
+
+    public void setHasRippleColor(boolean hasRippleColor) {
+        this.hasRippleColor = hasRippleColor;
+    }
+
+    public boolean isRipple() {
+        return ripple;
+    }
+
+    public void setRipple(boolean ripple) {
+        this.ripple = ripple;
+    }
+
+    public Interpolator getInterpolatorSelector() {
+        return interpolatorSelector;
+    }
+
+    public void setInterpolatorSelector(Interpolator interpolatorSelector) {
+        this.interpolatorSelector = interpolatorSelector;
+    }
+
+    public int getMargin() {
+        return margin;
+    }
+
+    public void setMargin(int margin) {
+        this.margin = margin;
     }
 }
