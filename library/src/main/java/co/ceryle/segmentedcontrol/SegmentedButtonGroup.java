@@ -256,7 +256,6 @@ public class SegmentedButtonGroup extends LinearLayout {
         }
     }
 
-
     private ArrayList<View> rippleViews = new ArrayList<>();
     private ArrayList<View> dividerViews = new ArrayList<>();
 
@@ -284,7 +283,6 @@ public class SegmentedButtonGroup extends LinearLayout {
                     RippleHelper.setRipple(view, ((SegmentedButton) button).getRippleColor());
             }
         }
-
 
         if (!hasDivider)
             return;

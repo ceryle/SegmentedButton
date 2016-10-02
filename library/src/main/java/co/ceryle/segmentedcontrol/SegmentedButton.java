@@ -129,7 +129,6 @@ public class SegmentedButton extends Button {
         calcDrawablePosition();
     }
 
-
     // Pre-allocate objects for layout measuring
     private Rect textBounds = new Rect();
     private Rect drawableBounds = new Rect();

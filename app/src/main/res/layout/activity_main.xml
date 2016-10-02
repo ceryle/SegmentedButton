@@ -13,21 +13,15 @@
 
         app:sbg_animateSelector="bounce"
         app:sbg_animateSelectorDuration="1000"
-
         app:sbg_backgroundColor="@color/white"
-
         app:sbg_dividerColor="@color/grey_500"
         app:sbg_dividerPadding="10dp"
         app:sbg_dividerRadius="10dp"
         app:sbg_dividerSize="1dp"
-
         app:sbg_position="1"
-
         app:sbg_radius="2dp"
-
         app:sbg_ripple="true"
         app:sbg_rippleColor="@color/grey_500"
-
         app:sbg_selectorColor="@color/grey_500"
         app:sbg_selectorTextColor="@color/white"
         app:sbg_shadow="true"
@@ -138,11 +132,9 @@
 
             app:sbg_dividerColor="@color/black"
             app:sbg_dividerPadding="0dp"
-
             app:sbg_dividerSize="1dp"
             app:sbg_position="0"
             app:sbg_radius="28dp"
-
             app:sbg_rippleColor="@color/blue_300"
             app:sbg_selectorColor="@color/yellow_600"
             app:sbg_selectorImageTint="@color/black"
@@ -178,11 +170,9 @@
 
             app:sbg_dividerColor="@color/yellow_600"
             app:sbg_dividerPadding="0dp"
-
             app:sbg_dividerSize="1dp"
             app:sbg_position="0"
             app:sbg_radius="28dp"
-
             app:sbg_rippleColor="@color/black"
             app:sbg_selectorColor="@color/DarkRed"
             app:sbg_shadow="true"
