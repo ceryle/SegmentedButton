@@ -91,11 +91,23 @@
             android:drawableLeft="@drawable/b4"
             android:drawablePadding="4dp"
             android:padding="4dp"
-            android:text="Bruce"
+            android:text="Batman"
             android:textColor="@color/black"
             app:sb_imageScale="0.4"
-            app:sb_selectedImageTint="@color/red_500"
-            app:sb_selectedTextColor="@color/red_500"/>
+            app:sb_selectedImageTint="@color/grey_500"
+            app:sb_selectedTextColor="@color/yellow_500" />
+
+        <co.ceryle.segmentedcontrol.SegmentedButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="4dp"
+            android:drawableLeft="@drawable/b5"
+            android:padding="4dp"
+            android:text="Diana"
+            android:textColor="@color/black"
+            app:sb_imageScale="0.4"
+            app:sb_selectedImageTint="@color/yellow_500"
+            app:sb_selectedTextColor="@color/red_500" />
 
         <co.ceryle.segmentedcontrol.SegmentedButton
             android:layout_width="wrap_content"
@@ -106,20 +118,9 @@
             android:text="Clark"
             android:textColor="@color/black"
             app:sb_imageScale="0.4"
-            app:sb_selectedTextColor="@color/green_500"
-            app:sb_selectedImageTint="@color/green_500" />
+            app:sb_selectedImageTint="@color/blue_500"
+            app:sb_selectedTextColor="@color/red_500" />
 
-        <co.ceryle.segmentedcontrol.SegmentedButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/b5"
-            android:drawablePadding="4dp"
-            android:padding="4dp"
-            android:text="Diana"
-            android:textColor="@color/black"
-            app:sb_imageScale="0.4"
-            app:sb_selectedTextColor="@color/blue_500"
-            app:sb_selectedImageTint="@color/blue_500" />
 
     </co.ceryle.segmentedcontrol.SegmentedButtonGroup>
 
