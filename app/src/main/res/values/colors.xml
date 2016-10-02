@@ -1,75 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="chat_user_reply_background_color">#c8f0ff</color>
-    <color name="chat_company_reply_background_color">#F5F5F5</color>
-    <color name="transparent">@android:color/transparent</color>
-    <color name="background_tab_pressed">#6633B5E5</color>
-
-    <color name="color_tab_1">#388E3C</color>
-    <color name="color_tab_2">#FFA726</color>
-    <color name="color_tab_3">#7B1FA2</color>
-    <color name="color_tab_4">#FF5252</color>
-    <color name="color_tab_5">#2196F3</color>
-
-
-    <color name="color_tab_4_ripple2">#ff6161</color>
-    <color name="color_tab_4_ripple">#ff9090</color>
-
-    <array name="tab_colors">
-        <item name="tab_1">color_tab_1</item>
-        <item name="tab_2">color_tab_2</item>
-        <item name="tab_3">color_tab_3</item>
-        <item name="tab_4">color_tab_4</item>
-        <item name="tab_5">color_tab_5</item>
-    </array>
-
-    <color name="feed_bg">#d3d6db</color>
-    <color name="feed_item_bg">#ffffff</color>
-    <color name="feed_item_border">#c2c3c8</color>
-    <color name="link">#0a80d1</color>
-    <color name="timestamp">#a0a3a7</color>
-
-
-
-    <color name="outerFrame">#0331AD</color>
-    <color name="innerFrame">#274CAA</color>
-
-    <color name="itemHeaderLeft">#4195D2</color>
-    <color name="itemHeaderRight">#FF0004</color>
-
-
-    <color name="colorPrimary">#FF9800</color>
-    <color name="colorPrimaryDark">#F57C00</color>
-    <color name="colorAccent">#FFCC80</color>
-
-    <color name="colorBright">#cacbd1</color>
-
-    <color name="backgroundBlue">#00007B</color>
-    <color name="buttonWhite">#FFFFFF</color>
-
-    <color name="textColorPrimary">#FFFFFF</color>
-    <color name="windowBackground">#FFFFFF</color>
-    <color name="navigationBarColor">#4B0082</color>
-
-    <!-- DressMe v1 colors -->
-    <color name="IndigoMain">#4B0082</color>
-    <color name="IndigoBrighter">#5D198E</color>
-    <color name="IndigoBrighterPlus">#6D3099</color>
-    <color name="IndigoBrighterPlusPlus">#6D3099</color>
-    <color name="IndigoLogin">#EDD5FF</color>
-    <color name="IndigoBrighterHint">#ffc0a0c4</color>
-    <!-- DressMe v1 colors -->
-
-    <!-- ArtEvent v2 colors -->
-    <!-- Amber -->
-    <!-- Amber -->
-
-    <!-- Orange -->
-    <!-- Orange -->
-    <!-- ArtEvent v2 colors -->
-
-
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
 
     <!-- Material Design - Color Palette -->
     <!-- Date: 1/15/2015 -->

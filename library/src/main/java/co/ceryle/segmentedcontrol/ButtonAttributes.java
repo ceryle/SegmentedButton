@@ -5,9 +5,9 @@ package co.ceryle.segmentedcontrol;
  */
 
 public class ButtonAttributes {
-    private int tintColor, textColor;
+    private int tintColor, textColor, rippleColor;
 
-    private boolean hasTintColor ,hasTextColor;
+    private boolean hasTintColor, hasTextColor, hasRippleColor;
 
     public int getTintColor() {
         return tintColor;
@@ -39,5 +39,21 @@ public class ButtonAttributes {
 
     public void setTextColor(boolean hasTextColor) {
         this.hasTextColor = hasTextColor;
+    }
+
+    public boolean hasRippleColor() {
+        return hasRippleColor;
+    }
+
+    public void setRippleColor(boolean hasRippleColor) {
+        this.hasRippleColor = hasRippleColor;
+    }
+
+    public int getRippleColor() {
+        return rippleColor;
+    }
+
+    public void setRippleColor(int rippleColor) {
+        this.rippleColor = rippleColor;
     }
 }

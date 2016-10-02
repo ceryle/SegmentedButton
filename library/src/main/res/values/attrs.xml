@@ -5,6 +5,7 @@
         <attr name="sb_imageScale" format="float"/>
         <attr name="sb_selectedImageTint" format="color"/>
         <attr name="sb_selectedTextColor" format="color"/>
+        <attr name="sb_rippleColor" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="SegmentedButtonGroup">

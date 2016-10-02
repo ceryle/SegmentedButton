@@ -278,6 +278,12 @@ public class SegmentedButtonGroup extends LinearLayout {
             RippleHelper.setRipple(view, rippleColor);
         else if (ripple)
             RippleHelper.setSelectableItemBackground(getContext(), view);
+        else {
+            for (Button button : buttons) {
+                if (button instanceof SegmentedButton && ((SegmentedButton) button).hasRippleColor())
+                    RippleHelper.setRipple(view, ((SegmentedButton) button).getRippleColor());
+            }
+        }
 
 
         if (!hasDivider)

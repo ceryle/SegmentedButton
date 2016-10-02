@@ -77,8 +77,8 @@ public class SegmentedButton extends Button {
         return hasSelectedImageTint;
     }
 
-    private int imageTint, selectedImageTint, selectedTextColor;
-    private boolean hasButtonImageTint, hasSelectedImageTint, hasSelectedTextColor;
+    private int imageTint, selectedImageTint, selectedTextColor, rippleColor;
+    private boolean hasButtonImageTint, hasSelectedImageTint, hasSelectedTextColor, hasRippleColor;
     private float buttonImageScale;
 
     private void getAttributes(AttributeSet attrs) {
@@ -92,9 +92,18 @@ public class SegmentedButton extends Button {
 
         selectedTextColor = typedArray.getColor(R.styleable.SegmentedButton_sb_selectedTextColor, 0);
         hasSelectedTextColor = typedArray.hasValue(R.styleable.SegmentedButton_sb_selectedTextColor);
+
+        rippleColor = typedArray.getColor(R.styleable.SegmentedButton_sb_rippleColor, 0);
+        hasRippleColor = typedArray.hasValue(R.styleable.SegmentedButton_sb_rippleColor);
         typedArray.recycle();
     }
 
+    public int getRippleColor(){
+        return rippleColor;
+    }
+    public boolean hasRippleColor(){
+        return hasRippleColor;
+    }
     public int getSelectedTextColor() {
         return selectedTextColor;
     }
