@@ -169,23 +169,17 @@ public class SegmentedButtonGroup extends LinearLayout {
     }
 
 
-
-
-
-
-
     public void updateViews() {
         mainGroup.setBackgroundColor(backgroundColor);
         leftGroup.setImageBitmap(getViewBitmap(mainGroup));
 
-        for (int i = 0; i < buttons.size(); i++) {
-            Button button = buttons.get(i);
+        for (Button button : buttons) {
 
             ButtonAttributes btnAttr = new ButtonAttributes();
             btnAttr.setTextColor(button.getCurrentTextColor());
             button.setTextColor(selectorTextColor);
 
-            if (button instanceof SegmentedButton ){
+            if (button instanceof SegmentedButton) {
                 SegmentedButton sButton = (SegmentedButton) button;
 
                 // save
@@ -193,12 +187,12 @@ public class SegmentedButtonGroup extends LinearLayout {
                 btnAttr.setTintColor(sButton.hasImageTint());
 
                 // change
-                if(hasSelectorImageTint)
+                if (hasSelectorImageTint)
                     sButton.setImageTint(selectorImageTint); // group
-                else if(sButton.hasSelectorTint())
+                else if (sButton.hasSelectorTint())
                     sButton.setImageTint(sButton.getSelectedImageTint()); // personal
 
-                if(sButton.hasSelectedTextColor())
+                if (sButton.hasSelectedTextColor())
                     sButton.setTextColor(sButton.getSelectedTextColor());
             }
             buttonAttributes.add(btnAttr);
@@ -214,10 +208,10 @@ public class SegmentedButtonGroup extends LinearLayout {
 
             button.setTextColor(attr.getTextColor());
 
-            if (button instanceof SegmentedButton){
+            if (button instanceof SegmentedButton) {
                 SegmentedButton sButton = (SegmentedButton) button;
 
-                if(buttonAttributes.get(i).hasTintColor())
+                if (buttonAttributes.get(i).hasTintColor())
                     sButton.setImageTint(buttonAttributes.get(i).getTintColor());
                 else
                     sButton.removeImageTint();
