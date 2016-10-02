@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="SegmentedButton">
-        <attr name="buttonImageTint" format="color"/>
-        <attr name="buttonImageScale" format="float"/>
+        <attr name="sb_imageTint" format="color"/>
+        <attr name="sb_imageScale" format="float"/>
+        <attr name="sb_selectedImageTint" format="color"/>
+        <attr name="sb_selectedTextColor" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="SegmentedButtonGroup">

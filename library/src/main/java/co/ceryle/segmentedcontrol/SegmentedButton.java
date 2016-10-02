@@ -18,18 +18,15 @@ package co.ceryle.segmentedcontrol;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ScaleDrawable;
 import android.os.Build;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.Button;
 
 import com.ceryle.segmentedcontrol.R;
@@ -64,7 +61,7 @@ public class SegmentedButton extends Button {
         getAttributes(attrs);
 
         if (hasButtonImageTint)
-            setImageTint(buttonImageTint);
+            setImageTint(imageTint);
 
         if (buttonImageScale != 1)
             scaleButtonDrawables(buttonImageScale);
@@ -72,24 +69,29 @@ public class SegmentedButton extends Button {
         setTransformationMethod(null);
     }
 
-    public int getImageTint() {
-        return buttonImageTint;
-    }
-
     public boolean hasImageTint() {
         return hasButtonImageTint;
     }
 
+    public boolean hasSelectorTint() {
+        return hasSelectedImageTint;
+    }
 
-    private int buttonImageTint;
-    private boolean hasButtonImageTint;
+    private int imageTint, selectedImageTint, selectedTextColor;
+    private boolean hasButtonImageTint, hasSelectedImageTint, hasSelectedTextColor;
     private float buttonImageScale;
 
     private void getAttributes(AttributeSet attrs) {
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.SegmentedButton);
-        buttonImageTint = typedArray.getColor(R.styleable.SegmentedButton_buttonImageTint, 0);
-        hasButtonImageTint = typedArray.hasValue(R.styleable.SegmentedButton_buttonImageTint);
-        buttonImageScale = typedArray.getFloat(R.styleable.SegmentedButton_buttonImageScale, 1);
+        imageTint = typedArray.getColor(R.styleable.SegmentedButton_sb_imageTint, -1);
+        hasButtonImageTint = typedArray.hasValue(R.styleable.SegmentedButton_sb_imageTint);
+        buttonImageScale = typedArray.getFloat(R.styleable.SegmentedButton_sb_imageScale, 1);
+
+        selectedImageTint = typedArray.getColor(R.styleable.SegmentedButton_sb_selectedImageTint, 0);
+        hasSelectedImageTint = typedArray.hasValue(R.styleable.SegmentedButton_sb_selectedImageTint);
+
+        selectedTextColor = typedArray.getColor(R.styleable.SegmentedButton_sb_selectedTextColor, 0);
+        hasSelectedTextColor = typedArray.hasValue(R.styleable.SegmentedButton_sb_selectedTextColor);
         typedArray.recycle();
     }
 
@@ -174,6 +176,14 @@ public class SegmentedButton extends Button {
         }
     }
 
+    public void removeImageTint() {
+        for (int i = 0; i < getCompoundDrawables().length; i++) {
+            if (getCompoundDrawables()[i] != null) {
+                getCompoundDrawables()[i].clearColorFilter();
+            }
+        }
+    }
+
     public void setImageTint(int color) {
         int pos = 0;
         Drawable drawable = null;
@@ -201,9 +211,12 @@ public class SegmentedButton extends Button {
         }
     }
 
+    public int getSelectedImageTint() {
+        return selectedImageTint;
+    }
 
-    public int getButtonImageTint() {
-        return buttonImageTint;
+    public int getImageTint() {
+        return imageTint;
     }
 
 
@@ -226,8 +239,8 @@ public class SegmentedButton extends Button {
         this.buttonImageScale = buttonImageScale;
     }
 
-    public void setButtonImageTint(int buttonImageTint) {
-        this.buttonImageTint = buttonImageTint;
+    public void setButtonImageTint(int imageTint) {
+        this.imageTint = imageTint;
     }
     */
 }

@@ -168,47 +168,58 @@ public class SegmentedButtonGroup extends LinearLayout {
         }
     }
 
+
+
+
+
+
+
     public void updateViews() {
         mainGroup.setBackgroundColor(backgroundColor);
         leftGroup.setImageBitmap(getViewBitmap(mainGroup));
 
         for (int i = 0; i < buttons.size(); i++) {
-            ButtonAttribute buttonAttribute = new ButtonAttribute();
-            buttonAttribute.setTextColor(buttons.get(i).getCurrentTextColor());
-            if (buttons.get(i) instanceof SegmentedButton)
-                buttonAttribute.setImageTintColor(((SegmentedButton) buttons.get(i)).getImageTint());
-            buttonAttributes.add(buttonAttribute);
+            Button button = buttons.get(i);
 
-            if (buttons.get(i) instanceof SegmentedButton && ((SegmentedButton) buttons.get(i)).hasImageTint())
-                ((SegmentedButton) buttons.get(i)).setImageTint(selectorImageTint);
-            buttons.get(i).setTextColor(selectorTextColor);
+            ButtonAttributes btnAttr = new ButtonAttributes();
+            btnAttr.setTextColor(button.getCurrentTextColor());
+
+            if (button instanceof SegmentedButton ){
+                SegmentedButton sButton = (SegmentedButton) button;
+
+                btnAttr.setTintColor(sButton.getImageTint());
+                btnAttr.setTintColor(sButton.hasImageTint());
+
+                if(hasSelectorImageTint)
+                    sButton.setImageTint(selectorImageTint); // group
+                else if(sButton.hasSelectorTint())
+                    sButton.setImageTint(sButton.getSelectedImageTint()); // personal
+            }
+            buttonAttributes.add(btnAttr);
+            button.setTextColor(selectorTextColor);
         }
 
         mainGroup.setBackgroundColor(selectorColor);
         rightGroup.setImageBitmap(getViewBitmap(mainGroup));
 
         for (int i = 0; i < buttons.size(); i++) {
-            buttons.get(i).setTextColor(buttonAttributes.get(i).textColor);
+            Button button = buttons.get(i);
 
-            if (buttons.get(i) instanceof SegmentedButton && ((SegmentedButton) buttons.get(i)).hasImageTint())
-                ((SegmentedButton) buttons.get(i)).setImageTint(buttonAttributes.get(i).imageTintColor);
+            button.setTextColor(buttonAttributes.get(i).getTextColor());
+
+            if (button instanceof SegmentedButton){
+                SegmentedButton sButton = (SegmentedButton) button;
+
+                if(buttonAttributes.get(i).hasTintColor())
+                    sButton.setImageTint(buttonAttributes.get(i).getTintColor());
+                else
+                    sButton.removeImageTint();
+            }
         }
         mainGroup.setBackgroundColor(backgroundColor);
     }
 
-    private class ButtonAttribute {
-        int imageTintColor, textColor;
-
-        public void setImageTintColor(int imageTintColor) {
-            this.imageTintColor = imageTintColor;
-        }
-
-        public void setTextColor(int textColor) {
-            this.textColor = textColor;
-        }
-    }
-
-    private ArrayList<ButtonAttribute> buttonAttributes = new ArrayList<>();
+    private ArrayList<ButtonAttributes> buttonAttributes = new ArrayList<>();
 
 
     private void toggle(int position, int duration) {
@@ -298,7 +309,7 @@ public class SegmentedButtonGroup extends LinearLayout {
 
     private int selectorColor, animateSelector, animateSelectorDuration, position, backgroundColor, dividerColor, selectorImageTint, selectorTextColor, dividerSize, rippleColor, dividerPadding, dividerRadius, shadowMargin, shadowMarginTop, shadowMarginBottom, shadowMarginLeft, shadowMarginRight;
     private float shadowElevation, radius;
-    private boolean shadow, ripple, hasRippleColor, hasDivider;
+    private boolean shadow, ripple, hasRippleColor, hasDivider, hasSelectorImageTint;
 
     /**
      * Custom attributes
@@ -314,6 +325,7 @@ public class SegmentedButtonGroup extends LinearLayout {
 
         selectorTextColor = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_selectorTextColor, Color.GRAY);
         selectorImageTint = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_selectorImageTint, Color.GRAY);
+        hasSelectorImageTint = typedArray.hasValue(R.styleable.SegmentedButtonGroup_sbg_selectorImageTint);
         selectorColor = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_selectorColor, Color.GRAY);
         animateSelector = typedArray.getInt(R.styleable.SegmentedButtonGroup_sbg_animateSelector, 0);
         animateSelectorDuration = typedArray.getInt(R.styleable.SegmentedButtonGroup_sbg_animateSelectorDuration, 500);
