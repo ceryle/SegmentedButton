@@ -94,8 +94,8 @@
             android:text="Bruce"
             android:textColor="@color/black"
             app:sb_imageScale="0.4"
-            app:sb_selectedImageTint="@color/red"
-            app:sb_selectedTextColor="@color/red"/>
+            app:sb_selectedImageTint="@color/red_500"
+            app:sb_selectedTextColor="@color/red_500"/>
 
         <co.ceryle.segmentedcontrol.SegmentedButton
             android:layout_width="wrap_content"
@@ -106,7 +106,8 @@
             android:text="Clark"
             android:textColor="@color/black"
             app:sb_imageScale="0.4"
-            app:sb_selectedImageTint="@color/green" />
+            app:sb_selectedTextColor="@color/green_500"
+            app:sb_selectedImageTint="@color/green_500" />
 
         <co.ceryle.segmentedcontrol.SegmentedButton
             android:layout_width="wrap_content"
@@ -117,7 +118,8 @@
             android:text="Diana"
             android:textColor="@color/black"
             app:sb_imageScale="0.4"
-            app:sb_selectedImageTint="@color/blue" />
+            app:sb_selectedTextColor="@color/blue_500"
+            app:sb_selectedImageTint="@color/blue_500" />
 
     </co.ceryle.segmentedcontrol.SegmentedButtonGroup>
 

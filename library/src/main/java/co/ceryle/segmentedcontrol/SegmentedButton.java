@@ -95,6 +95,22 @@ public class SegmentedButton extends Button {
         typedArray.recycle();
     }
 
+    public int getSelectedTextColor() {
+        return selectedTextColor;
+    }
+
+    public void setSelectedTextColor(int selectedTextColor) {
+        this.selectedTextColor = selectedTextColor;
+    }
+
+    public boolean hasSelectedTextColor() {
+        return hasSelectedTextColor;
+    }
+
+    public void setHasSelectedTextColor(boolean hasSelectedTextColor) {
+        this.hasSelectedTextColor = hasSelectedTextColor;
+    }
+
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);

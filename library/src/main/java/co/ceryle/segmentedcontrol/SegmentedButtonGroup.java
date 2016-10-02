@@ -183,29 +183,36 @@ public class SegmentedButtonGroup extends LinearLayout {
 
             ButtonAttributes btnAttr = new ButtonAttributes();
             btnAttr.setTextColor(button.getCurrentTextColor());
+            button.setTextColor(selectorTextColor);
 
             if (button instanceof SegmentedButton ){
                 SegmentedButton sButton = (SegmentedButton) button;
 
+                // save
                 btnAttr.setTintColor(sButton.getImageTint());
                 btnAttr.setTintColor(sButton.hasImageTint());
 
+                // change
                 if(hasSelectorImageTint)
                     sButton.setImageTint(selectorImageTint); // group
                 else if(sButton.hasSelectorTint())
                     sButton.setImageTint(sButton.getSelectedImageTint()); // personal
+
+                if(sButton.hasSelectedTextColor())
+                    sButton.setTextColor(sButton.getSelectedTextColor());
             }
             buttonAttributes.add(btnAttr);
-            button.setTextColor(selectorTextColor);
         }
 
         mainGroup.setBackgroundColor(selectorColor);
         rightGroup.setImageBitmap(getViewBitmap(mainGroup));
 
+        // set back
         for (int i = 0; i < buttons.size(); i++) {
             Button button = buttons.get(i);
+            ButtonAttributes attr = buttonAttributes.get(i);
 
-            button.setTextColor(buttonAttributes.get(i).getTextColor());
+            button.setTextColor(attr.getTextColor());
 
             if (button instanceof SegmentedButton){
                 SegmentedButton sButton = (SegmentedButton) button;
