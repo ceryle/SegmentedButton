@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package co.ceryle.segmentedcontrol;
+package co.ceryle.segmentedbutton;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -44,13 +44,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.ceryle.segmentedcontrol.R;
+import com.ceryle.segmentedbutton.R;
 
 import java.util.ArrayList;
 
-import co.ceryle.segmentedcontrol.util.AnimationCollapse;
-import co.ceryle.segmentedcontrol.util.RippleHelper;
-import co.ceryle.segmentedcontrol.util.RoundHelper;
+import co.ceryle.segmentedbutton.util.AnimationCollapse;
+import co.ceryle.segmentedbutton.util.RippleHelper;
+import co.ceryle.segmentedbutton.util.RoundHelper;
 
 /**
  * Created by EGE on 20.8.2016.

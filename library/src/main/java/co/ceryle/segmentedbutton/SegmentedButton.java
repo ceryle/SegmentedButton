@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package co.ceryle.segmentedcontrol;
+package co.ceryle.segmentedbutton;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -29,7 +29,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.Button;
 
-import com.ceryle.segmentedcontrol.R;
+import com.ceryle.segmentedbutton.R;
 
 /**
  * Created by EGE on 07/09/2016.

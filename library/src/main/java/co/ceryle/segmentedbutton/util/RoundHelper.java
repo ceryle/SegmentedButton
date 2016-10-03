@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package co.ceryle.segmentedcontrol.util;
+package co.ceryle.segmentedbutton.util;
 
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;

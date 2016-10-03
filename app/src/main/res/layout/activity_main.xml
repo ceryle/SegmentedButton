@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
 
-    <co.ceryle.segmentedcontrol.SegmentedButtonGroup
+    <co.ceryle.segmentedbutton.SegmentedButtonGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -49,10 +49,10 @@
             android:text="Button 3"
             android:textAllCaps="false" />
 
-    </co.ceryle.segmentedcontrol.SegmentedButtonGroup>
+    </co.ceryle.segmentedbutton.SegmentedButtonGroup>
 
 
-    <co.ceryle.segmentedcontrol.SegmentedButtonGroup
+    <co.ceryle.segmentedbutton.SegmentedButtonGroup
         android:id="@+id/segmentedButtonGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,23 +60,19 @@
 
         app:sbg_animateSelector="bounce"
         app:sbg_animateSelectorDuration="1000"
-
         app:sbg_backgroundColor="@color/white"
-
         app:sbg_dividerColor="@color/black"
         app:sbg_dividerPadding="10dp"
         app:sbg_dividerRadius="10dp"
         app:sbg_dividerSize="1dp"
-
         app:sbg_radius="2dp"
-
-        app:sbg_selectorColor="@color/light_green_500"
+        app:sbg_selectorColor="@color/black"
         app:sbg_selectorTextColor="@color/white"
         app:sbg_shadow="true"
         app:sbg_shadowElevation="3dp"
         app:sbg_shadowMargin="4dp">
 
-        <co.ceryle.segmentedcontrol.SegmentedButton
+        <co.ceryle.segmentedbutton.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/b4"
@@ -89,7 +85,7 @@
             app:sb_selectedImageTint="@color/grey_500"
             app:sb_selectedTextColor="@color/yellow_500" />
 
-        <co.ceryle.segmentedcontrol.SegmentedButton
+        <co.ceryle.segmentedbutton.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/b5"
@@ -102,7 +98,7 @@
             app:sb_selectedImageTint="@color/yellow_500"
             app:sb_selectedTextColor="@color/red_500" />
 
-        <co.ceryle.segmentedcontrol.SegmentedButton
+        <co.ceryle.segmentedbutton.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/b3"
@@ -116,7 +112,7 @@
             app:sb_selectedTextColor="@color/red_500" />
 
 
-    </co.ceryle.segmentedcontrol.SegmentedButtonGroup>
+    </co.ceryle.segmentedbutton.SegmentedButtonGroup>
 
 
     <LinearLayout
@@ -124,7 +120,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <co.ceryle.segmentedcontrol.SegmentedButtonGroup
+        <co.ceryle.segmentedbutton.SegmentedButtonGroup
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
@@ -142,7 +138,7 @@
             app:sbg_shadowElevation="5dp"
             app:sbg_shadowMargin="6dp">
 
-            <co.ceryle.segmentedcontrol.SegmentedButton
+            <co.ceryle.segmentedbutton.SegmentedButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/b1"
@@ -151,7 +147,7 @@
                 app:sb_imageScale="0.4"
                 app:sb_imageTint="@color/yellow_600" />
 
-            <co.ceryle.segmentedcontrol.SegmentedButton
+            <co.ceryle.segmentedbutton.SegmentedButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/b2"
@@ -160,9 +156,9 @@
                 app:sb_imageScale="0.4"
                 app:sb_imageTint="@color/DarkRed" />
 
-        </co.ceryle.segmentedcontrol.SegmentedButtonGroup>
+        </co.ceryle.segmentedbutton.SegmentedButtonGroup>
 
-        <co.ceryle.segmentedcontrol.SegmentedButtonGroup
+        <co.ceryle.segmentedbutton.SegmentedButtonGroup
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
@@ -179,7 +175,7 @@
             app:sbg_shadowElevation="5dp"
             app:sbg_shadowMargin="6dp">
 
-            <co.ceryle.segmentedcontrol.SegmentedButton
+            <co.ceryle.segmentedbutton.SegmentedButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/b17"
@@ -187,7 +183,7 @@
                 android:padding="10dp"
                 app:sb_imageScale="0.4" />
 
-            <co.ceryle.segmentedcontrol.SegmentedButton
+            <co.ceryle.segmentedbutton.SegmentedButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/b6"
@@ -195,10 +191,10 @@
                 android:padding="10dp"
                 app:sb_imageScale="0.4" />
 
-        </co.ceryle.segmentedcontrol.SegmentedButtonGroup>
+        </co.ceryle.segmentedbutton.SegmentedButtonGroup>
     </LinearLayout>
 
-    <co.ceryle.segmentedcontrol.SegmentedButtonGroup
+    <co.ceryle.segmentedbutton.SegmentedButtonGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
@@ -219,35 +215,35 @@
         app:sbg_shadowElevation="5dp"
         app:sbg_shadowMargin="6dp">
 
-        <co.ceryle.segmentedcontrol.SegmentedButton
+        <co.ceryle.segmentedbutton.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/b9"
             android:padding="4dp"
             app:sb_imageScale="0.4" />
 
-        <co.ceryle.segmentedcontrol.SegmentedButton
+        <co.ceryle.segmentedbutton.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/b8"
             android:padding="4dp"
             app:sb_imageScale="0.4" />
 
-        <co.ceryle.segmentedcontrol.SegmentedButton
+        <co.ceryle.segmentedbutton.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/b11"
             android:padding="4dp"
             app:sb_imageScale="0.4" />
 
-        <co.ceryle.segmentedcontrol.SegmentedButton
+        <co.ceryle.segmentedbutton.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/b13"
             android:padding="4dp"
             app:sb_imageScale="0.4" />
 
-        <co.ceryle.segmentedcontrol.SegmentedButton
+        <co.ceryle.segmentedbutton.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/b12"
@@ -255,10 +251,10 @@
             app:sb_imageScale="0.4" />
 
 
-    </co.ceryle.segmentedcontrol.SegmentedButtonGroup>
+    </co.ceryle.segmentedbutton.SegmentedButtonGroup>
 
 
-    <co.ceryle.segmentedcontrol.SegmentedButtonGroup
+    <co.ceryle.segmentedbutton.SegmentedButtonGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
@@ -277,7 +273,7 @@
         app:sbg_shadowElevation="5dp"
         app:sbg_shadowMargin="6dp">
 
-        <co.ceryle.segmentedcontrol.SegmentedButton
+        <co.ceryle.segmentedbutton.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/b7"
@@ -285,7 +281,7 @@
             app:sb_imageScale="0.4"
             app:sb_imageTint="@color/white" />
 
-        <co.ceryle.segmentedcontrol.SegmentedButton
+        <co.ceryle.segmentedbutton.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/b7"
@@ -293,7 +289,7 @@
             app:sb_imageScale="0.4"
             app:sb_imageTint="@color/white" />
 
-        <co.ceryle.segmentedcontrol.SegmentedButton
+        <co.ceryle.segmentedbutton.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/b7"
@@ -301,7 +297,7 @@
             app:sb_imageScale="0.4"
             app:sb_imageTint="@color/white" />
 
-        <co.ceryle.segmentedcontrol.SegmentedButton
+        <co.ceryle.segmentedbutton.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/b7"
@@ -309,7 +305,7 @@
             app:sb_imageScale="0.4"
             app:sb_imageTint="@color/white" />
 
-        <co.ceryle.segmentedcontrol.SegmentedButton
+        <co.ceryle.segmentedbutton.SegmentedButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/b7"
@@ -317,5 +313,5 @@
             app:sb_imageScale="0.4"
             app:sb_imageTint="@color/white" />
 
-    </co.ceryle.segmentedcontrol.SegmentedButtonGroup>
+    </co.ceryle.segmentedbutton.SegmentedButtonGroup>
 </LinearLayout>
