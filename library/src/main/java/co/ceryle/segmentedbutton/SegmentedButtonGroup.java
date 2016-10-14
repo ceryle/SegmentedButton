@@ -107,7 +107,7 @@ public class SegmentedButtonGroup extends LinearLayout {
         leftBitmapParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         rightBitmapParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         borderParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        borderParams.setMargins(shadowMargin - borderSize, shadowMargin - borderSize, shadowMargin - borderSize, shadowMargin - borderSize);
+        borderParams.setMargins(margin - borderSize, margin - borderSize, margin - borderSize, margin - borderSize);
 
         if (borderSize > 0) {
             GradientDrawable gd = new GradientDrawable();
@@ -139,6 +139,13 @@ public class SegmentedButtonGroup extends LinearLayout {
             layoutParams.setMargins(shadowMarginLeft, shadowMarginTop, shadowMarginRight, shadowMarginBottom);
             margin = shadowMarginLeft + shadowMarginRight;
         }
+
+
+        if(margin < 1 && borderSize > 0){
+            layoutParams.setMargins(borderSize, borderSize, borderSize, borderSize);
+            margin = borderSize;
+        }
+
         roundedLayout.setRadius(radius);
     }
 
