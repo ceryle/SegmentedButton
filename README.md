@@ -73,6 +73,8 @@ dependencies {
 | app:sbg_backgroundColor			| `color`	         | Set background color of container |
 | app:sbg_animateSelectorDuration			| `integer`	         | Set how long selector travels to selected position |
 | app:sbg_animateSelector			| `integer`	         | Set selector animation (ex. bounce animation) |
+| app:sbg_borderSize			| `dimension`	         | Add border by giving dimension |
+| app:sbg_borderColor			| `color`	         | Change border color (Default: Grey) |
 
 #### Examples
 
