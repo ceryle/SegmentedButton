@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/border"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"/>
 
     <co.ceryle.segmentedbutton.RoundedCornerLayout
         android:id="@+id/ceryle_test_group_roundedCornerLayout"
@@ -10,11 +15,11 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:showDividers="middle"
             android:id="@+id/main_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"/>
+            android:orientation="horizontal"
+            android:showDividers="middle"/>
 
         <ImageView
             android:id="@+id/right_view"
@@ -29,20 +34,20 @@
             android:scaleType="matrix"/>
 
         <LinearLayout
-            android:focusable="true"
-            android:clickable="true"
-            android:orientation="horizontal"
             android:id="@+id/rippleContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="horizontal"/>
 
         <LinearLayout
-            android:focusable="false"
-            android:clickable="false"
-            android:orientation="horizontal"
             android:id="@+id/dividerContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:clickable="false"
+            android:focusable="false"
+            android:orientation="horizontal"/>
 
     </co.ceryle.segmentedbutton.RoundedCornerLayout>
-</LinearLayout>
+</RelativeLayout>

@@ -10,6 +10,9 @@
 
     <declare-styleable name="SegmentedButtonGroup">
 
+        <attr name="sbg_borderSize" format="dimension"/>
+        <attr name="sbg_borderColor" format="color"/>
+
         <attr name="sbg_ripple" format="boolean"/>
         <attr name="sbg_rippleColor" format="color"/>
 

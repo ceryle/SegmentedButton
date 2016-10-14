@@ -58,6 +58,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
 
+        app:sbg_borderSize="1dp"
+        app:sbg_borderColor="@color/black"
+
         app:sbg_animateSelector="bounce"
         app:sbg_animateSelectorDuration="1000"
         app:sbg_backgroundColor="@color/white"
@@ -125,7 +128,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_weight="1"
-
             app:sbg_dividerColor="@color/black"
             app:sbg_dividerPadding="0dp"
             app:sbg_dividerSize="1dp"
@@ -163,7 +165,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_weight="1"
-
             app:sbg_dividerColor="@color/yellow_600"
             app:sbg_dividerPadding="0dp"
             app:sbg_dividerSize="1dp"
