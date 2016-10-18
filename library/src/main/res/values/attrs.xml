@@ -10,6 +10,10 @@
 
     <declare-styleable name="SegmentedButtonGroup">
 
+
+        <attr name="sbg_selectorBackgroundDrawable" format="reference"/>
+        <attr name="sbg_backgroundDrawable" format="reference"/>
+
         <attr name="sbg_borderSize" format="dimension"/>
         <attr name="sbg_borderColor" format="color"/>
 

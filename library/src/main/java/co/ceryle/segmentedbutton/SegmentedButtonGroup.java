@@ -21,10 +21,10 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
@@ -141,7 +141,7 @@ public class SegmentedButtonGroup extends LinearLayout {
         }
 
 
-        if(margin < 1 && borderSize > 0){
+        if (margin < 1 && borderSize > 0) {
             layoutParams.setMargins(borderSize, borderSize, borderSize, borderSize);
             margin = borderSize;
         }
@@ -198,9 +198,27 @@ public class SegmentedButtonGroup extends LinearLayout {
         }
     }
 
+    /*private void setBackgroundColor(View v){
+        GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[] {0xFFFFFFFF,0xFF000000});
+        gd.setCornerRadius(0f);
+        v.setBackgroundDrawable(gd);
+    }*/
+
+    private void setBackgroundColor(View v, Drawable d, int c) {
+        if (null != d) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                v.setBackground(d);
+            } else {
+                v.setBackgroundDrawable(d);
+            }
+        } else {
+            v.setBackgroundColor(c);
+        }
+    }
 
     public void updateViews() {
-        mainGroup.setBackgroundColor(backgroundColor);
+        setBackgroundColor(mainGroup, backgroundDrawable, backgroundColor);
+
         leftGroup.setImageBitmap(getViewBitmap(mainGroup));
 
         for (Button button : buttons) {
@@ -228,7 +246,8 @@ public class SegmentedButtonGroup extends LinearLayout {
             buttonAttributes.add(btnAttr);
         }
 
-        mainGroup.setBackgroundColor(selectorColor);
+        setBackgroundColor(mainGroup, selectorBackgroundDrawable, selectorColor);
+        //mainGroup.setBackgroundColor(selectorColor);
         rightGroup.setImageBitmap(getViewBitmap(mainGroup));
 
         // set back
@@ -247,7 +266,8 @@ public class SegmentedButtonGroup extends LinearLayout {
                     sButton.removeImageTint();
             }
         }
-        mainGroup.setBackgroundColor(backgroundColor);
+        // mainGroup.setBackgroundColor(backgroundColor);
+        setBackgroundColor(mainGroup, backgroundDrawable, backgroundColor);
     }
 
     private ArrayList<ButtonAttributes> buttonAttributes = new ArrayList<>();
@@ -346,6 +366,8 @@ public class SegmentedButtonGroup extends LinearLayout {
     private float shadowElevation, radius;
     private boolean shadow, ripple, hasRippleColor, hasDivider, hasSelectorImageTint;
 
+    private Drawable backgroundDrawable, selectorBackgroundDrawable;
+
     /**
      * Custom attributes
      **/
@@ -383,6 +405,9 @@ public class SegmentedButtonGroup extends LinearLayout {
 
         borderSize = (int) typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_borderSize, 0);
         borderColor = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_borderColor, Color.BLACK);
+
+        backgroundDrawable = typedArray.getDrawable(R.styleable.SegmentedButtonGroup_sbg_backgroundDrawable);
+        selectorBackgroundDrawable = typedArray.getDrawable(R.styleable.SegmentedButtonGroup_sbg_selectorBackgroundDrawable);
 
         typedArray.recycle();
     }
