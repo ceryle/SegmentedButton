@@ -12,6 +12,7 @@
 
 
         <attr name="sbg_selectorBackgroundDrawable" format="reference"/>
+        <attr name="sbg_dividerBackgroundDrawable" format="reference"/>
         <attr name="sbg_backgroundDrawable" format="reference"/>
 
         <attr name="sbg_borderSize" format="dimension"/>

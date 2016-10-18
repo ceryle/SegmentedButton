@@ -15,6 +15,7 @@
  */
 package co.ceryle.segmentedbutton.util;
 
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.view.View;
@@ -43,9 +44,19 @@ public class RoundHelper {
             view.setBackgroundDrawable(gradient);
     }
 
-
-    public static void makeDividerRound(LinearLayout layout, int dividerColor, int dividerRadius, int dividerSize) {
-        GradientDrawable gradient = getGradientDrawable(dividerColor, dividerRadius, dividerSize);
-        layout.setDividerDrawable(gradient);
+    public static void makeDividerRound(LinearLayout layout, int dividerColor, int dividerRadius, int dividerSize, Drawable drawable) {
+        if (null != drawable) {
+            layout.setDividerDrawable(drawable);
+            if(drawable instanceof GradientDrawable){
+                GradientDrawable gradient = (GradientDrawable) drawable;
+                if(dividerSize != 0)
+                    gradient.setSize(dividerSize, 0);
+                if(dividerRadius != 0)
+                    gradient.setCornerRadius(dividerRadius);
+            }
+        } else {
+            GradientDrawable gradient = getGradientDrawable(dividerColor, dividerRadius, dividerSize);
+            layout.setDividerDrawable(gradient);
+        }
     }
 }

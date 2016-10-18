@@ -338,7 +338,7 @@ public class SegmentedButtonGroup extends LinearLayout {
             return;
         // Divider Views
         dividerContainer.setShowDividers(SHOW_DIVIDER_MIDDLE);
-        RoundHelper.makeDividerRound(dividerContainer, dividerColor, dividerRadius, dividerSize);
+        RoundHelper.makeDividerRound(dividerContainer, dividerColor, dividerRadius, dividerSize, dividerBackgroundDrawable);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             dividerContainer.setDividerPadding(dividerPadding);
         }
@@ -352,7 +352,7 @@ public class SegmentedButtonGroup extends LinearLayout {
 
 
     private void setContainerAttrs() {
-        RoundHelper.makeDividerRound(mainGroup, dividerColor, dividerRadius, dividerSize);
+        RoundHelper.makeDividerRound(mainGroup, dividerColor, dividerRadius, dividerSize, dividerBackgroundDrawable);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             mainGroup.setDividerPadding(dividerPadding);
         }
@@ -366,7 +366,7 @@ public class SegmentedButtonGroup extends LinearLayout {
     private float shadowElevation, radius;
     private boolean shadow, ripple, hasRippleColor, hasDivider, hasSelectorImageTint;
 
-    private Drawable backgroundDrawable, selectorBackgroundDrawable;
+    private Drawable backgroundDrawable, selectorBackgroundDrawable, dividerBackgroundDrawable;
 
     /**
      * Custom attributes
@@ -408,6 +408,7 @@ public class SegmentedButtonGroup extends LinearLayout {
 
         backgroundDrawable = typedArray.getDrawable(R.styleable.SegmentedButtonGroup_sbg_backgroundDrawable);
         selectorBackgroundDrawable = typedArray.getDrawable(R.styleable.SegmentedButtonGroup_sbg_selectorBackgroundDrawable);
+        dividerBackgroundDrawable = typedArray.getDrawable(R.styleable.SegmentedButtonGroup_sbg_dividerBackgroundDrawable);
 
         typedArray.recycle();
     }
@@ -578,17 +579,17 @@ public class SegmentedButtonGroup extends LinearLayout {
 
     public void setDividerColor(int dividerColor) {
         this.dividerColor = dividerColor;
-        RoundHelper.makeDividerRound(dividerContainer, dividerColor, dividerRadius, dividerSize);
+        RoundHelper.makeDividerRound(dividerContainer, dividerColor, dividerRadius, dividerSize, dividerBackgroundDrawable);
     }
 
     public void setDividerSize(int dividerSize) {
         this.dividerSize = dividerSize;
-        RoundHelper.makeDividerRound(dividerContainer, dividerColor, dividerRadius, dividerSize);
+        RoundHelper.makeDividerRound(dividerContainer, dividerColor, dividerRadius, dividerSize, dividerBackgroundDrawable);
     }
 
     public void setDividerRadius(int dividerRadius) {
         this.dividerRadius = dividerRadius;
-        RoundHelper.makeDividerRound(dividerContainer, dividerColor, dividerRadius, dividerSize);
+        RoundHelper.makeDividerRound(dividerContainer, dividerColor, dividerRadius, dividerSize, dividerBackgroundDrawable);
     }
 
 
