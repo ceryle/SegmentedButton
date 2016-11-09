@@ -15,14 +15,85 @@
  */
 package co.ceryle.segmentedbutton;
 
+import android.view.View;
+import android.widget.LinearLayout;
+
 /**
  * Created by EGE on 2.10.2016.
  */
 
 public class ButtonAttributes {
-    private int tintColor, textColor, rippleColor;
+    private int tintColor, textColor, rippleColor, width = 0;
+    private float weight = 0;
 
-    private boolean hasTintColor, hasTextColor, hasRippleColor;
+    private boolean hasTintColor, hasTextColor, hasRippleColor, hasWidth, hasWeight;
+
+    private View rippleView;
+    private View dividerView;
+
+    public View getRippleView() {
+        return rippleView;
+    }
+
+    public LinearLayout.LayoutParams getRippleViewParams() {
+        return (LinearLayout.LayoutParams) rippleView.getLayoutParams();
+    }
+
+    public void setRippleView(View rippleView) {
+        this.rippleView = rippleView;
+    }
+
+    public View getDividerView() {
+        return dividerView;
+    }
+
+    public LinearLayout.LayoutParams getDividerViewParams() {
+        return (LinearLayout.LayoutParams) dividerView.getLayoutParams();
+    }
+
+    public void setDividerView(View dividerView) {
+        this.dividerView = dividerView;
+    }
+
+    public float getWeight() {
+        return weight;
+    }
+
+    public void setWeight(float weight) {
+        this.weight = weight;
+    }
+
+
+    public int getWidth() {
+        return width;
+    }
+
+    public boolean hasWidth() {
+        return hasWidth;
+    }
+
+    public void setHasWidth(boolean hasWidth) {
+        this.hasWidth = hasWidth;
+    }
+
+    public boolean hasWeight() {
+        return hasWeight;
+    }
+
+    public void setHasWeight(boolean hasWeight) {
+        this.hasWeight = hasWeight;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public ButtonAttributes() {
+    }
+
+    public ButtonAttributes(int width) {
+        this.width = width;
+    }
 
     public int getTintColor() {
         return tintColor;

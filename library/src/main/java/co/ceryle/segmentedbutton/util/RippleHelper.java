@@ -60,7 +60,7 @@ public class RippleHelper {
         }
     }
 
-    public static StateListDrawable getStateListDrawable(int pressedColor) {
+    private static StateListDrawable getStateListDrawable(int pressedColor) {
         StateListDrawable states = new StateListDrawable();
         states.addState(new int[]{android.R.attr.state_pressed},
                 new ColorDrawable(pressedColor));
@@ -72,11 +72,11 @@ public class RippleHelper {
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public static Drawable getPressedColorRippleDrawable(int pressedColor) {
+    private static Drawable getPressedColorRippleDrawable(int pressedColor) {
         return new RippleDrawable(getPressedColorSelector(pressedColor), null, new ShapeDrawable());
     }
 
-    public static ColorStateList getPressedColorSelector(int pressedColor) {
+    private static ColorStateList getPressedColorSelector(int pressedColor) {
         return new ColorStateList(
                 new int[][]{
                         new int[]{}
@@ -87,7 +87,7 @@ public class RippleHelper {
         );
     }
 
-    public static ColorDrawable getColorDrawableFromColor(int color) {
+    private static ColorDrawable getColorDrawableFromColor(int color) {
         return new ColorDrawable(color);
     }
 

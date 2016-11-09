@@ -95,15 +95,64 @@ public class SegmentedButton extends Button {
 
         rippleColor = typedArray.getColor(R.styleable.SegmentedButton_sb_rippleColor, 0);
         hasRippleColor = typedArray.hasValue(R.styleable.SegmentedButton_sb_rippleColor);
+
+        try {
+            hasButtonWeight = typedArray.hasValue(R.styleable.SegmentedButton_android_layout_weight);
+            buttonWeight = typedArray.getFloat(R.styleable.SegmentedButton_android_layout_weight, -1);
+
+            buttonWidth = typedArray.getDimensionPixelSize(R.styleable.SegmentedButton_android_layout_width, 0);
+            hasButtonWidth = typedArray.hasValue(R.styleable.SegmentedButton_android_layout_width);
+
+        } catch (Exception ignored) {
+        }
+
         typedArray.recycle();
     }
 
-    public int getRippleColor(){
+    private int buttonWidth;
+    private float buttonWeight;
+    private boolean hasButtonWidth, hasButtonWeight;
+
+    public boolean hasButtonWidth() {
+        return hasButtonWidth;
+    }
+
+    public void setHasButtonWidth(boolean hasButtonWidth) {
+        this.hasButtonWidth = hasButtonWidth;
+    }
+
+    public boolean hasButtonWeight() {
+        return hasButtonWeight;
+    }
+
+    public void setHasButtonWeight(boolean hasButtonWeight) {
+        this.hasButtonWeight = hasButtonWeight;
+    }
+
+    public float getButtonWeight() {
+        return buttonWeight;
+    }
+
+    public void setButtonWeight(float buttonWeight) {
+        this.buttonWeight = buttonWeight;
+    }
+
+    public int getButtonWidth() {
+        return buttonWidth;
+    }
+
+    public void setButtonWidth(int buttonWidth) {
+        this.buttonWidth = buttonWidth;
+    }
+
+    public int getRippleColor() {
         return rippleColor;
     }
-    public boolean hasRippleColor(){
+
+    public boolean hasRippleColor() {
         return hasRippleColor;
     }
+
     public int getSelectedTextColor() {
         return selectedTextColor;
     }

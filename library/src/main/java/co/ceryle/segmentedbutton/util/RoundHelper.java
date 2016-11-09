@@ -45,18 +45,20 @@ public class RoundHelper {
     }
 
     public static void makeDividerRound(LinearLayout layout, int dividerColor, int dividerRadius, int dividerSize, Drawable drawable) {
+        GradientDrawable gradient = null;
         if (null != drawable) {
-            layout.setDividerDrawable(drawable);
-            if(drawable instanceof GradientDrawable){
-                GradientDrawable gradient = (GradientDrawable) drawable;
-                if(dividerSize != 0)
+            if (drawable instanceof GradientDrawable) {
+                gradient = (GradientDrawable) drawable;
+                if (dividerSize != 0)
                     gradient.setSize(dividerSize, 0);
-                if(dividerRadius != 0)
+                if (dividerRadius != 0)
                     gradient.setCornerRadius(dividerRadius);
+            } else {
+                layout.setDividerDrawable(drawable);
             }
         } else {
-            GradientDrawable gradient = getGradientDrawable(dividerColor, dividerRadius, dividerSize);
-            layout.setDividerDrawable(gradient);
+            gradient = getGradientDrawable(dividerColor, dividerRadius, dividerSize);
         }
+        layout.setDividerDrawable(gradient);
     }
 }
