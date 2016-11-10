@@ -175,14 +175,18 @@ public class SegmentedButton extends Button {
 
         if (!changed) return;
 
-        calcDrawablePosition();
+        if (buttonImageScale != 1)
+            scaleButtonDrawables(buttonImageScale);
+        drawButton();
+
     }
+
 
     // Pre-allocate objects for layout measuring
     private Rect textBounds = new Rect();
     private Rect drawableBounds = new Rect();
 
-    private void calcDrawablePosition() {
+    private void drawButton() {
 
         final CharSequence text = getText();
         if (!TextUtils.isEmpty(text)) {

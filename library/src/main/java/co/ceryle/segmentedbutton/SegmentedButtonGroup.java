@@ -401,8 +401,6 @@ public class SegmentedButtonGroup extends LinearLayout {
         // Ripple Views
         View rippleView = new View(getContext());
         btnAttrs.get(pos).setRippleView(rippleView);
-        Log.d(TAG, "getWidth: " + attrs.getWidth());
-        Log.d(TAG, "getWeight: " + attrs.getWeight());
         rippleView.setLayoutParams(new LinearLayout.LayoutParams(attrs.getWidth(), 0, attrs.getWeight()));
 
         rippleContainer.addView(rippleView);
