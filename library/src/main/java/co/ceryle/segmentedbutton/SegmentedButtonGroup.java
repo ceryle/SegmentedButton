@@ -175,7 +175,6 @@ public class SegmentedButtonGroup extends LinearLayout {
                 w2 += btnAttrs.get(i).getWidth();
             }
         } else {
-            // TODO EGE
             buttonWidth = (int) ((getWidth() - margin * 2) / (float) buttons.size());
             w1 = (int) buttonWidth * position;
             w2 = (int) (buttonWidth * (position + 1));
@@ -366,6 +365,7 @@ public class SegmentedButtonGroup extends LinearLayout {
                 if (s.hasButtonWeight()) {
                     buttonAttributes.setHasWeight(true);
                     buttonAttributes.setWeight(s.getButtonWeight());
+                    hasWidth = true;
                 } else if (s.getButtonWidth() > 0) {
                     buttonAttributes.setHasWidth(true);
                     buttonAttributes.setWidth(s.getButtonWidth());
@@ -556,5 +556,18 @@ public class SegmentedButtonGroup extends LinearLayout {
         //Now that the view is laid out and we have a canvas, ask the view to draw itself into the canvas
         view.draw(c);
         return b;
+    }
+
+
+    public void setPosition(int position, boolean withAnimation) {
+        if (withAnimation) {
+            toggle(position, animateSelectorDuration);
+        } else {
+            toggle(position, 0);
+        }
+    }
+
+    public void setPosition(int position, int duration) {
+        toggle(position, duration);
     }
 }
