@@ -7,7 +7,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    private int position = 0;
+    private int position = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final SegmentedButtonGroup group = (SegmentedButtonGroup) findViewById(R.id.segmentedButtonGroup);
-        group.setPosition(1, false);
+        group.setPosition(position, false);
 
         final Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {

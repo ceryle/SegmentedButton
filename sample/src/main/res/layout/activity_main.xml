@@ -28,7 +28,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
-                android:text="Position: 0"/>
+                android:text="Position: 1"/>
 
 
             <co.ceryle.segmentedbutton.SegmentedButtonGroup

@@ -573,8 +573,220 @@ public class SegmentedButtonGroup extends LinearLayout {
         post(new Runnable() {
             @Override
             public void run() {
-                toggle(position, animateSelectorDuration);
+                if (withAnimation)
+                    toggle(position, animateSelectorDuration);
+                else
+                    toggle(position, 0);
             }
         });
+    }
+
+    /**
+     * SETTERS
+     **/
+
+    /*
+    public void setSelectorColor(int selectorColor) {
+        this.selectorColor = selectorColor;
+    }
+
+    @Override
+    public void setBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    public void setSelectorImageTint(int selectorImageTint) {
+        this.selectorImageTint = selectorImageTint;
+    }
+
+    public void setSelectorTextColor(int selectorTextColor) {
+        this.selectorTextColor = selectorTextColor;
+    }
+
+    public void setRippleColor(int rippleColor) {
+        this.rippleColor = rippleColor;
+    }
+    public void setShadowElevation(float shadowElevation) {
+        this.shadowElevation = shadowElevation;
+    }
+
+    public void setShadowMargin(int shadowMargin) {
+        this.shadowMargin = shadowMargin;
+    }
+
+    public void setShadowMarginTop(int shadowMarginTop) {
+        this.shadowMarginTop = shadowMarginTop;
+    }
+
+    public void setShadowMarginBottom(int shadowMarginBottom) {
+        this.shadowMarginBottom = shadowMarginBottom;
+    }
+
+    public void setShadowMarginLeft(int shadowMarginLeft) {
+        this.shadowMarginLeft = shadowMarginLeft;
+    }
+
+    public void setShadowMarginRight(int shadowMarginRight) {
+        this.shadowMarginRight = shadowMarginRight;
+    }
+
+    public void setRadius(float radius) {
+        this.radius = radius;
+    }
+
+    public void setDividerPadding(int dividerPadding) {
+        this.dividerPadding = dividerPadding;
+    }
+
+    public void setShadow(boolean shadow) {
+        this.shadow = shadow;
+    }
+
+    public void setHasDivider(boolean hasDivider) {
+        this.hasDivider = hasDivider;
+    }
+
+    public void setHasRippleColor(boolean hasRippleColor) {
+        this.hasRippleColor = hasRippleColor;
+    }
+
+    public void setRipple(boolean ripple) {
+        this.ripple = ripple;
+    }
+
+    public void setMargin(int margin) {
+        this.margin = margin;
+    }
+    */
+    public void setSelectorAnimationDuration(int animateSelectorDuration) {
+        this.animateSelectorDuration = animateSelectorDuration;
+    }
+
+    public void setSelectorAnimation(int animateSelector) {
+        this.animateSelector = animateSelector;
+    }
+
+    public void setInterpolatorSelector(Interpolator interpolatorSelector) {
+        this.interpolatorSelector = interpolatorSelector;
+    }
+
+    public void setDividerColor(int dividerColor) {
+        this.dividerColor = dividerColor;
+        RoundHelper.makeDividerRound(dividerContainer, dividerColor, dividerRadius, dividerSize, dividerBackgroundDrawable);
+    }
+
+    public void setDividerSize(int dividerSize) {
+        this.dividerSize = dividerSize;
+        RoundHelper.makeDividerRound(dividerContainer, dividerColor, dividerRadius, dividerSize, dividerBackgroundDrawable);
+    }
+
+    public void setDividerRadius(int dividerRadius) {
+        this.dividerRadius = dividerRadius;
+        RoundHelper.makeDividerRound(dividerContainer, dividerColor, dividerRadius, dividerSize, dividerBackgroundDrawable);
+    }
+
+
+    /**
+     * GETTERS
+     **/
+    public float getShadowMarginTop() {
+        return shadowMarginTop;
+    }
+
+    public int getSelectorTextColor() {
+        return selectorTextColor;
+    }
+
+    public float getShadowElevation() {
+        return shadowElevation;
+    }
+
+    public float getShadowMargin() {
+        return shadowMargin;
+    }
+
+    public float getShadowMarginBottom() {
+        return shadowMarginBottom;
+    }
+
+    public int getDividerSize() {
+        return dividerSize;
+    }
+
+    public int getRippleColor() {
+        return rippleColor;
+    }
+
+    public int getSelectorColor() {
+        return selectorColor;
+    }
+
+    public int getSelectorAnimation() {
+        return animateSelector;
+    }
+
+    public int getSelectorAnimationDuration() {
+        return animateSelectorDuration;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public int getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public int getDividerColor() {
+        return dividerColor;
+    }
+
+    public int getSelectorImageTint() {
+        return selectorImageTint;
+    }
+
+    public float getShadowMarginLeft() {
+        return shadowMarginLeft;
+    }
+
+    public float getShadowMarginRight() {
+        return shadowMarginRight;
+    }
+
+    public float getRadius() {
+        return radius;
+    }
+
+    @Override
+    public int getDividerPadding() {
+        return dividerPadding;
+    }
+
+    public float getDividerRadius() {
+        return dividerRadius;
+    }
+
+    public boolean isShadow() {
+        return shadow;
+    }
+
+    public boolean isHasDivider() {
+        return hasDivider;
+    }
+
+    public boolean isHasRippleColor() {
+        return hasRippleColor;
+    }
+
+    public boolean isRipple() {
+        return ripple;
+    }
+
+    public Interpolator getInterpolatorSelector() {
+        return interpolatorSelector;
+    }
+
+    public int getMargin() {
+        return margin;
     }
 }
