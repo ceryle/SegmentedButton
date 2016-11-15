@@ -585,7 +585,6 @@ public class SegmentedButtonGroup extends LinearLayout {
      * SETTERS
      **/
 
-    /*
     public void setSelectorColor(int selectorColor) {
         this.selectorColor = selectorColor;
     }
@@ -657,7 +656,7 @@ public class SegmentedButtonGroup extends LinearLayout {
     public void setMargin(int margin) {
         this.margin = margin;
     }
-    */
+
     public void setSelectorAnimationDuration(int animateSelectorDuration) {
         this.animateSelectorDuration = animateSelectorDuration;
     }
@@ -684,7 +683,6 @@ public class SegmentedButtonGroup extends LinearLayout {
         this.dividerRadius = dividerRadius;
         RoundHelper.makeDividerRound(dividerContainer, dividerColor, dividerRadius, dividerSize, dividerBackgroundDrawable);
     }
-
 
     /**
      * GETTERS
