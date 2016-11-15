@@ -342,7 +342,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/b7"
-                app:sb_imageScale="0.4"
+                app:sb_imageScale="0.35"
                 app:sb_imageTint="@color/white"/>
 
             <co.ceryle.segmentedbutton.SegmentedButton
@@ -358,7 +358,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/b7"
-                app:sb_imageScale="0.4"
+                app:sb_imageScale="0.5"
                 app:sb_imageTint="@color/white"/>
 
             <co.ceryle.segmentedbutton.SegmentedButton
@@ -374,7 +374,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/b7"
-                app:sb_imageScale="0.4"
+                app:sb_imageScale="0.35"
                 app:sb_imageTint="@color/white"/>
 
         </co.ceryle.segmentedbutton.SegmentedButtonGroup>
