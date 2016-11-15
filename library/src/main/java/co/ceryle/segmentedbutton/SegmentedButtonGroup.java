@@ -557,4 +557,13 @@ public class SegmentedButtonGroup extends LinearLayout {
         view.draw(c);
         return b;
     }
+    public void setPosition(final int position, final int duration) {
+    	this.position = position;
+        post(new Runnable() {
+            @Override
+            public void run() {
+                toggle(position, duration);
+            }
+        });
+    }
 }
