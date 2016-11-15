@@ -36,7 +36,7 @@ and:
 
 ```gradle
 dependencies {
-    compile 'com.github.ceryle:SegmentedButton:v1.1.6'
+    compile 'com.github.ceryle:SegmentedButton:v1.1.7'
 }
 ```
 
