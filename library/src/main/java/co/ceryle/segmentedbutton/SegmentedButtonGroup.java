@@ -335,6 +335,9 @@ public class SegmentedButtonGroup extends LinearLayout {
                     w1 += btnAttrs.get(i - 1).getWidth();
                 w2 += btnAttrs.get(i).getWidth();
             }
+
+            w2 -= dividerSize;
+
         } else {
             w1 = (int) (buttonWidth * position);
             w2 = (int) (buttonWidth * (position + 1));
@@ -605,6 +608,7 @@ public class SegmentedButtonGroup extends LinearLayout {
     public void setRippleColor(int rippleColor) {
         this.rippleColor = rippleColor;
     }
+
     public void setShadowElevation(float shadowElevation) {
         this.shadowElevation = shadowElevation;
     }
