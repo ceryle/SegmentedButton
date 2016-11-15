@@ -69,20 +69,6 @@
                     android:drawableLeft="@drawable/legolas"
                     android:padding="10dp"
                     app:sb_imageScale="0.4"/>
-
-                <co.ceryle.segmentedbutton.SegmentedButton
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/legolas"
-                    android:padding="10dp"
-                    app:sb_imageScale="0.4"/>
-
-                <co.ceryle.segmentedbutton.SegmentedButton
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/legolas"
-                    android:padding="10dp"
-                    app:sb_imageScale="0.4"/>
             </co.ceryle.segmentedbutton.SegmentedButtonGroup>
 
 
