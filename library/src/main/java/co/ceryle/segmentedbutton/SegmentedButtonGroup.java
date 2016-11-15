@@ -558,16 +558,23 @@ public class SegmentedButtonGroup extends LinearLayout {
         return b;
     }
 
-
-    public void setPosition(int position, boolean withAnimation) {
-        if (withAnimation) {
-            toggle(position, animateSelectorDuration);
-        } else {
-            toggle(position, 0);
-        }
+    public void setPosition(final int position, final int duration) {
+        this.position = position;
+        post(new Runnable() {
+            @Override
+            public void run() {
+                toggle(position, duration);
+            }
+        });
     }
 
-    public void setPosition(int position, int duration) {
-        toggle(position, duration);
+    public void setPosition(final int position, final boolean withAnimation) {
+        this.position = position;
+        post(new Runnable() {
+            @Override
+            public void run() {
+                toggle(position, animateSelectorDuration);
+            }
+        });
     }
 }

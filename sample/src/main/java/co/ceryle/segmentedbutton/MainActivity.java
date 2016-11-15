@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final SegmentedButtonGroup group = (SegmentedButtonGroup) findViewById(R.id.segmentedButtonGroup);
+        group.setPosition(1, false);
 
         final Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
