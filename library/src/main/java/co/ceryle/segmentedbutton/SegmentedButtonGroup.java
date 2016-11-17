@@ -24,6 +24,8 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
@@ -347,6 +349,8 @@ public class SegmentedButtonGroup extends LinearLayout {
 
         if (null != onClickedButtonPosition)
             onClickedButtonPosition.onClickedButtonPosition(position);
+
+        this.position = position;
     }
 
     private boolean hasWidth = false;
@@ -790,5 +794,24 @@ public class SegmentedButtonGroup extends LinearLayout {
 
     public int getMargin() {
         return margin;
+    }
+
+    @Override
+    public Parcelable onSaveInstanceState() {
+        // Log.d(TAG, "onRestoreInstanceState: " + position);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("state", super.onSaveInstanceState());
+        bundle.putInt("position", position);
+        return bundle;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        if (state instanceof Bundle) {
+            Bundle bundle = (Bundle) state;
+            position = bundle.getInt("position");
+            state = bundle.getParcelable("state");
+        }
+        super.onRestoreInstanceState(state);
     }
 }
