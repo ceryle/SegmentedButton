@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package co.ceryle.segmentedbutton.util;
+package co.ceryle.segmentedbutton;
 
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -24,7 +24,7 @@ import android.widget.LinearLayout;
 /**
  * Created by EGE on 22/08/2016.
  */
-public class RoundHelper {
+class RoundHelper {
 
     private static GradientDrawable getGradientDrawable(int dividerColor, int dividerRadius, int dividerSize) {
         GradientDrawable gradient =
@@ -35,7 +35,7 @@ public class RoundHelper {
         return gradient;
     }
 
-    public static void makeRound(View view, int dividerColor, int dividerRadius, int dividerSize) {
+    static void makeRound(View view, int dividerColor, int dividerRadius, int dividerSize) {
         GradientDrawable gradient = getGradientDrawable(dividerColor, dividerRadius, dividerSize);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -44,7 +44,7 @@ public class RoundHelper {
             view.setBackgroundDrawable(gradient);
     }
 
-    public static void makeDividerRound(LinearLayout layout, int dividerColor, int dividerRadius, int dividerSize, Drawable drawable) {
+    static void makeDividerRound(LinearLayout layout, int dividerColor, int dividerRadius, int dividerSize, Drawable drawable) {
         GradientDrawable gradient = null;
         if (null != drawable) {
             if (drawable instanceof GradientDrawable) {

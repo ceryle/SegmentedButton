@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package co.ceryle.segmentedbutton.util;
+package co.ceryle.segmentedbutton;
 
 import android.animation.ValueAnimator;
 import android.view.View;
@@ -22,9 +22,9 @@ import android.view.animation.Interpolator;
 /**
  * Created by EGE on 16/08/2016.
  */
-public class AnimationCollapse {
+class AnimationCollapse {
 
-    public static void expand(final View v, Interpolator interpolator, int duration, int targetWidth) {
+    static void expand(final View v, Interpolator interpolator, int duration, int targetWidth) {
 
         int prevWidth = v.getWidth();
 

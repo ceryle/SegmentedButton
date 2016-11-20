@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package co.ceryle.segmentedbutton.util;
+package co.ceryle.segmentedbutton;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -30,9 +30,9 @@ import android.view.View;
 /**
  * Created by EGE on 18.8.2016.
  */
-public class RippleHelper {
+class RippleHelper {
 
-    public static void setSelectableItemBackground(Context context, View view) {
+    static void setSelectableItemBackground(Context context, View view) {
         int[] attrs = new int[]{android.R.attr.selectableItemBackground};
         TypedArray ta = context.obtainStyledAttributes(attrs);
         Drawable drawableFromTheme = ta.getDrawable(0 /* index */);
@@ -44,7 +44,7 @@ public class RippleHelper {
         }
     }
 
-    public static void setRipple(View view, int pressedColor) {
+    static void setRipple(View view, int pressedColor) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             view.setBackground(getPressedColorRippleDrawable(pressedColor));
         } else {
@@ -52,7 +52,7 @@ public class RippleHelper {
         }
     }
 
-    public static Drawable createRipple(int normalColor, int pressedColor) {
+    static Drawable createRipple(int normalColor, int pressedColor) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return getPressedColorRippleDrawable(pressedColor);
         } else {
@@ -90,5 +90,4 @@ public class RippleHelper {
     private static ColorDrawable getColorDrawableFromColor(int color) {
         return new ColorDrawable(color);
     }
-
 }

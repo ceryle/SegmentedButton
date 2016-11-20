@@ -51,21 +51,21 @@
 
                 <co.ceryle.segmentedbutton.SegmentedButton
                     android:layout_width="50dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:drawableTop="@drawable/aragorn"
                     android:padding="10dp"
                     app:sb_imageScale="0.4"/>
 
                 <co.ceryle.segmentedbutton.SegmentedButton
                     android:layout_width="100dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:drawableTop="@drawable/gimli"
                     android:padding="10dp"
                     app:sb_imageScale="0.4"/>
 
                 <co.ceryle.segmentedbutton.SegmentedButton
                     android:layout_width="50dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:drawableTop="@drawable/legolas"
                     android:padding="10dp"
                     app:sb_imageScale="0.4"/>

@@ -53,10 +53,6 @@ import com.ceryle.segmentedbutton.R;
 
 import java.util.ArrayList;
 
-import co.ceryle.segmentedbutton.util.AnimationCollapse;
-import co.ceryle.segmentedbutton.util.RippleHelper;
-import co.ceryle.segmentedbutton.util.RoundHelper;
-
 /**
  * Created by EGE on 20.8.2016.
  */

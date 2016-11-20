@@ -27,6 +27,7 @@ import android.os.Build;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.Button;
 
 import com.ceryle.segmentedbutton.R;
@@ -69,17 +70,9 @@ public class SegmentedButton extends Button {
         setTransformationMethod(null);
     }
 
-    public boolean hasImageTint() {
-        return hasButtonImageTint;
-    }
-
-    public boolean hasSelectorTint() {
-        return hasSelectedImageTint;
-    }
-
-    private int imageTint, selectedImageTint, selectedTextColor, rippleColor;
-    private boolean hasButtonImageTint, hasSelectedImageTint, hasSelectedTextColor, hasRippleColor;
-    private float buttonImageScale;
+    private int imageTint, selectedImageTint, selectedTextColor, rippleColor, buttonWidth;
+    private boolean hasButtonImageTint, hasSelectedImageTint, hasSelectedTextColor, hasRippleColor, hasButtonWidth, hasButtonWeight;
+    private float buttonImageScale, buttonWeight;
 
     private void getAttributes(AttributeSet attrs) {
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.SegmentedButton);
@@ -104,89 +97,10 @@ public class SegmentedButton extends Button {
             hasButtonWidth = typedArray.hasValue(R.styleable.SegmentedButton_android_layout_width);
 
         } catch (Exception ignored) {
+            Log.d("SegmentedButton", ignored.toString());
         }
 
         typedArray.recycle();
-    }
-
-    private int buttonWidth;
-    private float buttonWeight;
-    private boolean hasButtonWidth, hasButtonWeight;
-
-    public void setDrawableTop(int drawableId) {
-        setCompoundDrawablesWithIntrinsicBounds(0, drawableId, 0, 0);
-        setImageTint(imageTint);
-    }
-
-    public void setDrawableBottom(int drawableId) {
-        setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, drawableId);
-        setImageTint(imageTint);
-    }
-
-    public void setDrawableLeft(int drawableId) {
-        setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);
-        setImageTint(imageTint);
-    }
-
-    public void setDrawableRight(int drawableId) {
-        setCompoundDrawablesWithIntrinsicBounds(0, 0, drawableId, 0);
-        setImageTint(imageTint);
-    }
-
-    public boolean hasButtonWidth() {
-        return hasButtonWidth;
-    }
-
-    public void setHasButtonWidth(boolean hasButtonWidth) {
-        this.hasButtonWidth = hasButtonWidth;
-    }
-
-    public boolean hasButtonWeight() {
-        return hasButtonWeight;
-    }
-
-    public void setHasButtonWeight(boolean hasButtonWeight) {
-        this.hasButtonWeight = hasButtonWeight;
-    }
-
-    public float getButtonWeight() {
-        return buttonWeight;
-    }
-
-    public void setButtonWeight(float buttonWeight) {
-        this.buttonWeight = buttonWeight;
-    }
-
-    public int getButtonWidth() {
-        return buttonWidth;
-    }
-
-    public void setButtonWidth(int buttonWidth) {
-        this.buttonWidth = buttonWidth;
-    }
-
-    public int getRippleColor() {
-        return rippleColor;
-    }
-
-    public boolean hasRippleColor() {
-        return hasRippleColor;
-    }
-
-    public int getSelectedTextColor() {
-        return selectedTextColor;
-    }
-
-    public void setSelectedTextColor(int selectedTextColor) {
-        this.selectedTextColor = selectedTextColor;
-    }
-
-    public boolean hasSelectedTextColor() {
-        return hasSelectedTextColor;
-    }
-
-    public void setHasSelectedTextColor(boolean hasSelectedTextColor) {
-        this.hasSelectedTextColor = hasSelectedTextColor;
     }
 
     @Override
@@ -197,10 +111,9 @@ public class SegmentedButton extends Button {
 
         if (buttonImageScale != 1)
             scaleButtonDrawables(buttonImageScale);
+
         drawButton();
-
     }
-
 
     // Pre-allocate objects for layout measuring
     private Rect textBounds = new Rect();
@@ -275,9 +188,8 @@ public class SegmentedButton extends Button {
 
     public void removeImageTint() {
         for (int i = 0; i < getCompoundDrawables().length; i++) {
-            if (getCompoundDrawables()[i] != null) {
+            if (getCompoundDrawables()[i] != null)
                 getCompoundDrawables()[i].clearColorFilter();
-            }
         }
     }
 
@@ -323,4 +235,90 @@ public class SegmentedButton extends Button {
     public boolean hasButtonImageTint() {
         return hasButtonImageTint;
     }
+
+
+    public void setDrawableTop(int drawableId) {
+        setCompoundDrawablesWithIntrinsicBounds(0, drawableId, 0, 0);
+        setImageTint(imageTint);
+    }
+
+    public void setDrawableBottom(int drawableId) {
+        setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, drawableId);
+        setImageTint(imageTint);
+    }
+
+    public void setDrawableLeft(int drawableId) {
+        setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);
+        setImageTint(imageTint);
+    }
+
+    public void setDrawableRight(int drawableId) {
+        setCompoundDrawablesWithIntrinsicBounds(0, 0, drawableId, 0);
+        setImageTint(imageTint);
+    }
+
+    public boolean hasImageTint() {
+        return hasButtonImageTint;
+    }
+
+    public boolean hasSelectorTint() {
+        return hasSelectedImageTint;
+    }
+
+    public boolean hasButtonWidth() {
+        return hasButtonWidth;
+    }
+
+    public void setHasButtonWidth(boolean hasButtonWidth) {
+        this.hasButtonWidth = hasButtonWidth;
+    }
+
+    public boolean hasButtonWeight() {
+        return hasButtonWeight;
+    }
+
+    public void setHasButtonWeight(boolean hasButtonWeight) {
+        this.hasButtonWeight = hasButtonWeight;
+    }
+
+    public float getButtonWeight() {
+        return buttonWeight;
+    }
+
+    public void setButtonWeight(float buttonWeight) {
+        this.buttonWeight = buttonWeight;
+    }
+
+    public int getButtonWidth() {
+        return buttonWidth;
+    }
+
+    public void setButtonWidth(int buttonWidth) {
+        this.buttonWidth = buttonWidth;
+    }
+
+    public int getRippleColor() {
+        return rippleColor;
+    }
+
+    public boolean hasRippleColor() {
+        return hasRippleColor;
+    }
+
+    public int getSelectedTextColor() {
+        return selectedTextColor;
+    }
+
+    public void setSelectedTextColor(int selectedTextColor) {
+        this.selectedTextColor = selectedTextColor;
+    }
+
+    public boolean hasSelectedTextColor() {
+        return hasSelectedTextColor;
+    }
+
+    public void setHasSelectedTextColor(boolean hasSelectedTextColor) {
+        this.hasSelectedTextColor = hasSelectedTextColor;
+    }
+
 }

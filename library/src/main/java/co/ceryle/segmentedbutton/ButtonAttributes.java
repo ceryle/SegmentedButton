@@ -21,8 +21,8 @@ import android.widget.LinearLayout;
 /**
  * Created by EGE on 2.10.2016.
  */
-
-public class ButtonAttributes {
+ 
+class ButtonAttributes {
     private int tintColor, textColor, rippleColor, width = 0;
     private float weight = 0;
 
@@ -31,115 +31,107 @@ public class ButtonAttributes {
     private View rippleView;
     private View dividerView;
 
-    public View getRippleView() {
+    View getRippleView() {
         return rippleView;
     }
 
-    public LinearLayout.LayoutParams getRippleViewParams() {
+     LinearLayout.LayoutParams getRippleViewParams() {
         return (LinearLayout.LayoutParams) rippleView.getLayoutParams();
     }
 
-    public void setRippleView(View rippleView) {
+    void setRippleView(View rippleView) {
         this.rippleView = rippleView;
     }
 
-    public View getDividerView() {
+    View getDividerView() {
         return dividerView;
     }
 
-    public LinearLayout.LayoutParams getDividerViewParams() {
+    LinearLayout.LayoutParams getDividerViewParams() {
         return (LinearLayout.LayoutParams) dividerView.getLayoutParams();
     }
 
-    public void setDividerView(View dividerView) {
+    void setDividerView(View dividerView) {
         this.dividerView = dividerView;
     }
 
-    public float getWeight() {
+    float getWeight() {
         return weight;
     }
 
-    public void setWeight(float weight) {
+    void setWeight(float weight) {
         this.weight = weight;
     }
-
-
-    public int getWidth() {
+    
+    int getWidth() {
         return width;
     }
 
-    public boolean hasWidth() {
+    boolean hasWidth() {
         return hasWidth;
     }
 
-    public void setHasWidth(boolean hasWidth) {
+    void setHasWidth(boolean hasWidth) {
         this.hasWidth = hasWidth;
     }
 
-    public boolean hasWeight() {
+    boolean hasWeight() {
         return hasWeight;
     }
 
-    public void setHasWeight(boolean hasWeight) {
+    void setHasWeight(boolean hasWeight) {
         this.hasWeight = hasWeight;
     }
 
-    public void setWidth(int width) {
+    void setWidth(int width) {
         this.width = width;
     }
 
-    public ButtonAttributes() {
-    }
-
-    public ButtonAttributes(int width) {
-        this.width = width;
-    }
-
-    public int getTintColor() {
+    int getTintColor() {
         return tintColor;
     }
 
-    public void setTintColor(int tintColor) {
+     void setTintColor(int tintColor) {
         this.tintColor = tintColor;
     }
 
-    public int getTextColor() {
+     int getTextColor() {
         return textColor;
     }
 
-    public void setTextColor(int textColor) {
+     void setTextColor(int textColor) {
         this.textColor = textColor;
     }
 
-    public boolean hasTintColor() {
+     boolean hasTintColor() {
         return hasTintColor;
     }
 
-    public void setTintColor(boolean hasTintColor) {
+     void setTintColor(boolean hasTintColor) {
         this.hasTintColor = hasTintColor;
     }
 
-    public boolean hasTextColor() {
+     boolean hasTextColor() {
         return hasTextColor;
     }
 
-    public void setTextColor(boolean hasTextColor) {
+     void setTextColor(boolean hasTextColor) {
         this.hasTextColor = hasTextColor;
     }
 
-    public boolean hasRippleColor() {
+     boolean hasRippleColor() {
         return hasRippleColor;
     }
 
-    public void setRippleColor(boolean hasRippleColor) {
+     void setRippleColor(boolean hasRippleColor) {
         this.hasRippleColor = hasRippleColor;
     }
 
-    public int getRippleColor() {
+     int getRippleColor() {
         return rippleColor;
     }
 
-    public void setRippleColor(int rippleColor) {
+     void setRippleColor(int rippleColor) {
         this.rippleColor = rippleColor;
     }
 }
