@@ -208,8 +208,6 @@ public class SegmentedButtonGroup extends LinearLayout {
         sizeChanged = true;
     }
 
-    String TAG = "ABCDEFG";
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);

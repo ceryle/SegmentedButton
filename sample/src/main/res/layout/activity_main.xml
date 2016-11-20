@@ -52,21 +52,21 @@
                 <co.ceryle.segmentedbutton.SegmentedButton
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/aragorn"
+                    android:drawableTop="@drawable/aragorn"
                     android:padding="10dp"
                     app:sb_imageScale="0.4"/>
 
                 <co.ceryle.segmentedbutton.SegmentedButton
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/gimli"
+                    android:drawableTop="@drawable/gimli"
                     android:padding="10dp"
                     app:sb_imageScale="0.4"/>
 
                 <co.ceryle.segmentedbutton.SegmentedButton
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/legolas"
+                    android:drawableTop="@drawable/legolas"
                     android:padding="10dp"
                     app:sb_imageScale="0.4"/>
             </co.ceryle.segmentedbutton.SegmentedButtonGroup>
@@ -211,7 +211,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/b1"
-                    android:drawablePadding="4dp"
                     android:padding="10dp"
                     app:sb_imageScale="0.4"
                     app:sb_imageTint="@color/yellow_600"/>
@@ -220,7 +219,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/b2"
-                    android:drawablePadding="4dp"
                     android:padding="10dp"
                     app:sb_imageScale="0.4"
                     app:sb_imageTint="@color/DarkRed"/>
@@ -247,7 +245,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/b17"
-                    android:drawablePadding="4dp"
                     android:padding="10dp"
                     app:sb_imageScale="0.4"/>
 
@@ -255,7 +252,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/b6"
-                    android:drawablePadding="4dp"
                     android:padding="10dp"
                     app:sb_imageScale="0.4"/>
 
@@ -328,7 +324,7 @@
             app:sbg_animateSelector="bounce"
             app:sbg_animateSelectorDuration="1000"
             app:sbg_backgroundColor="@color/black"
-            app:sbg_position="0"
+            app:sbg_position="2"
             app:sbg_radius="2dp"
             app:sbg_rippleColor="@color/white"
             app:sbg_selectorColor="@color/white"

@@ -113,6 +113,23 @@ public class SegmentedButton extends Button {
     private float buttonWeight;
     private boolean hasButtonWidth, hasButtonWeight;
 
+    public void setDrawableTop(int drawableId) {
+        setCompoundDrawablesWithIntrinsicBounds(0, drawableId, 0, 0);
+        setImageTint(imageTint);
+    }
+
+    public void setDrawableBottom(int drawableId) {
+        setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, drawableId);
+    }
+
+    public void setDrawableLeft(int drawableId) {
+        setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);
+    }
+
+    public void setDrawableRight(int drawableId) {
+        setCompoundDrawablesWithIntrinsicBounds(0, 0, drawableId, 0);
+    }
+
     public boolean hasButtonWidth() {
         return hasButtonWidth;
     }
@@ -197,7 +214,7 @@ public class SegmentedButton extends Button {
         }
 
         final int width = getWidth() - (getPaddingLeft() + getPaddingRight());
-        final int height = getWidth() - (getPaddingTop() + getPaddingBottom());
+        final int height = getHeight() - (getPaddingTop() + getPaddingBottom());
 
         final Drawable[] drawables = getCompoundDrawables();
 
@@ -212,7 +229,7 @@ public class SegmentedButton extends Button {
                     offSet = (width - (textBounds.width() + drawableBounds.width()) + getRightPaddingOffset()) / 2 - getCompoundDrawablePadding();
                     break;
                 case 1:
-                    offSet = (height - (textBounds.height() + drawableBounds.height()) + getBottomPaddingOffset()) / 2 + getCompoundDrawablePadding();
+                    offSet = (height - (textBounds.height() + drawableBounds.height()) + getBottomPaddingOffset()) / 2 - getCompoundDrawablePadding();
                     break;
                 case 2:
                     offSet = ((textBounds.width() + drawableBounds.width()) - width + getLeftPaddingOffset()) / 2 + getCompoundDrawablePadding();
