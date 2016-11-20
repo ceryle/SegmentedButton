@@ -120,14 +120,17 @@ public class SegmentedButton extends Button {
 
     public void setDrawableBottom(int drawableId) {
         setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, drawableId);
+        setImageTint(imageTint);
     }
 
     public void setDrawableLeft(int drawableId) {
         setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);
+        setImageTint(imageTint);
     }
 
     public void setDrawableRight(int drawableId) {
         setCompoundDrawablesWithIntrinsicBounds(0, 0, drawableId, 0);
+        setImageTint(imageTint);
     }
 
     public boolean hasButtonWidth() {
@@ -313,28 +316,11 @@ public class SegmentedButton extends Button {
         return imageTint;
     }
 
-
     public float getButtonImageScale() {
         return buttonImageScale;
     }
 
-
-    public boolean isHasButtonImageTint() {
+    public boolean hasButtonImageTint() {
         return hasButtonImageTint;
     }
-
-    /*
-    public void setHasButtonImageTint(boolean hasButtonImageTint) {
-
-        this.hasButtonImageTint = hasButtonImageTint;
-    }
-
-    public void setButtonImageScale(float buttonImageScale) {
-        this.buttonImageScale = buttonImageScale;
-    }
-
-    public void setButtonImageTint(int imageTint) {
-        this.imageTint = imageTint;
-    }
-    */
 }

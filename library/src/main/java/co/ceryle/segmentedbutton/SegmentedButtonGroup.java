@@ -31,7 +31,6 @@ import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -796,7 +795,6 @@ public class SegmentedButtonGroup extends LinearLayout {
 
     @Override
     public Parcelable onSaveInstanceState() {
-        // Log.d(TAG, "onRestoreInstanceState: " + position);
         Bundle bundle = new Bundle();
         bundle.putParcelable("state", super.onSaveInstanceState());
         bundle.putInt("position", position);
