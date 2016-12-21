@@ -337,7 +337,7 @@ public class SegmentedButtonGroup extends LinearLayout {
                     buttonAttributes.setHasWeight(true);
                     buttonAttributes.setWeight(s.getWeight());
                     hasWidth = true;
-                } else if (s.hasWidth()) {
+                } else if (s.getButtonWidth() > 0) {
                     buttonAttributes.setHasWidth(true);
                     buttonAttributes.setWidth(s.getButtonWidth());
                     hasWidth = true;
