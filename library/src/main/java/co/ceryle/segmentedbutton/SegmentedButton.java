@@ -170,6 +170,9 @@ public class SegmentedButton extends Button {
     }
 
 
+    /**
+     * @param location is .ttf file's path in assets folder. Example: 'fonts/my_font.ttf'
+     */
     public void setTypeface(String location) {
         if (null != location && !location.equals("")) {
             Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), location);
@@ -196,7 +199,6 @@ public class SegmentedButton extends Button {
             }
         }
     }
-
 
     /**
      * Constants gives available positions for drawable to set
@@ -244,7 +246,6 @@ public class SegmentedButton extends Button {
     public void setDrawable(int drawableId, int position) {
         setDrawable(ContextCompat.getDrawable(context, drawableId), position);
     }
-
 
     /**
      * removes drawable's tint if it has any color
@@ -382,7 +383,6 @@ public class SegmentedButton extends Button {
     public boolean hasDrawableTintOnSelection() {
         return hasSelectedImageTint;
     }
-
 
     /**
      *

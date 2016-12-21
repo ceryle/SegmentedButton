@@ -21,26 +21,27 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.view.View;
+import android.widget.LinearLayout;
 
-class RippleHelper {
+class Util {
 
-    static void setSelectableItemBackground(Context context, View view) {
-        int[] attrs = new int[]{android.R.attr.selectableItemBackground};
-        TypedArray ta = context.obtainStyledAttributes(attrs);
-        Drawable drawableFromTheme = ta.getDrawable(0 /* index */);
-        ta.recycle();
+    static void setBackground(View view, Drawable drawable) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            view.setBackground(drawableFromTheme);
+            view.setBackground(drawable);
         } else {
-            view.setBackgroundDrawable(drawableFromTheme);
+            view.setBackgroundDrawable(drawable);
         }
     }
 
+    /**
+     * Ripple Utility
+     **/
     static void setRipple(View view, int pressedColor) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             view.setBackground(getPressedColorRippleDrawable(pressedColor));
@@ -49,12 +50,12 @@ class RippleHelper {
         }
     }
 
-    static Drawable createRipple(int normalColor, int pressedColor) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            return getPressedColorRippleDrawable(pressedColor);
-        } else {
-            return getStateListDrawable(pressedColor);
-        }
+    static void setSelectableItemBackground(Context context, View view) {
+        int[] attrs = new int[]{android.R.attr.selectableItemBackground};
+        TypedArray ta = context.obtainStyledAttributes(attrs);
+        Drawable drawableFromTheme = ta.getDrawable(0 /* index */);
+        ta.recycle();
+        setBackground(view, drawableFromTheme);
     }
 
     private static StateListDrawable getStateListDrawable(int pressedColor) {
@@ -83,8 +84,41 @@ class RippleHelper {
                 }
         );
     }
+    /**
+     * Ripple Helper - END
+     **/
 
-    private static ColorDrawable getColorDrawableFromColor(int color) {
-        return new ColorDrawable(color);
+
+    /**
+     * Round Utility
+     **/
+    static void roundDivider(LinearLayout layout, int dividerColor, int dividerRadius, int dividerSize, Drawable drawable) {
+        GradientDrawable gradient = null;
+        if (null != drawable) {
+            if (drawable instanceof GradientDrawable) {
+                gradient = (GradientDrawable) drawable;
+                if (dividerSize != 0)
+                    gradient.setSize(dividerSize, 0);
+                if (dividerRadius != 0)
+                    gradient.setCornerRadius(dividerRadius);
+            } else {
+                layout.setDividerDrawable(drawable);
+            }
+        } else {
+            gradient = getGradientDrawable(dividerColor, dividerRadius, dividerSize);
+        }
+        layout.setDividerDrawable(gradient);
     }
+
+    private static GradientDrawable getGradientDrawable(int dividerColor, int dividerRadius, int dividerSize) {
+        GradientDrawable gradient = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{dividerColor, dividerColor});
+        gradient.setShape(GradientDrawable.RECTANGLE);
+        gradient.setCornerRadius(dividerRadius);
+        gradient.setSize(dividerSize, 0);
+        return gradient;
+    }
+
+    /**
+     * Round Helper - END
+     **/
 }
