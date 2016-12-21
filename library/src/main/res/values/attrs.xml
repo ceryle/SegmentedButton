@@ -6,9 +6,14 @@
         <attr name="sb_selectedImageTint" format="color"/>
         <attr name="sb_selectedTextColor" format="color"/>
         <attr name="sb_rippleColor" format="color"/>
+        <attr name="sb_typeface" format="string"/>
+
+
         <attr name="android:layout_width"/>
         <attr name="android:layout_height"/>
         <attr name="android:layout_weight"/>
+
+
     </declare-styleable>
 
     <declare-styleable name="SegmentedButtonGroup">

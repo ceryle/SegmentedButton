@@ -277,8 +277,9 @@ public class SegmentedButtonGroup extends LinearLayout {
             Button b = buttons.get(i);
             ButtonAttributes attrs = btnAttrs.get(i);
 
-            attrs.setTextColor(b, textColorOnSelection);
+            attrs.setTextColor(b, textColorOnSelection, hasTextColorOnSelection);
             attrs.setTintColor(b, drawableTintOnSelection, hasDrawableTintOnSelection);
+            // attrs.setTypeface(b, b.getTypeface());
         }
 
         setBackgroundColor(mainGroup, selectorBackgroundDrawable, selectorColor);
@@ -414,7 +415,7 @@ public class SegmentedButtonGroup extends LinearLayout {
 
     private int selectorColor, animateSelector, animateSelectorDuration, position, backgroundColor, dividerColor, drawableTintOnSelection, textColorOnSelection, dividerSize, rippleColor, dividerPadding, dividerRadius, shadowMargin, shadowMarginTop, shadowMarginBottom, shadowMarginLeft, shadowMarginRight, borderSize, borderColor;
     private float shadowElevation, radius;
-    private boolean shadow, ripple, hasRippleColor, hasDivider, hasDrawableTintOnSelection;
+    private boolean shadow, ripple, hasRippleColor, hasDivider, hasDrawableTintOnSelection, hasTextColorOnSelection;
 
     private Drawable backgroundDrawable, selectorBackgroundDrawable, dividerBackgroundDrawable;
 
@@ -431,6 +432,7 @@ public class SegmentedButtonGroup extends LinearLayout {
         dividerRadius = (int) typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_dividerRadius, 0);
 
         textColorOnSelection = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_selectorTextColor, Color.GRAY);
+        hasTextColorOnSelection = typedArray.hasValue(R.styleable.SegmentedButtonGroup_sbg_selectorTextColor);
         drawableTintOnSelection = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_selectorImageTint, Color.GRAY);
         hasDrawableTintOnSelection = typedArray.hasValue(R.styleable.SegmentedButtonGroup_sbg_selectorImageTint);
         selectorColor = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_selectorColor, Color.GRAY);

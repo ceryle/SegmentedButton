@@ -21,6 +21,7 @@ import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ScaleDrawable;
 import android.os.Build;
@@ -68,11 +69,13 @@ public class SegmentedButton extends Button {
             scaleDrawable(buttonImageScale);
 
         setTransformationMethod(null);
+        setTypeface(typeface);
     }
 
     private int imageTint, selectedImageTint, selectedTextColor, rippleColor, buttonWidth;
     private boolean hasButtonImageTint, hasSelectedImageTint, hasTextColorOnSelection, hasRipple, hasWidth, hasWeight;
     private float buttonImageScale, buttonWeight;
+    private String typeface;
 
     private void getAttributes(AttributeSet attrs) {
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.SegmentedButton);
@@ -89,12 +92,15 @@ public class SegmentedButton extends Button {
         rippleColor = typedArray.getColor(R.styleable.SegmentedButton_sb_rippleColor, 0);
         hasRipple = typedArray.hasValue(R.styleable.SegmentedButton_sb_rippleColor);
 
+        typeface = typedArray.getString(R.styleable.SegmentedButton_sb_typeface);
+
         try {
             hasWeight = typedArray.hasValue(R.styleable.SegmentedButton_android_layout_weight);
             buttonWeight = typedArray.getFloat(R.styleable.SegmentedButton_android_layout_weight, -1);
 
             buttonWidth = typedArray.getDimensionPixelSize(R.styleable.SegmentedButton_android_layout_width, 0);
             hasWidth = typedArray.hasValue(R.styleable.SegmentedButton_android_layout_width);
+
 
         } catch (Exception ex) {
             Log.d("SegmentedButton", ex.toString());
@@ -162,6 +168,15 @@ public class SegmentedButton extends Button {
             drawables[i].setBounds(drawableBounds);
         }
     }
+
+
+    public void setTypeface(String location) {
+        if (null != location && !location.equals("")) {
+            Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), location);
+            setTypeface(typeface);
+        }
+    }
+
 
     /**
      * @param scale sets button's drawable size. It multiplies drawable's width and height with the given variable.

@@ -15,6 +15,7 @@
  */
 package co.ceryle.segmentedbutton;
 
+import android.graphics.Typeface;
 import android.view.View;
 import android.widget.Button;
 
@@ -23,6 +24,7 @@ class ButtonAttributes {
     private float weight = 0;
     private boolean hasTint, hasTextColor, hasRippleColor, hasWidth, hasWeight;
     private View rippleView;
+    private Typeface typeface;
 
 
     static void setAttributes(Button b, ButtonAttributes a) {
@@ -97,13 +99,28 @@ class ButtonAttributes {
         }
     }
 
+    public void setTypeface(Button b, Typeface typeface) {
+        b.setTypeface(typeface);
+    }
+
+    public Typeface getTypeface() {
+        return typeface;
+    }
+
     int getTextColor() {
         return textColor;
     }
 
-    void setTextColor(Button b, int textColor_new) {
+    void setTextColor(Button b, int textColor, boolean hasTint) {
         this.textColor = b.getCurrentTextColor();
-        b.setTextColor(textColor_new);
+
+        if (hasTint)
+            b.setTextColor(textColor);
+        else if (b instanceof SegmentedButton) {
+            SegmentedButton s = (SegmentedButton) b;
+            if (s.hasTextColorOnSelection())
+                s.setTextColor(s.getTextColorOnSelection());
+        }
     }
 
     boolean hasTintColor() {
