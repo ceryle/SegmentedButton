@@ -21,9 +21,6 @@ import android.os.Build;
 import android.view.View;
 import android.widget.LinearLayout;
 
-/**
- * Created by EGE on 22/08/2016.
- */
 class RoundHelper {
 
     private static GradientDrawable getGradientDrawable(int dividerColor, int dividerRadius, int dividerSize) {

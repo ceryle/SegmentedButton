@@ -16,43 +16,35 @@
 package co.ceryle.segmentedbutton;
 
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.Button;
 
-/**
- * Created by EGE on 2.10.2016.
- */
- 
 class ButtonAttributes {
     private int tintColor, textColor, rippleColor, width = 0;
     private float weight = 0;
-
-    private boolean hasTintColor, hasTextColor, hasRippleColor, hasWidth, hasWeight;
-
+    private boolean hasTint, hasTextColor, hasRippleColor, hasWidth, hasWeight;
     private View rippleView;
-    private View dividerView;
+
+
+    static void setAttributes(Button b, ButtonAttributes a) {
+        b.setTextColor(a.getTextColor());
+
+        if (b instanceof SegmentedButton) {
+            SegmentedButton sButton = (SegmentedButton) b;
+
+            if (a.hasTintColor())
+                sButton.setDrawableTint(a.getTintColor());
+            else
+                sButton.removeDrawableTint();
+        }
+    }
+
 
     View getRippleView() {
         return rippleView;
     }
 
-     LinearLayout.LayoutParams getRippleViewParams() {
-        return (LinearLayout.LayoutParams) rippleView.getLayoutParams();
-    }
-
     void setRippleView(View rippleView) {
         this.rippleView = rippleView;
-    }
-
-    View getDividerView() {
-        return dividerView;
-    }
-
-    LinearLayout.LayoutParams getDividerViewParams() {
-        return (LinearLayout.LayoutParams) dividerView.getLayoutParams();
-    }
-
-    void setDividerView(View dividerView) {
-        this.dividerView = dividerView;
     }
 
     float getWeight() {
@@ -62,7 +54,7 @@ class ButtonAttributes {
     void setWeight(float weight) {
         this.weight = weight;
     }
-    
+
     int getWidth() {
         return width;
     }
@@ -91,47 +83,58 @@ class ButtonAttributes {
         return tintColor;
     }
 
-     void setTintColor(int tintColor) {
-        this.tintColor = tintColor;
+    void setTintColor(Button b, int tintColor, boolean hasTint) {
+        if (b instanceof SegmentedButton) {
+            SegmentedButton s = (SegmentedButton) b;
+
+            this.tintColor = s.getDrawableTint();
+            this.hasTint = s.hasDrawableTint();
+
+            if (hasTint)
+                s.setDrawableTint(tintColor);
+            else if (s.hasDrawableTintOnSelection())
+                s.setDrawableTint(s.getDrawableTintOnSelection());
+        }
     }
 
-     int getTextColor() {
+    int getTextColor() {
         return textColor;
     }
 
-     void setTextColor(int textColor) {
-        this.textColor = textColor;
+    void setTextColor(Button b, int textColor_new) {
+        this.textColor = b.getCurrentTextColor();
+        b.setTextColor(textColor_new);
     }
 
-     boolean hasTintColor() {
-        return hasTintColor;
+    boolean hasTintColor() {
+        return hasTint;
     }
 
-     void setTintColor(boolean hasTintColor) {
-        this.hasTintColor = hasTintColor;
+    void setTintColor(boolean hasTintColor) {
+        this.hasTint = hasTintColor;
     }
 
-     boolean hasTextColor() {
+    boolean hasTextColor() {
         return hasTextColor;
     }
 
-     void setTextColor(boolean hasTextColor) {
+    void setTextColor(boolean hasTextColor) {
         this.hasTextColor = hasTextColor;
     }
 
-     boolean hasRippleColor() {
+    boolean hasRippleColor() {
         return hasRippleColor;
     }
 
-     void setRippleColor(boolean hasRippleColor) {
+    void setRippleColor(boolean hasRippleColor) {
         this.hasRippleColor = hasRippleColor;
     }
 
-     int getRippleColor() {
+    int getRippleColor() {
         return rippleColor;
     }
 
-     void setRippleColor(int rippleColor) {
+    void setRippleColor(int rippleColor) {
         this.rippleColor = rippleColor;
     }
 }

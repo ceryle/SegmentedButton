@@ -15,10 +15,6 @@
  */
 package co.ceryle.segmentedbutton;
 
-/**
- * Created by EGE on 03/09/2016.
- */
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;

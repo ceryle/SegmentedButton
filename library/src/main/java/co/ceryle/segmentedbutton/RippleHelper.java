@@ -27,9 +27,6 @@ import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.view.View;
 
-/**
- * Created by EGE on 18.8.2016.
- */
 class RippleHelper {
 
     static void setSelectableItemBackground(Context context, View view) {

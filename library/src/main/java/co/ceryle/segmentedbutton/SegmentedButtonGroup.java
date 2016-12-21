@@ -53,9 +53,6 @@ import com.ceryle.segmentedbutton.R;
 
 import java.util.ArrayList;
 
-/**
- * Created by EGE on 20.8.2016.
- */
 public class SegmentedButtonGroup extends LinearLayout {
 
     public SegmentedButtonGroup(Context context) {
@@ -271,52 +268,25 @@ public class SegmentedButtonGroup extends LinearLayout {
     private ArrayList<ButtonAttributes> btnAttrs = new ArrayList<>();
 
     public void updateViews() {
-        ArrayList<ButtonAttributes> buttonAttributes = new ArrayList<>();
-
+        // snapshot 1
         setBackgroundColor(mainGroup, backgroundDrawable, backgroundColor);
+
+        // snapshot 2
         leftGroup.setImageBitmap(getViewBitmap(mainGroup));
-        for (Button button : buttons) {
-            ButtonAttributes btnAttr = new ButtonAttributes();
-            btnAttr.setTextColor(button.getCurrentTextColor());
-            button.setTextColor(selectorTextColor);
+        for (int i = 0; i < buttons.size(); i++) {
+            Button b = buttons.get(i);
+            ButtonAttributes attrs = btnAttrs.get(i);
 
-            if (button instanceof SegmentedButton) {
-                SegmentedButton sButton = (SegmentedButton) button;
-
-                // save
-                btnAttr.setTintColor(sButton.getImageTint());
-                btnAttr.setTintColor(sButton.hasImageTint());
-
-                // change
-                if (hasSelectorImageTint)
-                    sButton.setImageTint(selectorImageTint); // group
-                else if (sButton.hasSelectorTint())
-                    sButton.setImageTint(sButton.getSelectedImageTint()); // personal
-
-                if (sButton.hasSelectedTextColor())
-                    sButton.setTextColor(sButton.getSelectedTextColor());
-            }
-            buttonAttributes.add(btnAttr);
+            attrs.setTextColor(b, textColorOnSelection);
+            attrs.setTintColor(b, drawableTintOnSelection, hasDrawableTintOnSelection);
         }
 
         setBackgroundColor(mainGroup, selectorBackgroundDrawable, selectorColor);
         rightGroup.setImageBitmap(getViewBitmap(mainGroup));
 
-        // set attrs back
+        // snapshot 3
         for (int i = 0; i < buttons.size(); i++) {
-            Button button = buttons.get(i);
-            ButtonAttributes attr = buttonAttributes.get(i);
-
-            button.setTextColor(attr.getTextColor());
-
-            if (button instanceof SegmentedButton) {
-                SegmentedButton sButton = (SegmentedButton) button;
-
-                if (buttonAttributes.get(i).hasTintColor())
-                    sButton.setImageTint(buttonAttributes.get(i).getTintColor());
-                else
-                    sButton.removeImageTint();
-            }
+            ButtonAttributes.setAttributes(buttons.get(i), btnAttrs.get(i));
         }
         setBackgroundColor(mainGroup, backgroundDrawable, backgroundColor);
     }
@@ -362,11 +332,11 @@ public class SegmentedButtonGroup extends LinearLayout {
 
             if (child instanceof SegmentedButton) {
                 SegmentedButton s = (SegmentedButton) child;
-                if (s.hasButtonWeight()) {
+                if (s.hasWeight()) {
                     buttonAttributes.setHasWeight(true);
-                    buttonAttributes.setWeight(s.getButtonWeight());
+                    buttonAttributes.setWeight(s.getWeight());
                     hasWidth = true;
-                } else if (s.getButtonWidth() > 0) {
+                } else if (s.hasWidth()) {
                     buttonAttributes.setHasWidth(true);
                     buttonAttributes.setWidth(s.getButtonWidth());
                     hasWidth = true;
@@ -418,7 +388,7 @@ public class SegmentedButtonGroup extends LinearLayout {
             RippleHelper.setSelectableItemBackground(getContext(), rippleView);
         else {
             for (Button button : buttons) {
-                if (button instanceof SegmentedButton && ((SegmentedButton) button).hasRippleColor())
+                if (button instanceof SegmentedButton && ((SegmentedButton) button).hasRipple())
                     RippleHelper.setRipple(rippleView, ((SegmentedButton) button).getRippleColor());
             }
         }
@@ -430,8 +400,6 @@ public class SegmentedButtonGroup extends LinearLayout {
             return;
 
         View dividerView = new View(getContext());
-        btnAttrs.get(pos).setDividerView(dividerView);
-
         dividerView.setLayoutParams(new LinearLayout.LayoutParams(attrs.getWidth() - dividerSize, 0, attrs.getWeight()));
         dividerContainer.addView(dividerView);
     }
@@ -444,9 +412,9 @@ public class SegmentedButtonGroup extends LinearLayout {
 
     private ArrayList<Button> buttons = new ArrayList<>();
 
-    private int selectorColor, animateSelector, animateSelectorDuration, position, backgroundColor, dividerColor, selectorImageTint, selectorTextColor, dividerSize, rippleColor, dividerPadding, dividerRadius, shadowMargin, shadowMarginTop, shadowMarginBottom, shadowMarginLeft, shadowMarginRight, borderSize, borderColor;
+    private int selectorColor, animateSelector, animateSelectorDuration, position, backgroundColor, dividerColor, drawableTintOnSelection, textColorOnSelection, dividerSize, rippleColor, dividerPadding, dividerRadius, shadowMargin, shadowMarginTop, shadowMarginBottom, shadowMarginLeft, shadowMarginRight, borderSize, borderColor;
     private float shadowElevation, radius;
-    private boolean shadow, ripple, hasRippleColor, hasDivider, hasSelectorImageTint;
+    private boolean shadow, ripple, hasRippleColor, hasDivider, hasDrawableTintOnSelection;
 
     private Drawable backgroundDrawable, selectorBackgroundDrawable, dividerBackgroundDrawable;
 
@@ -462,9 +430,9 @@ public class SegmentedButtonGroup extends LinearLayout {
         dividerPadding = (int) typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_dividerPadding, 0);
         dividerRadius = (int) typedArray.getDimension(R.styleable.SegmentedButtonGroup_sbg_dividerRadius, 0);
 
-        selectorTextColor = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_selectorTextColor, Color.GRAY);
-        selectorImageTint = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_selectorImageTint, Color.GRAY);
-        hasSelectorImageTint = typedArray.hasValue(R.styleable.SegmentedButtonGroup_sbg_selectorImageTint);
+        textColorOnSelection = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_selectorTextColor, Color.GRAY);
+        drawableTintOnSelection = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_selectorImageTint, Color.GRAY);
+        hasDrawableTintOnSelection = typedArray.hasValue(R.styleable.SegmentedButtonGroup_sbg_selectorImageTint);
         selectorColor = typedArray.getColor(R.styleable.SegmentedButtonGroup_sbg_selectorColor, Color.GRAY);
         animateSelector = typedArray.getInt(R.styleable.SegmentedButtonGroup_sbg_animateSelector, 0);
         animateSelectorDuration = typedArray.getInt(R.styleable.SegmentedButtonGroup_sbg_animateSelectorDuration, 500);
@@ -594,12 +562,12 @@ public class SegmentedButtonGroup extends LinearLayout {
         this.backgroundColor = backgroundColor;
     }
 
-    public void setSelectorImageTint(int selectorImageTint) {
-        this.selectorImageTint = selectorImageTint;
+    public void setDrawableTintOnSelection(int drawableTintOnSelection) {
+        this.drawableTintOnSelection = drawableTintOnSelection;
     }
 
-    public void setSelectorTextColor(int selectorTextColor) {
-        this.selectorTextColor = selectorTextColor;
+    public void setTextColorOnSelection(int textColorOnSelection) {
+        this.textColorOnSelection = textColorOnSelection;
     }
 
     public void setRippleColor(int rippleColor) {
@@ -692,8 +660,8 @@ public class SegmentedButtonGroup extends LinearLayout {
         return shadowMarginTop;
     }
 
-    public int getSelectorTextColor() {
-        return selectorTextColor;
+    public int getTextColorOnSelection() {
+        return textColorOnSelection;
     }
 
     public float getShadowElevation() {
@@ -740,8 +708,8 @@ public class SegmentedButtonGroup extends LinearLayout {
         return dividerColor;
     }
 
-    public int getSelectorImageTint() {
-        return selectorImageTint;
+    public int getDrawableTintOnSelection() {
+        return drawableTintOnSelection;
     }
 
     public float getShadowMarginLeft() {

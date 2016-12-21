@@ -19,9 +19,6 @@ import android.animation.ValueAnimator;
 import android.view.View;
 import android.view.animation.Interpolator;
 
-/**
- * Created by EGE on 16/08/2016.
- */
 class AnimationCollapse {
 
     static void expand(final View v, Interpolator interpolator, int duration, int targetWidth) {

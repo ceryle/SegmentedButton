@@ -24,6 +24,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ScaleDrawable;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -32,46 +33,45 @@ import android.widget.Button;
 
 import com.ceryle.segmentedbutton.R;
 
-/**
- * Created by EGE on 07/09/2016.
- */
-
 public class SegmentedButton extends Button {
     public SegmentedButton(Context context) {
         super(context);
-        init(null);
+        init(context, null);
     }
 
     public SegmentedButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs);
+        init(context, attrs);
     }
 
     public SegmentedButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(attrs);
+        init(context, attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public SegmentedButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init(attrs);
+        init(context, attrs);
     }
 
-    private void init(AttributeSet attrs) {
+    private Context context;
+
+    private void init(Context context, AttributeSet attrs) {
+        this.context = context;
         getAttributes(attrs);
 
         if (hasButtonImageTint)
-            setImageTint(imageTint);
+            setDrawableTint(imageTint);
 
         if (buttonImageScale != 1)
-            scaleButtonDrawables(buttonImageScale);
+            scaleDrawable(buttonImageScale);
 
         setTransformationMethod(null);
     }
 
     private int imageTint, selectedImageTint, selectedTextColor, rippleColor, buttonWidth;
-    private boolean hasButtonImageTint, hasSelectedImageTint, hasSelectedTextColor, hasRippleColor, hasButtonWidth, hasButtonWeight;
+    private boolean hasButtonImageTint, hasSelectedImageTint, hasTextColorOnSelection, hasRipple, hasWidth, hasWeight;
     private float buttonImageScale, buttonWeight;
 
     private void getAttributes(AttributeSet attrs) {
@@ -84,20 +84,20 @@ public class SegmentedButton extends Button {
         hasSelectedImageTint = typedArray.hasValue(R.styleable.SegmentedButton_sb_selectedImageTint);
 
         selectedTextColor = typedArray.getColor(R.styleable.SegmentedButton_sb_selectedTextColor, 0);
-        hasSelectedTextColor = typedArray.hasValue(R.styleable.SegmentedButton_sb_selectedTextColor);
+        hasTextColorOnSelection = typedArray.hasValue(R.styleable.SegmentedButton_sb_selectedTextColor);
 
         rippleColor = typedArray.getColor(R.styleable.SegmentedButton_sb_rippleColor, 0);
-        hasRippleColor = typedArray.hasValue(R.styleable.SegmentedButton_sb_rippleColor);
+        hasRipple = typedArray.hasValue(R.styleable.SegmentedButton_sb_rippleColor);
 
         try {
-            hasButtonWeight = typedArray.hasValue(R.styleable.SegmentedButton_android_layout_weight);
+            hasWeight = typedArray.hasValue(R.styleable.SegmentedButton_android_layout_weight);
             buttonWeight = typedArray.getFloat(R.styleable.SegmentedButton_android_layout_weight, -1);
 
             buttonWidth = typedArray.getDimensionPixelSize(R.styleable.SegmentedButton_android_layout_width, 0);
-            hasButtonWidth = typedArray.hasValue(R.styleable.SegmentedButton_android_layout_width);
+            hasWidth = typedArray.hasValue(R.styleable.SegmentedButton_android_layout_width);
 
-        } catch (Exception ignored) {
-            Log.d("SegmentedButton", ignored.toString());
+        } catch (Exception ex) {
+            Log.d("SegmentedButton", ex.toString());
         }
 
         typedArray.recycle();
@@ -110,7 +110,7 @@ public class SegmentedButton extends Button {
         if (!changed) return;
 
         if (buttonImageScale != 1)
-            scaleButtonDrawables(buttonImageScale);
+            scaleDrawable(buttonImageScale);
 
         drawButton();
     }
@@ -163,7 +163,10 @@ public class SegmentedButton extends Button {
         }
     }
 
-    public void scaleButtonDrawables(double fitFactor) {
+    /**
+     * @param scale sets button's drawable size. It multiplies drawable's width and height with the given variable.
+     */
+    public void scaleDrawable(double scale) {
         Drawable[] drawables = getCompoundDrawables();
 
         for (int i = 0; i < drawables.length; i++) {
@@ -172,28 +175,78 @@ public class SegmentedButton extends Button {
                     drawables[i].setLevel(1);
                 }
                 ScaleDrawable sd = new ScaleDrawable(drawables[i], 0, drawables[i].getIntrinsicWidth(), drawables[i].getIntrinsicHeight());
-                drawables[i].setBounds(0, 0, (int) (drawables[i].getIntrinsicWidth() * fitFactor), (int) (drawables[i].getIntrinsicHeight() * fitFactor));
-                if (i == 0) {
-                    setCompoundDrawables(drawables[i], drawables[1], drawables[2], drawables[3]);
-                } else if (i == 1) {
-                    setCompoundDrawables(drawables[0], sd.getDrawable(), drawables[2], drawables[3]);
-                } else if (i == 2) {
-                    setCompoundDrawables(drawables[0], drawables[1], sd.getDrawable(), drawables[3]);
-                } else {
-                    setCompoundDrawables(drawables[0], drawables[1], drawables[2], sd.getDrawable());
-                }
+                drawables[i].setBounds(0, 0, (int) (drawables[i].getIntrinsicWidth() * scale), (int) (drawables[i].getIntrinsicHeight() * scale));
+
+                setDrawable(sd.getDrawable(), i);
             }
         }
     }
 
-    public void removeImageTint() {
+
+    /**
+     * Constants gives available positions for drawable to set
+     */
+    public final static int DRAWABLE_LEFT = 0;
+    public final static int DRAWABLE_TOP = 1;
+    public final static int DRAWABLE_RIGHT = 2;
+    public final static int DRAWABLE_BOTTOM = 3;
+
+    /**
+     * Sets button's drawable by given drawable object and its position
+     *
+     * @param drawable is directly set to button's drawable
+     * @param position specifies button's drawable position relative to text position.
+     *                 These values can be given to position:
+     *                 {@link #DRAWABLE_LEFT} sets drawable to the left of button's text
+     *                 {@link #DRAWABLE_TOP} sets drawable to the top of button's text
+     *                 {@link #DRAWABLE_RIGHT} sets drawable to the right of button's text
+     *                 {@link #DRAWABLE_BOTTOM} sets drawable to the bottom of button's text
+     */
+    public void setDrawable(Drawable drawable, int position) {
+        if (drawable != null) {
+            if (position == 0)
+                setCompoundDrawables(drawable, null, null, null);
+            else if (position == 1)
+                setCompoundDrawables(null, drawable, null, null);
+            else if (position == 2)
+                setCompoundDrawables(null, null, drawable, null);
+            else
+                setCompoundDrawables(null, null, null, drawable);
+        }
+    }
+
+    /**
+     * Sets button's drawable by given drawable id and its position
+     *
+     * @param drawableId is used to get drawable object
+     * @param position   specifies button's drawable position relative to text position.
+     *                   These values can be given to position:
+     *                   {@link #DRAWABLE_LEFT} sets drawable to the left of button's text
+     *                   {@link #DRAWABLE_TOP} sets drawable to the top of button's text
+     *                   {@link #DRAWABLE_RIGHT} sets drawable to the right of button's text
+     *                   {@link #DRAWABLE_BOTTOM} sets drawable to the bottom of button's text
+     */
+    public void setDrawable(int drawableId, int position) {
+        setDrawable(ContextCompat.getDrawable(context, drawableId), position);
+    }
+
+
+    /**
+     * removes drawable's tint if it has any color
+     */
+    public void removeDrawableTint() {
         for (int i = 0; i < getCompoundDrawables().length; i++) {
             if (getCompoundDrawables()[i] != null)
                 getCompoundDrawables()[i].clearColorFilter();
         }
     }
 
-    public void setImageTint(int color) {
+    /**
+     * If button has any drawable, it sets drawable's tint color without changing drawable's position.
+     *
+     * @param color is used to set drawable's tint color
+     */
+    public void setDrawableTint(int color) {
         int pos = 0;
         Drawable drawable = null;
 
@@ -204,121 +257,138 @@ public class SegmentedButton extends Button {
                     drawable = getCompoundDrawables()[i];
                 }
             }
-
-            if (drawable != null) {
+            if (drawable != null)
                 drawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
-
-                if (pos == 0)
-                    setCompoundDrawables(drawable, null, null, null);
-                else if (pos == 1)
-                    setCompoundDrawables(null, drawable, null, null);
-                else if (pos == 2)
-                    setCompoundDrawables(null, null, drawable, null);
-                else
-                    setCompoundDrawables(null, null, null, drawable);
-            }
+            setDrawable(drawable, pos);
         }
     }
 
-    public int getSelectedImageTint() {
-        return selectedImageTint;
+    /**
+     * If button has any drawable, it sets drawable's tint color without changing drawable's position.
+     *
+     * @param drawableId is used to get drawable object
+     * @param position   specifies button's drawable position relative to text position.
+     *                   These values can be given to position:
+     *                   {@link #DRAWABLE_LEFT} sets drawable to the left of button's text
+     *                   {@link #DRAWABLE_TOP} sets drawable to the top of button's text
+     *                   {@link #DRAWABLE_RIGHT} sets drawable to the right of button's text
+     *                   {@link #DRAWABLE_BOTTOM} sets drawable to the bottom of button's text
+     * @param color      is used to set drawable's tint color
+     */
+    public void setDrawableTint(int drawableId, int position, int color) {
+        Drawable drawable = ContextCompat.getDrawable(context, drawableId);
+        setDrawableTint(drawable, position, color);
     }
 
-    public int getImageTint() {
-        return imageTint;
+    /**
+     * If button has any drawable, it sets drawable's tint color without changing drawable's position.
+     *
+     * @param drawable is directly set to button's drawable
+     * @param position specifies button's drawable position relative to text position.
+     *                 These values can be given to position:
+     *                 {@link #DRAWABLE_LEFT} sets drawable to the left of button's text
+     *                 {@link #DRAWABLE_TOP} sets drawable to the top of button's text
+     *                 {@link #DRAWABLE_RIGHT} sets drawable to the right of button's text
+     *                 {@link #DRAWABLE_BOTTOM} sets drawable to the bottom of button's text
+     * @param color    is used to set drawable's tint color
+     */
+    public void setDrawableTint(Drawable drawable, int position, int color) {
+        drawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
+        setDrawable(drawable, position);
     }
 
-    public float getButtonImageScale() {
-        return buttonImageScale;
-    }
 
-    public boolean hasButtonImageTint() {
-        return hasButtonImageTint;
-    }
-
-
-    public void setDrawableTop(int drawableId) {
-        setCompoundDrawablesWithIntrinsicBounds(0, drawableId, 0, 0);
-        setImageTint(imageTint);
-    }
-
-    public void setDrawableBottom(int drawableId) {
-        setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, drawableId);
-        setImageTint(imageTint);
-    }
-
-    public void setDrawableLeft(int drawableId) {
-        setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);
-        setImageTint(imageTint);
-    }
-
-    public void setDrawableRight(int drawableId) {
-        setCompoundDrawablesWithIntrinsicBounds(0, 0, drawableId, 0);
-        setImageTint(imageTint);
-    }
-
-    public boolean hasImageTint() {
-        return hasButtonImageTint;
-    }
-
-    public boolean hasSelectorTint() {
-        return hasSelectedImageTint;
-    }
-
-    public boolean hasButtonWidth() {
-        return hasButtonWidth;
-    }
-
-    public void setHasButtonWidth(boolean hasButtonWidth) {
-        this.hasButtonWidth = hasButtonWidth;
-    }
-
-    public boolean hasButtonWeight() {
-        return hasButtonWeight;
-    }
-
-    public void setHasButtonWeight(boolean hasButtonWeight) {
-        this.hasButtonWeight = hasButtonWeight;
-    }
-
-    public float getButtonWeight() {
-        return buttonWeight;
-    }
-
-    public void setButtonWeight(float buttonWeight) {
-        this.buttonWeight = buttonWeight;
-    }
-
-    public int getButtonWidth() {
-        return buttonWidth;
-    }
-
-    public void setButtonWidth(int buttonWidth) {
-        this.buttonWidth = buttonWidth;
-    }
-
+    /**
+     * @return button's current ripple color
+     */
     public int getRippleColor() {
         return rippleColor;
     }
 
-    public boolean hasRippleColor() {
-        return hasRippleColor;
+    /**
+     * @return true if the button has a ripple effect
+     */
+    public boolean hasRipple() {
+        return hasRipple;
     }
 
-    public int getSelectedTextColor() {
+    /**
+     * @return button's text color when selector is on the button
+     */
+    public int getTextColorOnSelection() {
         return selectedTextColor;
     }
 
-    public void setSelectedTextColor(int selectedTextColor) {
+    /**
+     * @param selectedTextColor set button's text color when selector is on the button
+     */
+    public void setTextColorOnSelection(int selectedTextColor) {
         this.selectedTextColor = selectedTextColor;
     }
 
-    public boolean hasSelectedTextColor() {
-        return hasSelectedTextColor;
+    /**
+     * @return drawable's tint color when selector is on the button
+     */
+    public int getDrawableTintOnSelection() {
+        return selectedImageTint;
     }
 
-    public void setHasSelectedTextColor(boolean hasSelectedTextColor) {
-        this.hasSelectedTextColor = hasSelectedTextColor;
+    /**
+     * @return drawable's tint color
+     */
+    public int getDrawableTint() {
+        return imageTint;
     }
 
+    /**
+     * @return drawable's scale. Default scale is 1.0
+     */
+    public float getDrawableScale() {
+        return buttonImageScale;
+    }
+
+    /**
+     * @return true if button's drawable is not empty
+     */
+    public boolean hasDrawableTint() {
+        return hasButtonImageTint;
+    }
+
+    /**
+     * sets whether drawable should have tint or not
+     */
+    public void hasDrawableTint(boolean hasTint) {
+        this.hasButtonImageTint = hasTint;
+    }
+
+    /**
+     * @return true if button's drawable has tint when selector is on the button
+     */
+    public boolean hasDrawableTintOnSelection() {
+        return hasSelectedImageTint;
+    }
+
+
+    /**
+     *
+     */
+    boolean hasWeight() {
+        return hasWeight;
+    }
+
+    float getWeight() {
+        return buttonWeight;
+    }
+
+    int getButtonWidth() {
+        return buttonWidth;
+    }
+
+    boolean hasWidth() {
+        return hasWidth;
+    }
+
+    boolean hasTextColorOnSelection() {
+        return hasTextColorOnSelection;
+    }
 }
