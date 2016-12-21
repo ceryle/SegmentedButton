@@ -70,7 +70,7 @@ dependencies {
 | app:sbg_shadowMargin			| `dimension`	         | Set margin to make shadow visible (api21+) |
 | app:sbg_position			| `integer`	         | Set selected button position |
 | app:sbg_radius			| `dimension`	         | Make layout rounder |
-| app:sbg_backgroundColor			| `color`	         | Set background color of container |
+| app:sbg_backgroundColor			| `color`	         | Set background color of container (except transparent color) |
 | app:sbg_animateSelectorDuration			| `integer`	         | Set how long selector travels to selected position |
 | app:sbg_animateSelector			| `integer`	         | Set selector animation (ex. bounce animation) |
 | app:sbg_borderSize			| `dimension`	         | Add border by giving dimension |
