@@ -279,7 +279,7 @@ public class SegmentedButtonGroup extends LinearLayout {
         setBackgroundColor(mainGroup, backgroundDrawable, backgroundColor);
     }
 
-    private void toggle(int position, int duration) {
+    private void toggle(int position, int duration, boolean isToggledByTouch) {
         int w1 = 0, w2 = 0;
         if (hasWidth) {
             int pos = position + 1;
@@ -298,8 +298,11 @@ public class SegmentedButtonGroup extends LinearLayout {
         expand(leftGroup, interpolatorSelector, duration, Math.max(0, w1));
         expand(rightGroup, interpolatorSelector, duration, Math.max(0, w2));
 
-        if (null != onClickedButtonPosition)
+        if (null != onClickedButtonPosition && isToggledByTouch)
             onClickedButtonPosition.onClickedButtonPosition(position);
+
+        if (null != onPositionChanged)
+            onPositionChanged.onPositionChanged(position);
 
         this.position = position;
     }
@@ -385,7 +388,7 @@ public class SegmentedButtonGroup extends LinearLayout {
         rippleView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                toggle(pos, animateSelectorDuration);
+                toggle(pos, animateSelectorDuration, true);
             }
         });
 
@@ -508,6 +511,25 @@ public class SegmentedButtonGroup extends LinearLayout {
     public final static int LinearOutSlowInInterpolator = 10;
     public final static int OvershootInterpolator = 11;
 
+
+    private OnPositionChanged onPositionChanged;
+
+    /**
+     * @param onPositionChanged set your instance that you have created to listen any position change
+     */
+    public void setOnPositionChanged(OnPositionChanged onPositionChanged) {
+        this.onPositionChanged = onPositionChanged;
+    }
+
+    /**
+     * Use this listener if you want to know any position change.
+     * Listener is called when one of segmented button is clicked or setPosition is called.
+     */
+    public interface OnPositionChanged {
+        void onPositionChanged(int position);
+    }
+
+
     private OnClickedButtonPosition onClickedButtonPosition;
 
     /**
@@ -518,7 +540,7 @@ public class SegmentedButtonGroup extends LinearLayout {
     }
 
     /**
-     * Create an instance of this interface if you want to know which button is clicked.
+     * Use this listener if  you want to know which button is clicked.
      * Listener is called when one of segmented button is clicked
      */
     public interface OnClickedButtonPosition {
@@ -561,7 +583,7 @@ public class SegmentedButtonGroup extends LinearLayout {
         post(new Runnable() {
             @Override
             public void run() {
-                toggle(position, duration);
+                toggle(position, duration, false);
             }
         });
     }
@@ -576,9 +598,9 @@ public class SegmentedButtonGroup extends LinearLayout {
             @Override
             public void run() {
                 if (withAnimation)
-                    toggle(position, animateSelectorDuration);
+                    toggle(position, animateSelectorDuration, false);
                 else
-                    toggle(position, 0);
+                    toggle(position, 0, false);
             }
         });
     }
