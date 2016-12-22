@@ -45,6 +45,9 @@
         <attr name="sbg_radius" format="dimension"/>
         <attr name="sbg_backgroundColor" format="color"/>
 
+        <attr name="sbg_enabled" format="boolean"/>
+        <attr name="android:clickable"/>
+
         <attr name="sbg_animateSelectorDuration" format="integer"/>
         <attr name="sbg_animateSelector" format="integer">
             <flag name="fastOutSlowIn" value="0"/>

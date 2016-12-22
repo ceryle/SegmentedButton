@@ -32,6 +32,7 @@ import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -266,7 +267,6 @@ public class SegmentedButtonGroup extends LinearLayout {
 
             attrs.setTextColor(b, textColorOnSelection, hasTextColorOnSelection);
             attrs.setTintColor(b, drawableTintOnSelection, hasDrawableTintOnSelection);
-            // attrs.setTypeface(b, b.getTypeface());
         }
 
         setBackgroundColor(mainGroup, selectorBackgroundDrawable, selectorColor);
@@ -373,6 +373,9 @@ public class SegmentedButtonGroup extends LinearLayout {
         }
     }
 
+
+    ArrayList<View> ripples = new ArrayList<>();
+
     private void initForeground(final int pos) {
         ButtonAttributes attrs = btnAttrs.get(pos);
 
@@ -380,7 +383,7 @@ public class SegmentedButtonGroup extends LinearLayout {
          * Ripple
          * **/
         View rippleView = new View(getContext());
-        btnAttrs.get(pos).setRippleView(rippleView);
+        attrs.setRippleView(rippleView);
         rippleView.setLayoutParams(new LinearLayout.LayoutParams(attrs.getWidth(), 0, attrs.getWeight()));
 
         rippleContainer.addView(rippleView);
@@ -388,20 +391,17 @@ public class SegmentedButtonGroup extends LinearLayout {
         rippleView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                toggle(pos, animateSelectorDuration, true);
+                if (clickable && enabled)
+                    toggle(pos, animateSelectorDuration, true);
             }
         });
 
-        if (hasRippleColor)
-            Util.setRipple(rippleView, rippleColor);
-        else if (ripple)
-            Util.setSelectableItemBackground(getContext(), rippleView);
-        else {
-            for (Button button : buttons) {
-                if (button instanceof SegmentedButton && ((SegmentedButton) button).hasRipple())
-                    Util.setRipple(rippleView, ((SegmentedButton) button).getRippleColor());
-            }
+        setRipple(rippleView, enabled && clickable);
+        if (!enabled) {
+            setEnabledColor(enabled);
         }
+
+        ripples.add(rippleView);
 
         /**
          * Divider
@@ -414,6 +414,23 @@ public class SegmentedButtonGroup extends LinearLayout {
         dividerContainer.addView(dividerView);
     }
 
+    private void setRipple(View v, boolean isClickable) {
+        if (isClickable) {
+            if (hasRippleColor)
+                Util.setRipple(v, rippleColor);
+            else if (ripple)
+                Util.setSelectableItemBackground(getContext(), v);
+            else {
+                for (Button button : buttons) {
+                    if (button instanceof SegmentedButton && ((SegmentedButton) button).hasRipple())
+                        Util.setRipple(v, ((SegmentedButton) button).getRippleColor());
+                }
+            }
+        } else {
+            Util.setBackground(v, null);
+        }
+    }
+
     private void setContainerAttrs() {
         if (isInEditMode())
             mainGroup.setBackgroundColor(backgroundColor);
@@ -423,7 +440,7 @@ public class SegmentedButtonGroup extends LinearLayout {
 
     private int selectorColor, animateSelector, animateSelectorDuration, position, backgroundColor, dividerColor, drawableTintOnSelection, textColorOnSelection, dividerSize, rippleColor, dividerPadding, dividerRadius, shadowMargin, shadowMarginTop, shadowMarginBottom, shadowMarginLeft, shadowMarginRight, borderSize, borderColor;
     private float shadowElevation, radius;
-    private boolean shadow, ripple, hasRippleColor, hasDivider, hasDrawableTintOnSelection, hasTextColorOnSelection;
+    private boolean clickable, enabled, shadow, ripple, hasRippleColor, hasDivider, hasDrawableTintOnSelection, hasTextColorOnSelection;
 
     private Drawable backgroundDrawable, selectorBackgroundDrawable, dividerBackgroundDrawable;
 
@@ -469,6 +486,14 @@ public class SegmentedButtonGroup extends LinearLayout {
         backgroundDrawable = typedArray.getDrawable(R.styleable.SegmentedButtonGroup_sbg_backgroundDrawable);
         selectorBackgroundDrawable = typedArray.getDrawable(R.styleable.SegmentedButtonGroup_sbg_selectorBackgroundDrawable);
         dividerBackgroundDrawable = typedArray.getDrawable(R.styleable.SegmentedButtonGroup_sbg_dividerBackgroundDrawable);
+
+        enabled = typedArray.getBoolean(R.styleable.SegmentedButtonGroup_sbg_enabled, true);
+
+        try {
+            clickable = typedArray.getBoolean(R.styleable.SegmentedButtonGroup_android_clickable, true);
+        } catch (Exception ex) {
+            Log.d("SegmentedButtonGroup", ex.toString());
+        }
 
         typedArray.recycle();
     }
@@ -899,6 +924,35 @@ public class SegmentedButtonGroup extends LinearLayout {
         return margin;
     }
 
+    private void setRippleState(boolean state) {
+        for (View v : ripples) {
+            setRipple(v, state);
+        }
+    }
+
+    private void setEnabledColor(boolean enabled) {
+        float alpha = 1f;
+        if (!enabled)
+            alpha = 0.5f;
+
+        mainGroup.setAlpha(alpha);
+        leftGroup.setAlpha(alpha);
+        rightGroup.setAlpha(alpha);
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        setRippleState(enabled);
+        // setEnabledColor(enabled); // TODO
+    }
+
+    @Override
+    public void setClickable(boolean clickable) {
+        this.clickable = clickable;
+        setRippleState(clickable);
+    }
+
     @Override
     public Parcelable onSaveInstanceState() {
         Bundle bundle = new Bundle();
@@ -916,5 +970,4 @@ public class SegmentedButtonGroup extends LinearLayout {
         }
         super.onRestoreInstanceState(state);
     }
-
 }

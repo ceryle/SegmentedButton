@@ -5,7 +5,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -130,7 +129,6 @@
                 app:sb_selectedTextColor="@color/yellow_200"
                 app:sb_typeface="fonts/aniron.ttf"/>
         </co.ceryle.segmentedbutton.SegmentedButtonGroup>
-
 
         <co.ceryle.segmentedbutton.SegmentedButtonGroup
             android:layout_width="match_parent"

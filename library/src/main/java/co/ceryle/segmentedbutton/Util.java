@@ -85,7 +85,7 @@ class Util {
         );
     }
     /**
-     * Ripple Helper - END
+     * Ripple Utility - END
      **/
 
 
@@ -119,6 +119,6 @@ class Util {
     }
 
     /**
-     * Round Helper - END
+     * Round Utility - END
      **/
 }

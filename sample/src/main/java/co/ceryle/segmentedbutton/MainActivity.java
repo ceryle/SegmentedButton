@@ -1,5 +1,6 @@
 package co.ceryle.segmentedbutton;
 
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -36,6 +37,18 @@ public class MainActivity extends AppCompatActivity {
                 group.setPosition(position, true);
             }
         });
+
+
+        group.setClickable(false);
+
+        Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                group.setClickable(true);
+            }
+        };
+        handler.postDelayed(runnable, 5000);
     }
 
     private void updateButton(int position) {
