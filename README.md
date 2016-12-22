@@ -1,4 +1,5 @@
-[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-SegmentedButton-green.svg?style=true)](https://android-arsenal.com/details/1/4445)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-SegmentedButton-green.svg?style=true)](https://android-arsenal.com/details/1/4445) [![](https://jitpack.io/v/ceryle/segmentedbutton.svg)](https://jitpack.io/#ceryle/segmentedbutton)
+
 # SegmentedButton
 
 ![poster](https://cloud.githubusercontent.com/assets/20969019/19036424/75a0b61c-8978-11e6-873d-e316f77fd740.png)
