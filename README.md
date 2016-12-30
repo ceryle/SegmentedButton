@@ -9,17 +9,18 @@ Segmented Button is a IOS-like "Segmented Control" with animation.<br/>
 For more Android-like segmented control, check [Radio Real Button](https://github.com/ceryle/RadioRealButton).
 
 ##Preview
-![1](https://cloud.githubusercontent.com/assets/20969019/19036452/9abd66e8-8978-11e6-84f3-2942ec2feb6d.gif)
+![7](https://cloud.githubusercontent.com/assets/20969019/21565978/ec2fb698-cea6-11e6-8ae9-54326e3ebdf4.gif)
 <br />
-![2](https://cloud.githubusercontent.com/assets/20969019/19036451/9abab79a-8978-11e6-8594-8590e95f7b03.gif)
+![1](https://cloud.githubusercontent.com/assets/20969019/21565956/9fec9300-cea6-11e6-981f-c5c2a70a2e57.gif)
 <br />
-![3](https://cloud.githubusercontent.com/assets/20969019/19036454/9ac12026-8978-11e6-9c4c-148996f080b7.gif)
-![4](https://cloud.githubusercontent.com/assets/20969019/19036455/9ac1c6f2-8978-11e6-91df-efcb5cdee110.gif)
+![2](https://cloud.githubusercontent.com/assets/20969019/21565963/bdda9aba-cea6-11e6-91ba-6e6b0230a512.gif)
 <br />
-![5](https://cloud.githubusercontent.com/assets/20969019/19036453/9ac057c2-8978-11e6-9ecb-a72ca25b39cf.gif)
+![3](https://cloud.githubusercontent.com/assets/20969019/21565967/c3dd51d2-cea6-11e6-91c4-1d3fa0ee6884.gif)
 <br />
-![6](https://cloud.githubusercontent.com/assets/20969019/19036456/9ac4a7c8-8978-11e6-9a1c-8cf1bb933026.gif)
-
+![4](https://cloud.githubusercontent.com/assets/20969019/21565969/ce06efa6-cea6-11e6-8878-6260054bb3be.gif)
+![5](https://cloud.githubusercontent.com/assets/20969019/21565972/d6df69d2-cea6-11e6-8391-27b1d45b945b.gif)
+<br />
+![6](https://cloud.githubusercontent.com/assets/20969019/21565976/df8a7fc2-cea6-11e6-8740-debb45d1aff7.gif)
 
 ## Installation
 
