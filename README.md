@@ -9,8 +9,6 @@ Segmented Button is a IOS-like "Segmented Control" with animation.<br/>
 For more Android-like segmented control, check [Radio Real Button](https://github.com/ceryle/RadioRealButton).
 
 ##Preview
-![7](https://cloud.githubusercontent.com/assets/20969019/21565978/ec2fb698-cea6-11e6-8ae9-54326e3ebdf4.gif)
-<br />
 ![1](https://cloud.githubusercontent.com/assets/20969019/21565956/9fec9300-cea6-11e6-981f-c5c2a70a2e57.gif)
 <br />
 ![2](https://cloud.githubusercontent.com/assets/20969019/21565963/bdda9aba-cea6-11e6-91ba-6e6b0230a512.gif)
@@ -21,6 +19,10 @@ For more Android-like segmented control, check [Radio Real Button](https://githu
 ![5](https://cloud.githubusercontent.com/assets/20969019/21565972/d6df69d2-cea6-11e6-8391-27b1d45b945b.gif)
 <br />
 ![6](https://cloud.githubusercontent.com/assets/20969019/21565976/df8a7fc2-cea6-11e6-8740-debb45d1aff7.gif)
+
+######You can also apply your custom drawable on button group
+![7](https://cloud.githubusercontent.com/assets/20969019/21565978/ec2fb698-cea6-11e6-8ae9-54326e3ebdf4.gif)
+<br />
 
 ## Installation
 
