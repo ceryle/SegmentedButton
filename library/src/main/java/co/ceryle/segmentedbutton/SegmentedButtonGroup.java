@@ -105,8 +105,10 @@ public class SegmentedButtonGroup extends LinearLayout {
 
     private RelativeLayout.LayoutParams borderParams;
 
+    private View borderView;
+
     private void setBorderAttrs() {
-        View borderView = findViewById(R.id.border);
+        borderView = findViewById(R.id.border);
         borderParams = (RelativeLayout.LayoutParams) borderView.getLayoutParams();
         borderParams.setMargins(margin - borderSize, margin - borderSize, margin - borderSize, margin - borderSize);
 
@@ -398,7 +400,7 @@ public class SegmentedButtonGroup extends LinearLayout {
 
         setRipple(rippleView, enabled && clickable);
         if (!enabled) {
-            setEnabledColor(enabled);
+            setEnabledAlpha(enabled);
         }
 
         ripples.add(rippleView);
@@ -930,21 +932,21 @@ public class SegmentedButtonGroup extends LinearLayout {
         }
     }
 
-    private void setEnabledColor(boolean enabled) {
+    private void setEnabledAlpha(boolean enabled) {
         float alpha = 1f;
         if (!enabled)
             alpha = 0.5f;
 
-        mainGroup.setAlpha(alpha);
-        leftGroup.setAlpha(alpha);
-        rightGroup.setAlpha(alpha);
+        dividerContainer.setAlpha(alpha);
+        borderView.setAlpha(alpha);
+        roundedLayout.setAlpha(alpha);
     }
 
     @Override
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
         setRippleState(enabled);
-        // setEnabledColor(enabled); // TODO
+        setEnabledAlpha(enabled);
     }
 
     @Override

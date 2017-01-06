@@ -39,13 +39,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        group.setClickable(false);
+        group.setEnabled(false);
 
         Handler handler = new Handler();
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                group.setClickable(true);
+                group.setEnabled(true);
             }
         };
         handler.postDelayed(runnable, 5000);

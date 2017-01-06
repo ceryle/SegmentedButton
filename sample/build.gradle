@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion project.compileSdkVersion
     buildToolsVersion project.buildToolsVersion
+    enforceUniquePackageName = false
 
     defaultConfig {
         applicationId "co.ceryle.segmentedbutton"
