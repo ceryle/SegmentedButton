@@ -40,11 +40,13 @@ and:
 
 ```gradle
 dependencies {
-    compile 'com.github.ceryle:SegmentedButton:v1.2.0'
+    compile 'com.github.ceryle:SegmentedButton:v1.2.1'
 }
 ```
 
 ## Customization
+###### Transparent Background
+Sorry, you cannot set group's background transparent. Reason is, in group there are three layers on top of the other. One layer is for selection and two are for background and foreground. If you change one of them, you will see that segmented button will look abnormal, something will be missing. Not recommended.
 
 ### Some Attributes
 
