@@ -937,9 +937,7 @@ public class SegmentedButtonGroup extends LinearLayout {
         if (!enabled)
             alpha = 0.5f;
 
-        dividerContainer.setAlpha(alpha);
-        borderView.setAlpha(alpha);
-        roundedLayout.setAlpha(alpha);
+        setAlpha(alpha);
     }
 
     @Override
