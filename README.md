@@ -51,36 +51,53 @@ Sorry, you cannot set group's background transparent. Reason is, in group there 
 ### Some Attributes
 
 #### Segmented Button
-| Option Name      				| Format                 | Description                              |
-| ---------------- 				| ---------------------- | -----------------------------            |
-| app:sb_imageTint         | `color`               |  Set tint onto button's image    |
-| app:sb_imageScale       | `float`               | Scale button's image |
-| app:sb_selectedImageTint 		| `color`		         | Set tint onto button's image if selector on it  |
-| app:sb_selectedTextColor     | `color`               | Set color onto button's text if selector on it      |
-| app:sb_rippleColor        | `color`               | Set ripple color of button  |
+| Option Name              | Format  | Description                              |
+| ------------------------ | ------- | ---------------------------------------- |
+| app:sb_imageTint         | `color` | Set tint onto button's image             |
+| app:sb_imageScale        | `float` | Scale button's image                     |
+| app:sb_selectedImageTint | `color` | Set tint onto button's image if selector on it |
+| app:sb_selectedTextColor | `color` | Set color onto button's text if selector on it |
+| app:sb_rippleColor       | `color` | Set ripple color of button               |
 
 #### Segmented Button Group
-| Option Name      				| Format                 | Description                              |
-| ---------------- 				| ---------------------- | -----------------------------            |
-| app:sbg_ripple         | `boolean`               |  Set ripple color for every button    |
-| app:sbg_rippleColor         | `color`               |  Set ripple color for every button with custom color    |
-| app:sbg_selectorImageTint       | `color`               | If selector on it, set tint onto image for every button  |
-| app:sbg_selectorTextColor 		| `color`		         | If selector on it, set text color for every button  |
-| app:sbg_selectorColor     | `color`               | Set selector color  |
-| app:sbg_dividerSize        | `dimension`               | Set divider size  |
-| app:sbg_dividerPadding    		| `dimension`           | Set divider padding for top and bottom  |
-| app:sbg_dividerColor			| `color`	         | Change divider color |
-| app:sbg_dividerRadius			| `dimension`	         | Round divider |
-| app:sbg_shadow			| `boolean`	         | Shadow for container layout (api21+) |
-| app:sbg_shadowElevation			| `dimension`	         | Shadow for container layout (api21+) |
-| app:sbg_shadowMargin			| `dimension`	         | Set margin to make shadow visible (api21+) |
-| app:sbg_position			| `integer`	         | Set selected button position |
-| app:sbg_radius			| `dimension`	         | Make layout rounder |
-| app:sbg_backgroundColor			| `color`	         | Set background color of container (except transparent color) |
-| app:sbg_animateSelectorDuration			| `integer`	         | Set how long selector travels to selected position |
-| app:sbg_animateSelector			| `integer`	         | Set selector animation (ex. bounce animation) |
-| app:sbg_borderSize			| `dimension`	         | Add border by giving dimension |
-| app:sbg_borderColor			| `color`	         | Change border color (Default: Grey) |
+| Option Name                     | Format      | Description                              |
+| ------------------------------- | ----------- | ---------------------------------------- |
+| app:sbg_ripple                  | `boolean`   | Set ripple color for every button        |
+| app:sbg_rippleColor             | `color`     | Set ripple color for every button with custom color |
+| app:sbg_selectorImageTint       | `color`     | If selector on it, set tint onto image for every button |
+| app:sbg_selectorTextColor       | `color`     | If selector on it, set text color for every button |
+| app:sbg_selectorColor           | `color`     | Set selector color                       |
+| app:sbg_dividerSize             | `dimension` | Set divider size                         |
+| app:sbg_dividerPadding          | `dimension` | Set divider padding for top and bottom   |
+| app:sbg_dividerColor            | `color`     | Change divider color                     |
+| app:sbg_dividerRadius           | `dimension` | Round divider                            |
+| app:sbg_shadow                  | `boolean`   | Shadow for container layout (api21+)     |
+| app:sbg_shadowElevation         | `dimension` | Shadow for container layout (api21+)     |
+| app:sbg_shadowMargin            | `dimension` | Set margin to make shadow visible (api21+) |
+| app:sbg_position                | `integer`   | Set selected button position             |
+| app:sbg_radius                  | `dimension` | Make layout rounder                      |
+| app:sbg_backgroundColor         | `color`     | Set background color of container (except transparent color) |
+| app:sbg_animateSelectorDuration | `integer`   | Set how long selector travels to selected position |
+| app:sbg_animateSelector         | `integer`   | Set selector animation (ex. bounce animation) |
+| app:sbg_borderSize              | `dimension` | Add border by giving dimension           |
+| app:sbg_borderColor             | `color`     | Change border color (Default: Grey)      |
+
+### Animations Available
+
+- fastOutSlowIn
+- bounce
+- linear
+- decelerate
+- cycle
+- anticipate
+- accelerateDecelerate
+- accelerate
+- anticipateOvershoot
+- fastOutLinearIn
+- linearOutSlowIn
+- overshoot
+
+These animations can be set using the attribute noted above like so: `app:sbg_animateSelector="bounce"`. Also make sure to play with the `app:sbg_animateSelectorDuration` attribute to get the animation to look exactly how you want it.
 
 #### Examples
 
