@@ -21,9 +21,9 @@ public class MainActivity extends AppCompatActivity {
 
         updateButton(group.getPosition());
 
-        group.setOnClickedButtonPosition(new SegmentedButtonGroup.OnClickedButtonPosition() {
+        group.setOnClickedButtonListener(new SegmentedButtonGroup.OnClickedButtonListener() {
             @Override
-            public void onClickedButtonPosition(int position) {
+            public void onClickedButton(int position) {
                 updateButton(position);
             }
         });

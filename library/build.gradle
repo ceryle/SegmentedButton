@@ -4,13 +4,13 @@ apply plugin: 'com.github.dcendents.android-maven'
 group = 'com.github.ceryle'
 
 android {
-    compileSdkVersion project.compileSdkVersion
-    buildToolsVersion project.buildToolsVersion
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
     enforceUniquePackageName = false
 
     defaultConfig {
-        minSdkVersion project.minSdkVersion
-        targetSdkVersion project.targetSdkVersion
+        minSdkVersion 11
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
     }
@@ -47,5 +47,5 @@ artifacts {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:'+ project.supportVersion
+    compile 'com.android.support:appcompat-v7:25.2.0'
 }

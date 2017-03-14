@@ -117,7 +117,7 @@ public class SegmentedButtonGroup extends LinearLayout {
             gd.setColor(borderColor);
             gd.setCornerRadius(radius + 3); // TODO
 
-            Util.setBackground(borderView, gd);
+            BackgroundHelper.setBackground(borderView, gd);
         }
     }
 
@@ -145,7 +145,7 @@ public class SegmentedButtonGroup extends LinearLayout {
             margin = borderSize;
         }
 
-        roundedLayout.setRadius(radius);
+        roundedLayout.setCornerRadius(radius);
     }
 
     private float buttonWidth = 0;
@@ -235,7 +235,7 @@ public class SegmentedButtonGroup extends LinearLayout {
 
     private void setBackgroundColor(View v, Drawable d, int c) {
         if (null != d) {
-            Util.setBackground(v, d);
+            BackgroundHelper.setBackground(v, d);
         } else {
             v.setBackgroundColor(c);
         }
@@ -246,7 +246,7 @@ public class SegmentedButtonGroup extends LinearLayout {
             return;
         dividerContainer.setShowDividers(SHOW_DIVIDER_MIDDLE);
         // Divider Views
-        Util.roundDivider(dividerContainer, dividerColor, dividerRadius, dividerSize, dividerBackgroundDrawable);
+        RoundHelper.makeDividerRound(dividerContainer, dividerColor, dividerRadius, dividerSize, dividerBackgroundDrawable);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             dividerContainer.setDividerPadding(dividerPadding);
         }
@@ -300,11 +300,11 @@ public class SegmentedButtonGroup extends LinearLayout {
         expand(leftGroup, interpolatorSelector, duration, Math.max(0, w1));
         expand(rightGroup, interpolatorSelector, duration, Math.max(0, w2));
 
-        if (null != onClickedButtonPosition && isToggledByTouch)
-            onClickedButtonPosition.onClickedButtonPosition(position);
+        if (null != onClickedButtonListener && isToggledByTouch)
+            onClickedButtonListener.onClickedButton(position);
 
-        if (null != onPositionChanged)
-            onPositionChanged.onPositionChanged(position);
+        if (null != onPositionChangedListener)
+            onPositionChangedListener.onPositionChanged(position);
 
         this.position = position;
     }
@@ -419,17 +419,17 @@ public class SegmentedButtonGroup extends LinearLayout {
     private void setRipple(View v, boolean isClickable) {
         if (isClickable) {
             if (hasRippleColor)
-                Util.setRipple(v, rippleColor);
+                RippleHelper.setRipple(v, rippleColor);
             else if (ripple)
-                Util.setSelectableItemBackground(getContext(), v);
+                RippleHelper.setSelectableItemBackground(getContext(), v);
             else {
                 for (Button button : buttons) {
                     if (button instanceof SegmentedButton && ((SegmentedButton) button).hasRipple())
-                        Util.setRipple(v, ((SegmentedButton) button).getRippleColor());
+                        RippleHelper.setRipple(v, ((SegmentedButton) button).getRippleColor());
                 }
             }
         } else {
-            Util.setBackground(v, null);
+            BackgroundHelper.setBackground(v, null);
         }
     }
 
@@ -538,40 +538,38 @@ public class SegmentedButtonGroup extends LinearLayout {
     public final static int LinearOutSlowInInterpolator = 10;
     public final static int OvershootInterpolator = 11;
 
-
-    private OnPositionChanged onPositionChanged;
+    private OnPositionChangedListener onPositionChangedListener;
 
     /**
-     * @param onPositionChanged set your instance that you have created to listen any position change
+     * @param onPositionChangedListener set your instance that you have created to listen any position change
      */
-    public void setOnPositionChanged(OnPositionChanged onPositionChanged) {
-        this.onPositionChanged = onPositionChanged;
+    public void setOnPositionChangedListener(OnPositionChangedListener onPositionChangedListener) {
+        this.onPositionChangedListener = onPositionChangedListener;
     }
 
     /**
      * Use this listener if you want to know any position change.
      * Listener is called when one of segmented button is clicked or setPosition is called.
      */
-    public interface OnPositionChanged {
+    public interface OnPositionChangedListener {
         void onPositionChanged(int position);
     }
 
-
-    private OnClickedButtonPosition onClickedButtonPosition;
+    private OnClickedButtonListener onClickedButtonListener;
 
     /**
-     * @param onClickedButtonPosition set your instance that you have created to listen clicked positions
+     * @param onClickedButtonListener set your instance that you have created to listen clicked positions
      */
-    public void setOnClickedButtonPosition(OnClickedButtonPosition onClickedButtonPosition) {
-        this.onClickedButtonPosition = onClickedButtonPosition;
+    public void setOnClickedButtonListener(OnClickedButtonListener onClickedButtonListener) {
+        this.onClickedButtonListener = onClickedButtonListener;
     }
 
     /**
      * Use this listener if  you want to know which button is clicked.
      * Listener is called when one of segmented button is clicked
      */
-    public interface OnClickedButtonPosition {
-        void onClickedButtonPosition(int position);
+    public interface OnClickedButtonListener {
+        void onClickedButton(int position);
     }
 
     /**
@@ -769,7 +767,7 @@ public class SegmentedButtonGroup extends LinearLayout {
      */
     public void setDividerColor(int dividerColor) {
         this.dividerColor = dividerColor;
-        Util.roundDivider(dividerContainer, dividerColor, dividerRadius, dividerSize, dividerBackgroundDrawable);
+        RoundHelper.makeDividerRound(dividerContainer, dividerColor, dividerRadius, dividerSize, dividerBackgroundDrawable);
     }
 
     /**
@@ -778,7 +776,7 @@ public class SegmentedButtonGroup extends LinearLayout {
      */
     public void setDividerSize(int dividerSize) {
         this.dividerSize = dividerSize;
-        Util.roundDivider(dividerContainer, dividerColor, dividerRadius, dividerSize, dividerBackgroundDrawable);
+        RoundHelper.makeDividerRound(dividerContainer, dividerColor, dividerRadius, dividerSize, dividerBackgroundDrawable);
     }
 
     /**
@@ -787,7 +785,7 @@ public class SegmentedButtonGroup extends LinearLayout {
      */
     public void setDividerRadius(int dividerRadius) {
         this.dividerRadius = dividerRadius;
-        Util.roundDivider(dividerContainer, dividerColor, dividerRadius, dividerSize, dividerBackgroundDrawable);
+        RoundHelper.makeDividerRound(dividerContainer, dividerColor, dividerRadius, dividerSize, dividerBackgroundDrawable);
     }
 
     /**
@@ -814,10 +812,16 @@ public class SegmentedButtonGroup extends LinearLayout {
     }
 
 
+    /**
+     * @param hasDrawableTintOnSelection if it is set to true it will give tint on chosen button's drawable when selection occurs
+     */
     public void setDrawableTintOnSelection(boolean hasDrawableTintOnSelection) {
         this.hasDrawableTintOnSelection = hasDrawableTintOnSelection;
     }
 
+    /**
+     * @param hasTextColorOnSelection if it is set to true it text color will change when selection occurs
+     */
     public void setTextColorOnSelection(boolean hasTextColorOnSelection) {
         this.hasTextColorOnSelection = hasTextColorOnSelection;
     }
@@ -940,6 +944,12 @@ public class SegmentedButtonGroup extends LinearLayout {
         setAlpha(alpha);
     }
 
+
+    /**
+     * @param enabled set it to:
+     *                false, if you want buttons to be unclickable and add grayish looking which gives disabled look,
+     *                true, if you want buttons to be clickable and remove grayish looking
+     */
     @Override
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
@@ -947,6 +957,11 @@ public class SegmentedButtonGroup extends LinearLayout {
         setEnabledAlpha(enabled);
     }
 
+    /**
+     * @param clickable set it to:
+     *                  false for unclickable buttons,
+     *                  true for clickable buttons
+     */
     @Override
     public void setClickable(boolean clickable) {
         this.clickable = clickable;
