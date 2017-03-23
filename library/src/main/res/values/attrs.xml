@@ -5,6 +5,7 @@
         <attr name="sb_imageScale" format="float"/>
         <attr name="sb_selectedImageTint" format="color"/>
         <attr name="sb_selectedTextColor" format="color"/>
+        <attr name="sb_selectorColor" format="color"/>
         <attr name="sb_rippleColor" format="color"/>
         <attr name="sb_typeface" format="string"/>
 
@@ -32,14 +33,6 @@
         <attr name="sbg_dividerPadding" format="dimension"/>
         <attr name="sbg_dividerColor" format="color"/>
         <attr name="sbg_dividerRadius" format="dimension"/>
-
-        <attr name="sbg_shadow" format="boolean"/>
-        <attr name="sbg_shadowElevation" format="dimension"/>
-        <attr name="sbg_shadowMargin" format="dimension"/>
-        <attr name="sbg_shadowMarginTop" format="dimension"/>
-        <attr name="sbg_shadowMarginBottom" format="dimension"/>
-        <attr name="sbg_shadowMarginLeft" format="dimension"/>
-        <attr name="sbg_shadowMarginRight" format="dimension"/>
 
         <attr name="sbg_position" format="integer"/>
         <attr name="sbg_radius" format="dimension"/>

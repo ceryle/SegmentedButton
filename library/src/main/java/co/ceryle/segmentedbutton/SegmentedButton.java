@@ -15,26 +15,28 @@
  */
 package co.ceryle.segmentedbutton;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ScaleDrawable;
-import android.os.Build;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatButton;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.widget.Button;
+import android.view.ViewGroup;
 
 import com.ceryle.segmentedbutton.R;
 
-public class SegmentedButton extends Button {
+public class SegmentedButton extends AppCompatButton {
+
+    private Context context;
+
     public SegmentedButton(Context context) {
         super(context);
         init(context, null);
@@ -50,14 +52,6 @@ public class SegmentedButton extends Button {
         init(context, attrs);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public SegmentedButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init(context, attrs);
-    }
-
-    private Context context;
-
     private void init(Context context, AttributeSet attrs) {
         this.context = context;
         getAttributes(attrs);
@@ -70,10 +64,13 @@ public class SegmentedButton extends Button {
 
         setTransformationMethod(null);
         setTypeface(typeface);
+        setClickable(false);
+        setFocusable(false);
+        setBackgroundColor(Color.TRANSPARENT);
     }
 
-    private int imageTint, selectedImageTint, selectedTextColor, rippleColor, buttonWidth;
-    private boolean hasButtonImageTint, hasSelectedImageTint, hasTextColorOnSelection, hasRipple, hasWidth, hasWeight;
+    private int imageTint, selectedImageTint, selectedTextColor, rippleColor, buttonWidth, selectorColor;
+    private boolean hasButtonImageTint, hasSelectedImageTint, hasTextColorOnSelection, hasRipple, hasWidth, hasWeight, hasSelectorColor;
     private float buttonImageScale, buttonWeight;
     private String typeface;
 
@@ -94,19 +91,30 @@ public class SegmentedButton extends Button {
 
         typeface = typedArray.getString(R.styleable.SegmentedButton_sb_typeface);
 
+        selectorColor = typedArray.getColor(R.styleable.SegmentedButton_sb_selectorColor, Color.TRANSPARENT);
+        hasSelectorColor = typedArray.hasValue(R.styleable.SegmentedButton_sb_selectorColor);
+
         try {
             hasWeight = typedArray.hasValue(R.styleable.SegmentedButton_android_layout_weight);
-            buttonWeight = typedArray.getFloat(R.styleable.SegmentedButton_android_layout_weight, -1);
+            buttonWeight = typedArray.getFloat(R.styleable.SegmentedButton_android_layout_weight, 0);
 
             buttonWidth = typedArray.getDimensionPixelSize(R.styleable.SegmentedButton_android_layout_width, 0);
-            hasWidth = typedArray.hasValue(R.styleable.SegmentedButton_android_layout_width);
-
 
         } catch (Exception ex) {
-            Log.d("SegmentedButton", ex.toString());
+            hasWeight = true;
+            buttonWeight = 1;
         }
+        hasWidth = !hasWeight && buttonWidth > 0;
 
         typedArray.recycle();
+    }
+
+    public int getSelectorColor() {
+        return selectorColor;
+    }
+
+    public boolean hasSelectorColor() {
+        return hasSelectorColor;
     }
 
     @Override
