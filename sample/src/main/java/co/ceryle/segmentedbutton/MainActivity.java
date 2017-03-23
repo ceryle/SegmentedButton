@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*
         group = (SegmentedButtonGroup) findViewById(R.id.segmentedButtonGroup);
         button = (Button) findViewById(R.id.button);
 
@@ -50,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         handler.postDelayed(runnable, 5000);
-        */
     }
 
     private void updateButton(int position) {
