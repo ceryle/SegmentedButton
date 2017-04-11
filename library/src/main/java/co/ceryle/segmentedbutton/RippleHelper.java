@@ -22,12 +22,15 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
-import android.graphics.drawable.shapes.RectShape;
+import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Build;
 import android.view.View;
+
+import java.util.Arrays;
 
 class RippleHelper {
 
@@ -39,39 +42,38 @@ class RippleHelper {
         BackgroundHelper.setBackground(view, drawableFromTheme);
     }
 
-    static void setRipple(View view, int pressedColor) {
-        setRipple(view, pressedColor, null);
+    static void setRipple(View view, int pressedColor, int radius) {
+        setRipple(view, pressedColor, null, radius);
     }
 
-    static void setRipple(View view, int pressedColor, Integer normalColor) {
+    static void setRipple(View view, int pressedColor, Integer normalColor, int radius) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            view.setBackground(getRippleDrawable(pressedColor, normalColor));
+            view.setBackground(getRippleDrawable(pressedColor, normalColor, radius));
         } else {
-            view.setBackgroundDrawable(getStateListDrawable(pressedColor, normalColor));
+            view.setBackgroundDrawable(getStateListDrawable(pressedColor, normalColor, radius));
         }
     }
 
-    private static StateListDrawable getStateListDrawable(int pressedColor, Integer normalColor) {
+    private static StateListDrawable getStateListDrawable(int pressedColor, Integer normalColor, int radius) {
         StateListDrawable states = new StateListDrawable();
-        states.addState(new int[]{android.R.attr.state_pressed}, new ColorDrawable(pressedColor));
-        states.addState(new int[]{android.R.attr.state_focused}, new ColorDrawable(pressedColor));
-        states.addState(new int[]{android.R.attr.state_activated}, new ColorDrawable(pressedColor));
+        states.addState(
+                new int[]{android.R.attr.state_pressed}
+                , getDrawable(pressedColor, radius)
+        );
         if (null != normalColor)
-            states.addState(new int[]{}, new ColorDrawable(normalColor));
+            states.addState(
+                    new int[]{}
+                    , getDrawable(normalColor, radius)
+            );
         return states;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private static Drawable getRippleDrawable(int pressedColor, Integer normalColor) {
+    private static Drawable getRippleDrawable(int pressedColor, Integer normalColor, int radius) {
         ColorStateList colorStateList = getPressedColorSelector(pressedColor);
-        Drawable mask, content = null;
+        Drawable content = null != normalColor ? new ColorDrawable(normalColor) : null;
+        Drawable mask = getRippleMask(Color.WHITE, radius);
 
-        if (null == normalColor) {
-            mask = new ShapeDrawable();
-        } else {
-            content = new ColorDrawable(normalColor);
-            mask = getRippleMask(Color.WHITE);
-        }
         return new RippleDrawable(colorStateList, content, mask);
     }
 
@@ -86,9 +88,29 @@ class RippleHelper {
         );
     }
 
-    private static Drawable getRippleMask(int color) {
-        ShapeDrawable shapeDrawable = new ShapeDrawable(new RectShape());
+    private static Drawable getRippleMask(int color, int radius) {
+        float[] outerRadii = new float[8];
+        Arrays.fill(outerRadii, radius);
+        RoundRectShape r = new RoundRectShape(outerRadii, null, null);
+        ShapeDrawable shapeDrawable = new ShapeDrawable(r);
         shapeDrawable.getPaint().setColor(color);
         return shapeDrawable;
     }
+
+    private static Drawable getDrawable(Integer color, int radius) {
+        if (color == null)
+            return null;
+        if (radius == 0)
+            return new ColorDrawable(color);
+
+        float[] outerRadii = new float[8];
+        Arrays.fill(outerRadii, radius);
+
+        GradientDrawable shape = new GradientDrawable();
+        shape.setShape(GradientDrawable.RECTANGLE);
+        shape.setCornerRadii(outerRadii);
+        shape.setColor(color);
+        return shape;
+    }
+
 }

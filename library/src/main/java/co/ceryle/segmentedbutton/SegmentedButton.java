@@ -17,23 +17,25 @@ package co.ceryle.segmentedbutton;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ScaleDrawable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.AppCompatButton;
+import android.text.Layout;
+import android.text.StaticLayout;
 import android.text.TextPaint;
-import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
+import android.view.View;
 
 import com.ceryle.segmentedbutton.R;
 
-public class SegmentedButton extends AppCompatButton {
+public class SegmentedButton extends View {
 
     private Context context;
 
@@ -52,53 +54,365 @@ public class SegmentedButton extends AppCompatButton {
         init(context, attrs);
     }
 
+    private float mClipAmount;
+    private boolean clipLeftToRight;
+
+    private Paint mBitmapPaint;
+
+    private TextPaint mTextPaint;
+    private StaticLayout mStaticLayout, mStaticLayoutOverlay;
+    private Rect mTextBounds = new Rect();
+
+    // private RectF rectF = new RectF();
+
     private void init(Context context, AttributeSet attrs) {
         this.context = context;
         getAttributes(attrs);
 
-        if (hasButtonImageTint)
-            setDrawableTint(imageTint);
-
-        if (buttonImageScale != 1)
-            scaleDrawable(buttonImageScale);
-
-        setTransformationMethod(null);
-        setTypeface(typeface);
-        setClickable(false);
-        setFocusable(false);
-        setBackgroundColor(Color.TRANSPARENT);
+        initText();
+        initBitmap();
     }
 
-    private int imageTint, selectedImageTint, selectedTextColor, rippleColor, buttonWidth, selectorColor;
-    private boolean hasButtonImageTint, hasSelectedImageTint, hasTextColorOnSelection, hasRipple, hasWidth, hasWeight, hasSelectorColor;
-    private float buttonImageScale, buttonWeight;
-    private String typeface;
+    private void initText() {
+        if (!hasText)
+            return;
+
+        mTextPaint = new TextPaint();
+        mTextPaint.setAntiAlias(true);
+        mTextPaint.setTextSize(ConversionHelper.dpToPx(getContext(), textSize));
+        mTextPaint.setColor(textColor);
+
+        if (hasTextTypefacePath)
+            setTypeface(textTypefacePath);
+        else if (null != textTypeface) {
+            setTypeface(textTypeface);
+        }
+
+        // default to a single line of text
+        int width = (int) mTextPaint.measureText(text);
+        mStaticLayout = new StaticLayout(text, mTextPaint, width, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0, false);
+        mStaticLayoutOverlay = new StaticLayout(text, mTextPaint, width, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0, false);
+    }
+
+    private void initBitmap() {
+        if (!hasDrawable)
+            return;
+
+        mBitmap = BitmapFactory.decodeResource(context.getResources(), drawable);
+        if (hasDrawableWidth || hasDrawableHeight)
+            mBitmap = getResizedBitmap(mBitmap, drawableWidth, drawableHeight);
+
+        mBitmapPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+        if (hasDrawableTint) {
+            mBitmapNormalColor = new PorterDuffColorFilter(drawableTint, PorterDuff.Mode.SRC_IN);
+            mBitmapPaint.setColorFilter(mBitmapNormalColor);
+        }
+
+        if (hasDrawableTintOnSelection)
+            mBitmapClipColor = new PorterDuffColorFilter(drawableTintOnSelection, PorterDuff.Mode.SRC_IN);
+    }
+
+    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+
+        float scaleWidth = hasDrawableWidth ? ((float) newWidth) / width : 1;
+        float scaleHeight = hasDrawableHeight ? ((float) newHeight) / height : 1;
+
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        return Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
+    }
+
+    private void measureTextWidth(int width) {
+        if (!hasText)
+            return;
+
+        int bitmapWidth = hasDrawable && drawableGravity.isHorizontal() ? mBitmap.getWidth() : 0;
+
+        int textWidth = width - (bitmapWidth + getPaddingLeft() + getPaddingRight());
+
+        if (textWidth < 0)
+            return;
+
+        mStaticLayout = new StaticLayout(text, mTextPaint, textWidth, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0, false);
+        mStaticLayoutOverlay = new StaticLayout(text, mTextPaint, textWidth, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0, false);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int widthRequirement = MeasureSpec.getSize(widthMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        int heightRequirement = MeasureSpec.getSize(heightMeasureSpec);
+
+        int width = 0;
+        int bitmapWidth = hasDrawable ? mBitmap.getWidth() : 0;
+        int textWidth = hasText ? mStaticLayout.getWidth() : 0;
+
+        int height = getPaddingTop() + getPaddingBottom();
+        int bitmapHeight = hasDrawable ? mBitmap.getHeight() : 0;
+        int textHeight = hasText ? mStaticLayout.getHeight() : 0;
+
+        switch (widthMode) {
+            case MeasureSpec.EXACTLY:
+                if (width < widthRequirement) {
+                    width = widthRequirement;
+                    measureTextWidth(width);
+                }
+                break;
+            case MeasureSpec.AT_MOST:
+
+                if (drawableGravity.isHorizontal()) {
+                    width = textWidth + bitmapWidth + drawablePadding;
+                } else {
+                    width = Math.max(bitmapWidth, textWidth);
+                }
+                width += getPaddingLeft() * 2 + getPaddingRight() * 2;
+
+                /*
+                if (width > widthRequirement) {
+                    width = widthRequirement;
+                    measureTextWidth(width);
+                }*/
+                break;
+            case MeasureSpec.UNSPECIFIED:
+                width = textWidth + bitmapWidth;
+                break;
+        }
+
+        if (hasText)
+            mTextPaint.getTextBounds(text, 0, text.length(), mTextBounds);
+
+
+        switch (heightMode) {
+            case MeasureSpec.EXACTLY:
+
+                if (drawableGravity.isHorizontal()) {
+                    height = heightRequirement;
+                    int h = Math.max(textHeight, bitmapHeight) + getPaddingTop() + getPaddingBottom();
+                    if (heightRequirement < h) {
+                        height = h;
+                    }
+                } else {
+                    int h = textHeight + bitmapHeight + getPaddingTop() + getPaddingBottom();
+                    if (heightRequirement < h)
+                        height = h;
+                    else
+                        height = heightRequirement + getPaddingTop() + getPaddingBottom();
+                }
+                break;
+
+            case MeasureSpec.AT_MOST:
+                int vHeight;
+                if (drawableGravity.isHorizontal()) {
+                    vHeight = Math.max(textHeight, bitmapHeight);
+                } else {
+                    vHeight = textHeight + bitmapHeight + drawablePadding;
+                }
+
+                height = vHeight + getPaddingTop() * 2 + getPaddingBottom() * 2;
+
+                break;
+            case MeasureSpec.UNSPECIFIED:
+                // height = heightMeasureSpec;
+                break;
+        }
+
+        calculate(width, height);
+        setMeasuredDimension(width, height);
+    }
+
+    private float text_X = 0.0f, text_Y = 0.0f, bitmap_X = 0.0f, bitmap_Y = 0.0f;
+
+    private void calculate(int width, int height) {
+        float textHeight = 0, textWidth = 0, textBoundsWidth = 0;
+        if (hasText) {
+            textHeight = mStaticLayout.getHeight();
+            textWidth = mStaticLayout.getWidth();
+            textBoundsWidth = mTextBounds.width();
+        }
+
+        float bitmapHeight = 0, bitmapWidth = 0;
+        if (hasDrawable) {
+            bitmapHeight = mBitmap.getHeight();
+            bitmapWidth = mBitmap.getWidth();
+        }
+
+
+        if (drawableGravity.isHorizontal()) {
+            if (height > Math.max(textHeight, bitmapHeight)) {
+                text_Y = height / 2f - textHeight / 2f + getPaddingTop() - getPaddingBottom();
+                bitmap_Y = height / 2f - bitmapHeight / 2f + getPaddingTop() - getPaddingBottom();
+            } else if (textHeight > bitmapHeight) {
+                text_Y = getPaddingTop();
+                bitmap_Y = text_Y + textHeight / 2f - bitmapHeight / 2f;
+            } else {
+                bitmap_Y = getPaddingTop();
+                text_Y = bitmap_Y + bitmapHeight / 2f - textHeight / 2f;
+            }
+
+            text_X = getPaddingLeft();
+            bitmap_X = textWidth;
+
+            float remainingSpace = width - (textBoundsWidth + bitmapWidth);
+            if (remainingSpace > 0) {
+                remainingSpace /= 2f;
+            }
+
+            if (drawableGravity == DrawableGravity.RIGHT) {
+                text_X = remainingSpace + getPaddingLeft() - getPaddingRight() - drawablePadding / 2f;
+                bitmap_X = text_X + textBoundsWidth + drawablePadding;
+            } else if (drawableGravity == DrawableGravity.LEFT) {
+                bitmap_X = remainingSpace + getPaddingLeft() - getPaddingRight() - drawablePadding / 2f;
+                text_X = bitmap_X + bitmapWidth + drawablePadding;
+            }
+        } else {
+
+
+            if (drawableGravity == DrawableGravity.TOP) {
+                bitmap_Y = getPaddingTop() - getPaddingBottom() - drawablePadding / 2f;
+
+                float vHeight = (height - (textHeight + bitmapHeight)) / 2f;
+
+                if (vHeight > 0)
+                    bitmap_Y += vHeight;
+
+                text_Y = bitmap_Y + bitmapHeight + drawablePadding;
+
+            } else if (drawableGravity == DrawableGravity.BOTTOM) {
+                text_Y = getPaddingTop() - getPaddingBottom() - drawablePadding / 2f;
+
+                float vHeight = height - (textHeight + bitmapHeight);
+                if (vHeight > 0)
+                    text_Y += vHeight / 2f;
+
+                bitmap_Y = text_Y + textHeight + drawablePadding;
+            }
+
+
+            if (width > Math.max(textBoundsWidth, bitmapWidth)) {
+                text_X = width / 2f - textBoundsWidth / 2f + getPaddingLeft() - getPaddingRight();
+                bitmap_X = width / 2f - bitmapWidth / 2f + getPaddingLeft() - getPaddingRight();
+            } else if (textBoundsWidth > bitmapWidth) {
+                text_X = getPaddingLeft();
+                bitmap_X = text_X + textBoundsWidth / 2f - bitmapWidth / 2f;
+            } else {
+                bitmap_X = getPaddingLeft();
+                text_X = bitmap_X + bitmapWidth / 2f - textBoundsWidth / 2f;
+            }
+        }
+    }
+
+    private PorterDuffColorFilter mBitmapNormalColor, mBitmapClipColor;
+
+    private Bitmap mBitmap;
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        // NORMAL -start
+        // Text normal
+        canvas.save();
+
+        if (hasText) {
+            canvas.translate(text_X, text_Y);
+            if (hasTextColorOnSelection)
+                mTextPaint.setColor(textColor);
+            mStaticLayout.draw(canvas);
+
+            canvas.restore();
+        }
+
+        // Bitmap normal
+        if (hasDrawable) {
+            mBitmapPaint.setColorFilter(mBitmapNormalColor);
+            canvas.drawBitmap(mBitmap, bitmap_X, bitmap_Y, mBitmapPaint);
+        }
+        // NORMAL -end
+
+        int width = canvas.getWidth();
+        int height = canvas.getHeight();
+
+        // CLIPPING
+        if (clipLeftToRight) {
+            canvas.clipRect(width * (1 - mClipAmount), 0, width, height);
+        } else {
+            canvas.clipRect(0, 0, width * mClipAmount, height);
+        }
+
+        // CLIP -start
+        // Text clip
+        canvas.save();
+
+        if (hasText) {
+            canvas.translate(text_X, text_Y);
+            if (hasTextColorOnSelection)
+                mTextPaint.setColor(textColorOnSelection);
+            mStaticLayoutOverlay.draw(canvas);
+            canvas.restore();
+        }
+
+        // Bitmap clip
+        if (hasDrawable) {
+            if (hasDrawableTintOnSelection)
+                mBitmapPaint.setColorFilter(mBitmapClipColor);
+            canvas.drawBitmap(mBitmap, bitmap_X, bitmap_Y, mBitmapPaint);
+        }
+        // CLIP -end
+
+        canvas.restore();
+    }
+
+    private int drawableTintOnSelection, textColorOnSelection, textColor, rippleColor, buttonWidth, textSize,
+            drawable, drawableTint, drawableWidth, drawableHeight, drawablePadding;
+    private boolean hasTextColorOnSelection, hasRipple, hasWidth, hasWeight, hasDrawableTintOnSelection,
+            hasDrawableWidth, hasDrawableHeight, hasDrawableTint, hasTextTypefacePath;
+    private float buttonWeight;
+    private String textTypefacePath, text;
+    private Typeface textTypeface;
 
     private void getAttributes(AttributeSet attrs) {
-        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.SegmentedButton);
-        imageTint = typedArray.getColor(R.styleable.SegmentedButton_sb_imageTint, -1);
-        hasButtonImageTint = typedArray.hasValue(R.styleable.SegmentedButton_sb_imageTint);
-        buttonImageScale = typedArray.getFloat(R.styleable.SegmentedButton_sb_imageScale, 1);
+        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.SegmentedButton);
 
-        selectedImageTint = typedArray.getColor(R.styleable.SegmentedButton_sb_selectedImageTint, 0);
-        hasSelectedImageTint = typedArray.hasValue(R.styleable.SegmentedButton_sb_selectedImageTint);
+        drawableTintOnSelection = ta.getColor(R.styleable.SegmentedButton_sb_drawableTint_onSelection, Color.WHITE);
+        hasDrawableTintOnSelection = ta.hasValue(R.styleable.SegmentedButton_sb_drawableTint_onSelection);
 
-        selectedTextColor = typedArray.getColor(R.styleable.SegmentedButton_sb_selectedTextColor, 0);
-        hasTextColorOnSelection = typedArray.hasValue(R.styleable.SegmentedButton_sb_selectedTextColor);
+        textColorOnSelection = ta.getColor(R.styleable.SegmentedButton_sb_textColor_onSelection, Color.WHITE);
+        hasTextColorOnSelection = ta.hasValue(R.styleable.SegmentedButton_sb_textColor_onSelection);
 
-        rippleColor = typedArray.getColor(R.styleable.SegmentedButton_sb_rippleColor, 0);
-        hasRipple = typedArray.hasValue(R.styleable.SegmentedButton_sb_rippleColor);
+        rippleColor = ta.getColor(R.styleable.SegmentedButton_sb_rippleColor, 0);
+        hasRipple = ta.hasValue(R.styleable.SegmentedButton_sb_rippleColor);
 
-        typeface = typedArray.getString(R.styleable.SegmentedButton_sb_typeface);
-
-        selectorColor = typedArray.getColor(R.styleable.SegmentedButton_sb_selectorColor, Color.TRANSPARENT);
-        hasSelectorColor = typedArray.hasValue(R.styleable.SegmentedButton_sb_selectorColor);
+        text = ta.getString(R.styleable.SegmentedButton_sb_text);
+        hasText = ta.hasValue(R.styleable.SegmentedButton_sb_text);
+        textSize = ta.getDimensionPixelSize(R.styleable.SegmentedButton_sb_textSize, 14);
+        textColor = ta.getColor(R.styleable.SegmentedButton_sb_textColor, Color.GRAY);
+        textTypefacePath = ta.getString(R.styleable.SegmentedButton_sb_textTypefacePath);
+        hasTextTypefacePath = ta.hasValue(R.styleable.SegmentedButton_sb_textTypefacePath);
+        int typeface = ta.getInt(R.styleable.SegmentedButton_sb_textTypeface, 1);
+        switch (typeface) {
+            case 0:
+                textTypeface = Typeface.MONOSPACE;
+                break;
+            case 1:
+                textTypeface = Typeface.DEFAULT;
+                break;
+            case 2:
+                textTypeface = Typeface.SANS_SERIF;
+                break;
+            case 3:
+                textTypeface = Typeface.SERIF;
+                break;
+        }
 
         try {
-            hasWeight = typedArray.hasValue(R.styleable.SegmentedButton_android_layout_weight);
-            buttonWeight = typedArray.getFloat(R.styleable.SegmentedButton_android_layout_weight, 0);
+            hasWeight = ta.hasValue(R.styleable.SegmentedButton_android_layout_weight);
+            buttonWeight = ta.getFloat(R.styleable.SegmentedButton_android_layout_weight, 0);
 
-            buttonWidth = typedArray.getDimensionPixelSize(R.styleable.SegmentedButton_android_layout_width, 0);
+            buttonWidth = ta.getDimensionPixelSize(R.styleable.SegmentedButton_android_layout_width, 0);
 
         } catch (Exception ex) {
             hasWeight = true;
@@ -106,77 +420,35 @@ public class SegmentedButton extends AppCompatButton {
         }
         hasWidth = !hasWeight && buttonWidth > 0;
 
-        typedArray.recycle();
+
+        drawable = ta.getResourceId(R.styleable.SegmentedButton_sb_drawable, 0);
+        drawableTint = ta.getColor(R.styleable.SegmentedButton_sb_drawableTint, -1);
+        drawableWidth = ta.getDimensionPixelSize(R.styleable.SegmentedButton_sb_drawableWidth, -1);
+        drawableHeight = ta.getDimensionPixelSize(R.styleable.SegmentedButton_sb_drawableHeight, -1);
+        drawablePadding = ta.getDimensionPixelSize(R.styleable.SegmentedButton_sb_drawablePadding, 0);
+
+        hasDrawable = ta.hasValue(R.styleable.SegmentedButton_sb_drawable);
+        hasDrawableTint = ta.hasValue(R.styleable.SegmentedButton_sb_drawableTint);
+        hasDrawableWidth = ta.hasValue(R.styleable.SegmentedButton_sb_drawableWidth);
+        hasDrawableHeight = ta.hasValue(R.styleable.SegmentedButton_sb_drawableHeight);
+
+        drawableGravity = DrawableGravity.getById(ta.getInteger(R.styleable.SegmentedButton_sb_drawableGravity, 0));
+
+
+        ta.recycle();
     }
 
-    public int getSelectorColor() {
-        return selectorColor;
+    /**
+     * Typeface.NORMAL: 0
+     * Typeface.BOLD: 1
+     * Typeface.ITALIC: 2
+     * Typeface.BOLD_ITALIC: 3
+     *
+     * @param typeface you can use above variations using the bitwise OR operator
+     */
+    public void setTypeface(Typeface typeface) {
+        mTextPaint.setTypeface(typeface);
     }
-
-    public boolean hasSelectorColor() {
-        return hasSelectorColor;
-    }
-
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
-
-        if (!changed) return;
-
-        if (buttonImageScale != 1)
-            scaleDrawable(buttonImageScale);
-
-        drawButton();
-    }
-
-    // Pre-allocate objects for layout measuring
-    private Rect textBounds = new Rect();
-    private Rect drawableBounds = new Rect();
-
-    private void drawButton() {
-
-        final CharSequence text = getText();
-        if (!TextUtils.isEmpty(text)) {
-            TextPaint textPaint = getPaint();
-            textPaint.getTextBounds(text.toString(), 0, text.length(), textBounds);
-        } else {
-            textBounds.setEmpty();
-        }
-
-        final int width = getWidth() - (getPaddingLeft() + getPaddingRight());
-        final int height = getHeight() - (getPaddingTop() + getPaddingBottom());
-
-        final Drawable[] drawables = getCompoundDrawables();
-
-        int offSet = 0;
-        for (int i = 0; i < drawables.length; i++) {
-            if (drawables[i] == null)
-                continue;
-
-            drawables[i].copyBounds(drawableBounds);
-            switch (i) {
-                case 0:
-                    offSet = (width - (textBounds.width() + drawableBounds.width()) + getRightPaddingOffset()) / 2 - getCompoundDrawablePadding();
-                    break;
-                case 1:
-                    offSet = (height - (textBounds.height() + drawableBounds.height()) + getBottomPaddingOffset()) / 2 - getCompoundDrawablePadding();
-                    break;
-                case 2:
-                    offSet = ((textBounds.width() + drawableBounds.width()) - width + getLeftPaddingOffset()) / 2 + getCompoundDrawablePadding();
-                    break;
-                case 3:
-                    offSet = ((textBounds.height() + drawableBounds.height()) - height + getTopPaddingOffset()) / 2 + getCompoundDrawablePadding();
-                    break;
-            }
-            if (i % 2 == 0)
-                drawableBounds.offset(offSet, 0);
-            else
-                drawableBounds.offset(0, offSet);
-
-            drawables[i].setBounds(drawableBounds);
-        }
-    }
-
 
     /**
      * @param location is .ttf file's path in assets folder. Example: 'fonts/my_font.ttf'
@@ -184,85 +456,95 @@ public class SegmentedButton extends AppCompatButton {
     public void setTypeface(String location) {
         if (null != location && !location.equals("")) {
             Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), location);
-            setTypeface(typeface);
+            mTextPaint.setTypeface(typeface);
         }
     }
 
-
     /**
-     * @param scale sets button's drawable size. It multiplies drawable's width and height with the given variable.
+     * GRAVITY
      */
-    public void scaleDrawable(double scale) {
-        Drawable[] drawables = getCompoundDrawables();
 
-        for (int i = 0; i < drawables.length; i++) {
-            if (drawables[i] != null) {
-                if (drawables[i] instanceof ScaleDrawable) {
-                    drawables[i].setLevel(1);
-                }
-                ScaleDrawable sd = new ScaleDrawable(drawables[i], 0, drawables[i].getIntrinsicWidth(), drawables[i].getIntrinsicHeight());
-                drawables[i].setBounds(0, 0, (int) (drawables[i].getIntrinsicWidth() * scale), (int) (drawables[i].getIntrinsicHeight() * scale));
+    private DrawableGravity drawableGravity;
 
-                setDrawable(sd.getDrawable(), i);
+    public enum DrawableGravity {
+        LEFT(0),
+        TOP(1),
+        RIGHT(2),
+        BOTTOM(3);
+
+        private int intValue;
+
+        DrawableGravity(int intValue) {
+            this.intValue = intValue;
+        }
+
+        private int getIntValue() {
+            return intValue;
+        }
+
+        public static DrawableGravity getById(int id) {
+            for (DrawableGravity e : values()) {
+                if (e.intValue == id) return e;
             }
+            return null;
+        }
+
+        public boolean isHorizontal() {
+            return intValue == 0 || intValue == 2;
         }
     }
 
-    /**
-     * Constants gives available positions for drawable to set
-     */
-    public final static int DRAWABLE_LEFT = 0;
-    public final static int DRAWABLE_TOP = 1;
-    public final static int DRAWABLE_RIGHT = 2;
-    public final static int DRAWABLE_BOTTOM = 3;
+    private boolean hasDrawable, hasText;
+
+    public void clipToLeft(float clip) {
+        clipLeftToRight = false;
+        mClipAmount = 1.0f - clip;
+        invalidate();
+    }
+
+    public void clipToRight(float clip) {
+        clipLeftToRight = true;
+        mClipAmount = clip;
+        invalidate();
+    }
 
     /**
      * Sets button's drawable by given drawable object and its position
      *
-     * @param drawable is directly set to button's drawable
-     * @param position specifies button's drawable position relative to text position.
-     *                 These values can be given to position:
-     *                 {@link #DRAWABLE_LEFT} sets drawable to the left of button's text
-     *                 {@link #DRAWABLE_TOP} sets drawable to the top of button's text
-     *                 {@link #DRAWABLE_RIGHT} sets drawable to the right of button's text
-     *                 {@link #DRAWABLE_BOTTOM} sets drawable to the bottom of button's text
+     * @param resId is your drawable's resource id
      */
-    public void setDrawable(Drawable drawable, int position) {
-        if (drawable != null) {
-            if (position == 0)
-                setCompoundDrawables(drawable, null, null, null);
-            else if (position == 1)
-                setCompoundDrawables(null, drawable, null, null);
-            else if (position == 2)
-                setCompoundDrawables(null, null, drawable, null);
-            else
-                setCompoundDrawables(null, null, null, drawable);
-        }
+    public void setDrawable(int resId) {
+        drawable = resId;
+        mBitmap = BitmapFactory.decodeResource(context.getResources(), resId);
     }
 
     /**
      * Sets button's drawable by given drawable id and its position
      *
-     * @param drawableId is used to get drawable object
-     * @param position   specifies button's drawable position relative to text position.
-     *                   These values can be given to position:
-     *                   {@link #DRAWABLE_LEFT} sets drawable to the left of button's text
-     *                   {@link #DRAWABLE_TOP} sets drawable to the top of button's text
-     *                   {@link #DRAWABLE_RIGHT} sets drawable to the right of button's text
-     *                   {@link #DRAWABLE_BOTTOM} sets drawable to the bottom of button's text
+     * @param gravity specifies button's drawable position relative to text position.
+     *                These values can be given to position:
+     *                {DrawableGravity.LEFT} sets drawable to the left of button's text
+     *                {DrawableGravity.TOP} sets drawable to the top of button's text
+     *                {DrawableGravity.RIGHT} sets drawable to the right of button's text
+     *                {DrawableGravity.BOTTOM} sets drawable to the bottom of button's text
      */
-    public void setDrawable(int drawableId, int position) {
-        setDrawable(ContextCompat.getDrawable(context, drawableId), position);
+    public void setGravity(DrawableGravity gravity) {
+        drawableGravity = gravity;
     }
 
     /**
-     * removes drawable's tint if it has any color
+     * removes drawable's tint
      */
     public void removeDrawableTint() {
-        for (int i = 0; i < getCompoundDrawables().length; i++) {
-            if (getCompoundDrawables()[i] != null)
-                getCompoundDrawables()[i].clearColorFilter();
-        }
+        hasDrawableTint = false;
+    }
+
+    public void removeDrawableTintOnSelection() {
+        hasDrawableTintOnSelection = false;
+    }
+
+    public void removeTextColorOnSelection() {
+        hasTextColorOnSelection = false;
     }
 
     /**
@@ -271,56 +553,8 @@ public class SegmentedButton extends AppCompatButton {
      * @param color is used to set drawable's tint color
      */
     public void setDrawableTint(int color) {
-        int pos = 0;
-        Drawable drawable = null;
-
-        if (getCompoundDrawables().length > 0) {
-            for (int i = 0; i < getCompoundDrawables().length; i++) {
-                if (getCompoundDrawables()[i] != null) {
-                    pos = i;
-                    drawable = getCompoundDrawables()[i];
-                }
-            }
-            if (drawable != null)
-                drawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
-            setDrawable(drawable, pos);
-        }
+        drawableTint = color;
     }
-
-    /**
-     * If button has any drawable, it sets drawable's tint color without changing drawable's position.
-     *
-     * @param drawableId is used to get drawable object
-     * @param position   specifies button's drawable position relative to text position.
-     *                   These values can be given to position:
-     *                   {@link #DRAWABLE_LEFT} sets drawable to the left of button's text
-     *                   {@link #DRAWABLE_TOP} sets drawable to the top of button's text
-     *                   {@link #DRAWABLE_RIGHT} sets drawable to the right of button's text
-     *                   {@link #DRAWABLE_BOTTOM} sets drawable to the bottom of button's text
-     * @param color      is used to set drawable's tint color
-     */
-    public void setDrawableTint(int drawableId, int position, int color) {
-        Drawable drawable = ContextCompat.getDrawable(context, drawableId);
-        setDrawableTint(drawable, position, color);
-    }
-
-    /**
-     * If button has any drawable, it sets drawable's tint color without changing drawable's position.
-     *
-     * @param drawable is directly set to button's drawable
-     * @param position specifies button's drawable position relative to text position.
-     *                 These values can be given to position:
-     *                 {@link #DRAWABLE_LEFT} sets drawable to the left of button's text
-     *                 {@link #DRAWABLE_TOP} sets drawable to the top of button's text
-     *                 {@link #DRAWABLE_RIGHT} sets drawable to the right of button's text
-     *                 {@link #DRAWABLE_BOTTOM} sets drawable to the bottom of button's text
-     * @param color    is used to set drawable's tint color
-     */
-    public void setDrawableTint(Drawable drawable, int position, int color) {
-        drawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
-        setDrawable(drawable, position);
-    }
-
 
     /**
      * @return button's current ripple color
@@ -340,56 +574,42 @@ public class SegmentedButton extends AppCompatButton {
      * @return button's text color when selector is on the button
      */
     public int getTextColorOnSelection() {
-        return selectedTextColor;
+        return textColorOnSelection;
     }
 
     /**
-     * @param selectedTextColor set button's text color when selector is on the button
+     * @param textColorOnSelection set button's text color when selector is on the button
      */
-    public void setTextColorOnSelection(int selectedTextColor) {
-        this.selectedTextColor = selectedTextColor;
+    public void setTextColorOnSelection(int textColorOnSelection) {
+        this.textColorOnSelection = textColorOnSelection;
     }
 
     /**
      * @return drawable's tint color when selector is on the button
      */
     public int getDrawableTintOnSelection() {
-        return selectedImageTint;
+        return drawableTintOnSelection;
     }
 
     /**
      * @return drawable's tint color
      */
     public int getDrawableTint() {
-        return imageTint;
-    }
-
-    /**
-     * @return drawable's scale. Default scale is 1.0
-     */
-    public float getDrawableScale() {
-        return buttonImageScale;
+        return drawableTint;
     }
 
     /**
      * @return true if button's drawable is not empty
      */
     public boolean hasDrawableTint() {
-        return hasButtonImageTint;
-    }
-
-    /**
-     * sets whether drawable should have tint or not
-     */
-    public void hasDrawableTint(boolean hasTint) {
-        this.hasButtonImageTint = hasTint;
+        return hasDrawableTint;
     }
 
     /**
      * @return true if button's drawable has tint when selector is on the button
      */
     public boolean hasDrawableTintOnSelection() {
-        return hasSelectedImageTint;
+        return hasDrawableTintOnSelection;
     }
 
     /**

@@ -1,17 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="SegmentedButton">
-        <attr name="sb_imageTint" format="color"/>
-        <attr name="sb_imageScale" format="float"/>
-        <attr name="sb_selectedImageTint" format="color"/>
-        <attr name="sb_selectedTextColor" format="color"/>
-        <attr name="sb_selectorColor" format="color"/>
+
         <attr name="sb_rippleColor" format="color"/>
-        <attr name="sb_typeface" format="string"/>
+
+        <attr name="sb_drawable" format="reference"/>
+        <attr name="sb_drawablePadding" format="dimension"/>
+        <attr name="sb_drawableTint" format="color"/>
+        <attr name="sb_drawableTint_onSelection" format="color"/>
+        <attr name="sb_drawableWidth" format="dimension"/>
+        <attr name="sb_drawableHeight" format="dimension"/>
+        <attr name="sb_drawableKeepAspectRatio" format="boolean"/>
+        <attr name="sb_drawableGravity" format="integer">
+            <flag name="left" value="0"/>
+            <flag name="top" value="1"/>
+            <flag name="right" value="2"/>
+            <flag name="bottom" value="3"/>
+        </attr>
+
+        <attr name="sb_text" format="string"/>
+        <attr name="sb_textColor" format="color"/>
+        <attr name="sb_textColor_onSelection" format="color"/>
+        <attr name="sb_textSize" format="dimension"/>
+        <attr name="sb_textTypeface" format="integer">
+            <flag name="monospace" value="0"/>
+            <flag name="normal" value="1"/>
+            <flag name="sans" value="2"/>
+            <flag name="serif" value="3"/>
+        </attr>
+        <attr name="sb_textTypefacePath" format="string"/>
+        <attr name="sb_textFillSpace" format="boolean"/>
+        <attr name="sb_textStyle" format="integer">
+            <flag name="normal" value="0"/>
+            <flag name="bold" value="1"/>
+            <flag name="italic" value="2"/>
+        </attr>
+        <attr name="sb_textGravity" format="integer">
+            <flag name="left" value="0"/>
+            <flag name="center" value="1"/>
+            <flag name="right" value="2"/>
+        </attr>
 
         <attr name="android:layout_width"/>
         <attr name="android:layout_height"/>
         <attr name="android:layout_weight"/>
+
     </declare-styleable>
 
     <declare-styleable name="SegmentedButtonGroup">
@@ -25,8 +58,6 @@
         <attr name="sbg_ripple" format="boolean"/>
         <attr name="sbg_rippleColor" format="color"/>
 
-        <attr name="sbg_selectorImageTint" format="color"/>
-        <attr name="sbg_selectorTextColor" format="color"/>
         <attr name="sbg_selectorColor" format="color"/>
 
         <attr name="sbg_dividerSize" format="dimension"/>
@@ -40,6 +71,7 @@
 
         <attr name="sbg_enabled" format="boolean"/>
         <attr name="android:clickable"/>
+        <attr name="sbg_draggable" format="boolean"/>
 
         <attr name="sbg_animateSelectorDuration" format="integer"/>
         <attr name="sbg_animateSelector" format="integer">
