@@ -23,7 +23,7 @@ For more Android-like segmented control, check [Radio Real Button](https://githu
 ###### You can also apply your custom drawable on button group
 ![7](https://cloud.githubusercontent.com/assets/20969019/21565978/ec2fb698-cea6-11e6-8ae9-54326e3ebdf4.gif)
 <br />
-###### It is now possible to drag selector
+###### It is now possible to drag selector (not available for the last released version, but you can download the project to achieve that.)
 ![8](https://cloud.githubusercontent.com/assets/20969019/24909871/6b0a8b10-1ece-11e7-8686-df8276f1ae15.gif)
 
 
