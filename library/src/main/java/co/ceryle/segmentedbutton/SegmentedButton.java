@@ -31,6 +31,7 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 
 import com.ceryle.segmentedbutton.R;
@@ -79,7 +80,7 @@ public class SegmentedButton extends View {
 
         mTextPaint = new TextPaint();
         mTextPaint.setAntiAlias(true);
-        mTextPaint.setTextSize(ConversionHelper.dpToPx(getContext(), textSize));
+        mTextPaint.setTextSize(textSize);
         mTextPaint.setColor(textColor);
 
         if (hasTextTypefacePath)
@@ -366,11 +367,11 @@ public class SegmentedButton extends View {
         canvas.restore();
     }
 
-    private int drawableTintOnSelection, textColorOnSelection, textColor, rippleColor, buttonWidth, textSize,
+    private int drawableTintOnSelection, textColorOnSelection, textColor, rippleColor, buttonWidth,
             drawable, drawableTint, drawableWidth, drawableHeight, drawablePadding;
     private boolean hasTextColorOnSelection, hasRipple, hasWidth, hasWeight, hasDrawableTintOnSelection,
             hasDrawableWidth, hasDrawableHeight, hasDrawableTint, hasTextTypefacePath;
-    private float buttonWeight;
+    private float buttonWeight, textSize;
     private String textTypefacePath, text;
     private Typeface textTypeface;
 
@@ -388,7 +389,7 @@ public class SegmentedButton extends View {
 
         text = ta.getString(R.styleable.SegmentedButton_sb_text);
         hasText = ta.hasValue(R.styleable.SegmentedButton_sb_text);
-        textSize = ta.getDimensionPixelSize(R.styleable.SegmentedButton_sb_textSize, 14);
+        textSize = ta.getDimension(R.styleable.SegmentedButton_sb_textSize, ConversionHelper.spToPx(getContext(), 14));
         textColor = ta.getColor(R.styleable.SegmentedButton_sb_textColor, Color.GRAY);
         textTypefacePath = ta.getString(R.styleable.SegmentedButton_sb_textTypefacePath);
         hasTextTypefacePath = ta.hasValue(R.styleable.SegmentedButton_sb_textTypefacePath);

@@ -26,4 +26,8 @@ class ConversionHelper {
     static int dpToPx(final Context context, final float dp) {
         return (int) (dp * context.getResources().getDisplayMetrics().density);
     }
+
+    static float spToPx(final Context context, int size) {
+        return size * context.getResources().getDisplayMetrics().scaledDensity;
+    }
 }

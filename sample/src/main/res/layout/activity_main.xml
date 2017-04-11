@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_400"
+    android:background="@color/grey_300"
     android:orientation="vertical">
 
     <LinearLayout
@@ -74,13 +74,12 @@
         android:elevation="2dp"
         app:sbg_borderColor="@color/orange_700"
         app:sbg_borderSize="1dp"
-        app:sbg_dividerColor="@color/brown_800"
+        app:sbg_dividerColor="@color/orange_700"
         app:sbg_dividerPadding="10dp"
         app:sbg_dividerSize="1dp"
         app:sbg_position="0"
-        app:sbg_radius="30dp"
-        app:sbg_rippleColor="@color/brown_700"
-        app:sbg_selectorColor="@color/brown_800">
+        app:sbg_rippleColor="@color/green_800"
+        app:sbg_selectorColor="@color/green_900">
 
         <co.ceryle.segmentedbutton.SegmentedButton
             android:layout_width="0dp"
@@ -187,11 +186,11 @@
             android:layout_weight="1"
             android:elevation="2dp"
             app:sbg_backgroundColor="@color/white"
+            app:sbg_borderColor="@color/black"
+            app:sbg_borderSize="1dp"
             app:sbg_draggable="true"
             app:sbg_position="0"
             app:sbg_radius="30dp"
-            app:sbg_borderColor="@color/black"
-            app:sbg_borderSize="1dp"
             app:sbg_rippleColor="@color/blue_300"
             app:sbg_selectorColor="@color/yellow_600">
 
@@ -241,7 +240,7 @@
     </LinearLayout>
 
     <co.ceryle.segmentedbutton.SegmentedButtonGroup
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="4dp"
@@ -260,21 +259,24 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="4dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             app:sb_drawable="@drawable/ic_b8"/>
 
         <co.ceryle.segmentedbutton.SegmentedButton
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="4dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             app:sb_drawable="@drawable/ic_b9"/>
 
         <co.ceryle.segmentedbutton.SegmentedButton
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="4dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             app:sb_drawable="@drawable/ic_b11"/>
 
     </co.ceryle.segmentedbutton.SegmentedButtonGroup>
@@ -331,6 +333,44 @@
             app:sb_drawable="@drawable/ic_b7"
             app:sb_drawableTint="@color/white"
             app:sb_drawableTint_onSelection="@color/black"/>
+
+    </co.ceryle.segmentedbutton.SegmentedButtonGroup>
+
+    <co.ceryle.segmentedbutton.SegmentedButtonGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:elevation="2dp"
+        app:sbg_backgroundColor="@color/white"
+        app:sbg_borderColor="@color/black"
+        app:sbg_borderSize="1dp"
+        app:sbg_draggable="true"
+        app:sbg_position="0"
+        app:sbg_radius="30dp"
+        app:sbg_rippleColor="@color/black"
+        app:sbg_selectorColor="@color/black">
+
+        <co.ceryle.segmentedbutton.SegmentedButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="5dp"
+            app:sb_text="YES"
+            app:sb_textColor="@color/black"
+            app:sb_textColor_onSelection="@color/white"
+            app:sb_textSize="20sp"
+            app:sb_textTypeface="serif"/>
+
+        <co.ceryle.segmentedbutton.SegmentedButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="5dp"
+            app:sb_text="NO"
+            app:sb_textColor="@color/black"
+            app:sb_textColor_onSelection="@color/white"
+            app:sb_textSize="20sp"
+            app:sb_textTypeface="serif"/>
 
     </co.ceryle.segmentedbutton.SegmentedButtonGroup>
 
