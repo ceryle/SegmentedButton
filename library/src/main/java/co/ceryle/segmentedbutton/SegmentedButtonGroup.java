@@ -80,8 +80,21 @@ public class SegmentedButtonGroup extends LinearLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        float selectorWidth, offsetX;
+        int position = 0;
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_UP:
+
+                selectorWidth = (float) getWidth() / numberOfButtons / 2f;
+                offsetX = ((event.getX() - selectorWidth) * numberOfButtons) / getWidth();
+                position = (int) Math.floor(offsetX + 0.5);
+
+
+                toggledPositionOffset = lastPositionOffset = offsetX;
+
+                toggle(position, animateSelectorDuration, true);
+
                 break;
             case MotionEvent.ACTION_DOWN:
                 break;
@@ -90,7 +103,7 @@ public class SegmentedButtonGroup extends LinearLayout {
                 if (!draggable)
                     break;
 
-                float selectorWidth = (float) getWidth() / numberOfButtons / 2f;
+                selectorWidth = (float) getWidth() / numberOfButtons / 2f;
 
 
                 if (event.getRawX() - selectorWidth < getLeft()) {
@@ -104,11 +117,11 @@ public class SegmentedButtonGroup extends LinearLayout {
                     break;
                 }
 
-                float offsetX = ((event.getX() - selectorWidth) * numberOfButtons) / getWidth();
+                offsetX = ((event.getX() - selectorWidth) * numberOfButtons) / getWidth();
                 mClipAmount = offsetX;
                 invalidate();
 
-                int position = (int) Math.floor(offsetX);
+                position = (int) Math.floor(offsetX);
                 offsetX -= position;
 
                 animateViews(position, offsetX);
@@ -723,7 +736,7 @@ public class SegmentedButtonGroup extends LinearLayout {
     private float toggledPositionOffset = 0;
 
     private void toggle(int position, int duration, boolean isToggledByTouch) {
-        if (toggledPosition == position)
+        if (!draggable && toggledPosition == position)
             return;
 
         toggledPosition = position;
