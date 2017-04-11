@@ -19,7 +19,6 @@ import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -93,7 +92,15 @@ public class SegmentedButtonGroup extends LinearLayout {
 
                 float selectorWidth = (float) getWidth() / numberOfButtons / 2f;
 
-                if (event.getRawX() - selectorWidth < getLeft() || event.getRawX() + selectorWidth > getRight()) {
+
+                if (event.getRawX() - selectorWidth < getLeft()) {
+                    mClipAmount = 0;
+                    invalidate();
+                    break;
+                }
+                if (event.getRawX() + selectorWidth > getRight()) {
+                    mClipAmount = 1;
+                    invalidate();
                     break;
                 }
 
@@ -104,7 +111,7 @@ public class SegmentedButtonGroup extends LinearLayout {
                 int position = (int) Math.floor(offsetX);
                 offsetX -= position;
 
-                animateSelector(position, offsetX);
+                animateViews(position, offsetX);
 
                 break;
         }
@@ -730,7 +737,7 @@ public class SegmentedButtonGroup extends LinearLayout {
                 int position = (int) animatedValue;
                 float positionOffset = animatedValue - position;
 
-                animateSelector(position, positionOffset);
+                animateViews(position, positionOffset);
 
                 mClipAmount = animatedValue;
                 invalidate();
@@ -753,7 +760,7 @@ public class SegmentedButtonGroup extends LinearLayout {
     private int lastPosition = 0;
     private float lastPositionOffset = 0;
 
-    private void animateSelector(int position, float positionOffset) {
+    private void animateViews(int position, float positionOffset) {
         float realPosition = position + positionOffset;
         float lastRealPosition = lastPosition + lastPositionOffset;
 
