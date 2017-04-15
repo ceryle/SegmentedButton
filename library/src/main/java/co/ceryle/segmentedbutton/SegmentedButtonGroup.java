@@ -762,7 +762,7 @@ public class SegmentedButtonGroup extends LinearLayout {
                 invalidate();
             }
         });
-        animator.setInterpolator(new FastOutSlowInInterpolator());
+        animator.setInterpolator(interpolatorSelector);
         animator.setDuration(duration);
         animator.start();
 
