@@ -231,7 +231,7 @@ public class SegmentedButton extends View {
                     if (heightRequirement < h)
                         height = h;
                     else
-                        height = heightRequirement + getPaddingTop() + getPaddingBottom();
+                        height = heightRequirement + getPaddingTop() - getPaddingBottom();
                 }
                 break;
 
