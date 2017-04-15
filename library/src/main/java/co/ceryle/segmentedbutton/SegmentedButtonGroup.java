@@ -92,7 +92,6 @@ public class SegmentedButtonGroup extends LinearLayout {
                 offsetX = ((event.getX() - selectorWidth) * numberOfButtons) / getWidth();
                 position = (int) Math.floor(offsetX + 0.5);
 
-
                 toggledPositionOffset = lastPositionOffset = offsetX;
 
                 toggle(position, animateSelectorDuration, true);
@@ -162,6 +161,7 @@ public class SegmentedButtonGroup extends LinearLayout {
         rippleContainer.setOrientation(LinearLayout.HORIZONTAL);
         rippleContainer.setClickable(false);
         rippleContainer.setFocusable(false);
+        rippleContainer.setPadding(borderSize, borderSize, borderSize, borderSize);
         container.addView(rippleContainer);
 
         dividerContainer = new LinearLayout(getContext());
@@ -287,7 +287,7 @@ public class SegmentedButtonGroup extends LinearLayout {
             super.addView(child, index, params);
     }
 
-    private ArrayList<View> ripples = new ArrayList<>();
+    private ArrayList<BackgroundView> ripples = new ArrayList<>();
 
     private void setRipple(View v, boolean isClickable) {
         if (isClickable) {
@@ -479,7 +479,7 @@ public class SegmentedButtonGroup extends LinearLayout {
             if (withAnimation)
                 toggle(position, animateSelectorDuration, false);
             else
-                toggle(position, 0, false);
+                toggle(position, 1, false);
         }
     }
 
@@ -721,6 +721,8 @@ public class SegmentedButtonGroup extends LinearLayout {
             Bundle bundle = (Bundle) state;
             position = bundle.getInt("position");
             state = bundle.getParcelable("state");
+
+            setPosition(position, false);
         }
         super.onRestoreInstanceState(state);
     }
