@@ -105,24 +105,20 @@ public class SegmentedButtonGroup extends LinearLayout {
 
                 selectorWidth = (float) getWidth() / numberOfButtons / 2f;
 
+                offsetX = ((event.getX() - selectorWidth) * numberOfButtons) / (float) getWidth();
+                position = (int) Math.floor(offsetX);
+                offsetX -= position;
 
                 if (event.getRawX() - selectorWidth < getLeft()) {
-                    mClipAmount = 0;
-                    invalidate();
+                    offsetX = 0;
+                    animateViews(position + 1, offsetX);
                     break;
                 }
                 if (event.getRawX() + selectorWidth > getRight()) {
-                    mClipAmount = 1;
-                    invalidate();
+                    offsetX = 1;
+                    animateViews(position - 1, offsetX);
                     break;
                 }
-
-                offsetX = ((event.getX() - selectorWidth) * numberOfButtons) / getWidth();
-                mClipAmount = offsetX;
-                invalidate();
-
-                position = (int) Math.floor(offsetX);
-                offsetX -= position;
 
                 animateViews(position, offsetX);
 
@@ -168,19 +164,10 @@ public class SegmentedButtonGroup extends LinearLayout {
 
         rectF = new RectF();
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-
-        mSelectorRectF = new RectF();
-        mSelectorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mSelectorPaint.setColor(selectorColor);
     }
 
     private RectF rectF;
     private Paint paint;
-
-    private RectF mSelectorRectF;
-    private Paint mSelectorPaint;
-
-    private float mClipAmount = 0.0f;
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -202,14 +189,6 @@ public class SegmentedButtonGroup extends LinearLayout {
             paint.setStrokeWidth(borderSize);
             canvas.drawRoundRect(rectF, radius, radius, paint);
         }
-
-        float w = width / numberOfButtons;
-
-        float left = w * mClipAmount + borderSize;
-        float right = w * (mClipAmount + 1) - borderSize;
-
-        mSelectorRectF.set(left, borderSize, right, height - borderSize);
-        canvas.drawRoundRect(mSelectorRectF, radius, radius, mSelectorPaint);
     }
 
     @Override
@@ -236,7 +215,7 @@ public class SegmentedButtonGroup extends LinearLayout {
         }
     }
 
-    int numberOfButtons = 0;
+    private int numberOfButtons = 0;
 
     @Override
     public void addView(View child, int index, ViewGroup.LayoutParams params) {
@@ -245,6 +224,19 @@ public class SegmentedButtonGroup extends LinearLayout {
             SegmentedButton button = (SegmentedButton) child;
             final int position = numberOfButtons++;
 
+            button.setSelectorColor(selectorColor);
+            button.setSelectorRadius(radius);
+            button.setBorderSize(borderSize);
+
+            if (position == 0)
+                button.hasBorderLeft(true);
+
+            if (position > 0)
+                buttons.get(position - 1).hasBorderRight(false);
+
+            button.hasBorderRight(true);
+
+
             mainGroup.addView(child, params);
             buttons.add(button);
 
@@ -252,7 +244,7 @@ public class SegmentedButtonGroup extends LinearLayout {
                 button.clipToRight(1);
 
                 lastPosition = toggledPosition = position;
-                lastPositionOffset = toggledPositionOffset = mClipAmount = (float) position;
+                lastPositionOffset = toggledPositionOffset = (float) position;
             }
 
             // RIPPLE
@@ -752,7 +744,6 @@ public class SegmentedButtonGroup extends LinearLayout {
 
                 animateViews(position, positionOffset);
 
-                mClipAmount = animatedValue;
                 invalidate();
             }
         });
@@ -776,6 +767,7 @@ public class SegmentedButtonGroup extends LinearLayout {
     private void animateViews(int position, float positionOffset) {
         float realPosition = position + positionOffset;
         float lastRealPosition = lastPosition + lastPositionOffset;
+
 
         if (realPosition == lastRealPosition) {
             return;

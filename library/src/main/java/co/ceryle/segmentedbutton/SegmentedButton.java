@@ -26,12 +26,12 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.View;
 
 import com.ceryle.segmentedbutton.R;
@@ -63,6 +63,8 @@ public class SegmentedButton extends View {
     private TextPaint mTextPaint;
     private StaticLayout mStaticLayout, mStaticLayoutOverlay;
     private Rect mTextBounds = new Rect();
+    private int mRadius, mBorderSize;
+    private boolean hasBorderLeft, hasBorderRight;
 
     // private RectF rectF = new RectF();
 
@@ -72,7 +74,34 @@ public class SegmentedButton extends View {
 
         initText();
         initBitmap();
+        mRectF = new RectF();
+        mPaint = new Paint();
+        mPaint.setColor(Color.BLACK);
+        mPaint.setAntiAlias(true);
     }
+
+    void setSelectorColor(int color) {
+        mPaint.setColor(color);
+    }
+
+    void setSelectorRadius(int radius) {
+        mRadius = radius;
+    }
+
+    void setBorderSize(int borderSize) {
+        mBorderSize = borderSize;
+    }
+
+    void hasBorderLeft(boolean hasBorderLeft) {
+        this.hasBorderLeft = hasBorderLeft;
+    }
+
+    void hasBorderRight(boolean hasBorderRight) {
+        this.hasBorderRight = hasBorderRight;
+    }
+
+    private RectF mRectF;
+    private Paint mPaint;
 
     private void initText() {
         if (!hasText)
@@ -314,8 +343,23 @@ public class SegmentedButton extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        // NORMAL -start
-        // Text normal
+
+        int width = canvas.getWidth();
+        int height = canvas.getHeight();
+
+        canvas.save();
+
+        if (clipLeftToRight)
+            canvas.translate(-width * (mClipAmount - 1), 0);
+        else
+            canvas.translate(width * (mClipAmount - 1), 0);
+
+
+        mRectF.set(hasBorderLeft ? mBorderSize : 0, mBorderSize, hasBorderRight ? width - mBorderSize : width, height - mBorderSize);
+        canvas.drawRoundRect(mRectF, mRadius, mRadius, mPaint);
+
+        canvas.restore();
+
         canvas.save();
 
         if (hasText) {
@@ -334,8 +378,6 @@ public class SegmentedButton extends View {
         }
         // NORMAL -end
 
-        int width = canvas.getWidth();
-        int height = canvas.getHeight();
 
         // CLIPPING
         if (clipLeftToRight) {
@@ -365,6 +407,18 @@ public class SegmentedButton extends View {
         // CLIP -end
 
         canvas.restore();
+    }
+
+    public void clipToLeft(float clip) {
+        clipLeftToRight = false;
+        mClipAmount = 1.0f - clip;
+        invalidate();
+    }
+
+    public void clipToRight(float clip) {
+        clipLeftToRight = true;
+        mClipAmount = clip;
+        invalidate();
     }
 
     private int drawableTintOnSelection, textColorOnSelection, textColor, rippleColor, buttonWidth,
@@ -497,17 +551,6 @@ public class SegmentedButton extends View {
 
     private boolean hasDrawable, hasText;
 
-    public void clipToLeft(float clip) {
-        clipLeftToRight = false;
-        mClipAmount = 1.0f - clip;
-        invalidate();
-    }
-
-    public void clipToRight(float clip) {
-        clipLeftToRight = true;
-        mClipAmount = clip;
-        invalidate();
-    }
 
     /**
      * Sets button's drawable by given drawable object and its position
