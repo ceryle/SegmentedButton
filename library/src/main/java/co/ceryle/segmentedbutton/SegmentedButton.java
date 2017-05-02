@@ -370,6 +370,7 @@ public class SegmentedButton extends View {
 
             canvas.restore();
         }
+        canvas.save();
 
         // Bitmap normal
         if (hasDrawable) {

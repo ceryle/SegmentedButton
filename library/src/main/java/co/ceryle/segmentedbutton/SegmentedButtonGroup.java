@@ -204,11 +204,6 @@ public class SegmentedButtonGroup extends LinearLayout {
         }
     }
 
-    @Override
-    protected void dispatchDraw(Canvas canvas) {
-        super.dispatchDraw(canvas);
-    }
-
     private void setBackgroundColor(View v, Drawable d, int c) {
         if (null != d) {
             BackgroundHelper.setBackground(v, d);

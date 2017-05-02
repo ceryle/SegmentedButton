@@ -1,10 +1,12 @@
-package co.ceryle.segmentedbutton;
+package co.ceryle.segmentedbutton.sample;
 
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import co.ceryle.segmentedbutton.SegmentedButtonGroup;
 
 public class MainActivity extends AppCompatActivity {
 

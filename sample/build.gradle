@@ -3,10 +3,9 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
-    enforceUniquePackageName = false
 
     defaultConfig {
-        applicationId "co.ceryle.segmentedbutton"
+        applicationId "co.ceryle.segmentedbutton.sample"
         minSdkVersion 11
         targetSdkVersion 25
         versionCode 1
@@ -23,6 +22,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:appcompat-v7:25.3.1'
     compile project(":library")
 }
