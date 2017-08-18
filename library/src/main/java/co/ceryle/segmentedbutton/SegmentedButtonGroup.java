@@ -50,8 +50,6 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.ceryle.segmentedbutton.R;
-
 import java.util.ArrayList;
 
 public class SegmentedButtonGroup extends LinearLayout {

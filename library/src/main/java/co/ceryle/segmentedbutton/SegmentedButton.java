@@ -34,8 +34,6 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.ceryle.segmentedbutton.R;
-
 public class SegmentedButton extends View {
 
     private Context context;
