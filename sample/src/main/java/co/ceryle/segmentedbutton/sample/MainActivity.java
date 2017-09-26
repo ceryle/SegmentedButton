@@ -1,12 +1,15 @@
 package co.ceryle.segmentedbutton.sample;
 
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import co.ceryle.segmentedbutton.SegmentedButton;
 import co.ceryle.segmentedbutton.SegmentedButtonGroup;
+import co.ceryle.segmentedbutton.sample.drawable.BadgeDrawable;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,6 +54,28 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         handler.postDelayed(runnable, 5000);
+
+        setupDynamicDrawables();
+    }
+
+    private void setupDynamicDrawables() {
+        final BadgeDrawable drawable = new BadgeDrawable(Color.RED, 80, 50, 3, 3);
+        final SegmentedButton leftButton = (SegmentedButton) findViewById(R.id.left_button);
+        leftButton.setDrawable(drawable);
+
+        SegmentedButtonGroup group = (SegmentedButtonGroup)findViewById(R.id.dynamic_drawable_group);
+        group.setOnClickedButtonListener(new SegmentedButtonGroup.OnClickedButtonListener() {
+            @Override
+            public void onClickedButton(int position) {
+                if(position == 0){
+                    drawable.setCount(drawable.getCount() + 1);
+                    leftButton.requestLayout();
+                }
+            }
+        });
+
+        final SegmentedButton rightButton = (SegmentedButton) findViewById(R.id.right_button);
+        rightButton.setDrawable(R.drawable.ic_b1);
     }
 
     private void updateButton(int position) {
