@@ -21,6 +21,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -355,19 +356,7 @@ public class SegmentedButton extends View {
 
         // Bitmap normal
         if (hasDrawable) {
-            int drawableX = (int)bitmap_X;
-            int drawableY = (int)bitmap_Y;
-            int drawableWidth = mDrawable.getIntrinsicWidth();
-            if (hasDrawableWidth) {
-                drawableWidth = this.drawableWidth;
-            }
-            int drawableHeight = mDrawable.getIntrinsicHeight();
-            if (hasDrawableHeight) {
-                drawableHeight = this.drawableHeight;
-            }
-            mDrawable.setColorFilter(mBitmapNormalColor);
-            mDrawable.setBounds(drawableX, drawableY, drawableX + drawableWidth, drawableY + drawableHeight);
-            mDrawable.draw(canvas);
+            drawDrawableWithColorFilter(canvas, mBitmapNormalColor);
         }
         // NORMAL -end
 
@@ -393,24 +382,27 @@ public class SegmentedButton extends View {
 
         // Bitmap clip
         if (hasDrawable) {
-            int drawableX = (int)bitmap_X;
-            int drawableY = (int)bitmap_Y;
-            int drawableWidth = mDrawable.getIntrinsicWidth();
-            if (hasDrawableWidth) {
-                drawableWidth = this.drawableWidth;
-            }
-            int drawableHeight = mDrawable.getIntrinsicHeight();
-            if (hasDrawableHeight) {
-                drawableHeight = this.drawableHeight;
-            }
-            if (hasDrawableTintOnSelection)
-                mDrawable.setColorFilter(mBitmapClipColor);
-            mDrawable.setBounds(drawableX, drawableY, drawableX + drawableWidth, drawableY + drawableHeight);
-            mDrawable.draw(canvas);
+            drawDrawableWithColorFilter(canvas, mBitmapClipColor);
         }
         // CLIP -end
 
         canvas.restore();
+    }
+
+    private void drawDrawableWithColorFilter(Canvas canvas, ColorFilter colorFilter){
+        int drawableX = (int)bitmap_X;
+        int drawableY = (int)bitmap_Y;
+        int drawableWidth = mDrawable.getIntrinsicWidth();
+        if (hasDrawableWidth) {
+            drawableWidth = this.drawableWidth;
+        }
+        int drawableHeight = mDrawable.getIntrinsicHeight();
+        if (hasDrawableHeight) {
+            drawableHeight = this.drawableHeight;
+        }
+        mDrawable.setColorFilter(colorFilter);
+        mDrawable.setBounds(drawableX, drawableY, drawableX + drawableWidth, drawableY + drawableHeight);
+        mDrawable.draw(canvas);
     }
 
     public void clipToLeft(float clip) {
