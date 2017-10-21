@@ -21,6 +21,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -28,10 +29,14 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 public class SegmentedButton extends View {
@@ -55,8 +60,6 @@ public class SegmentedButton extends View {
 
     private float mClipAmount;
     private boolean clipLeftToRight;
-
-    private Paint mBitmapPaint;
 
     private TextPaint mTextPaint;
     private StaticLayout mStaticLayout, mStaticLayoutOverlay;
@@ -123,42 +126,23 @@ public class SegmentedButton extends View {
     }
 
     private void initBitmap() {
-        if (!hasDrawable)
-            return;
-
-        mBitmap = BitmapFactory.decodeResource(context.getResources(), drawable);
-        if (hasDrawableWidth || hasDrawableHeight)
-            mBitmap = getResizedBitmap(mBitmap, drawableWidth, drawableHeight);
-
-        mBitmapPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        if (hasDrawable) {
+            mDrawable = ContextCompat.getDrawable(context, drawable);
+        }
 
         if (hasDrawableTint) {
             mBitmapNormalColor = new PorterDuffColorFilter(drawableTint, PorterDuff.Mode.SRC_IN);
-            mBitmapPaint.setColorFilter(mBitmapNormalColor);
         }
 
         if (hasDrawableTintOnSelection)
             mBitmapClipColor = new PorterDuffColorFilter(drawableTintOnSelection, PorterDuff.Mode.SRC_IN);
     }
-
-    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
-        int width = bm.getWidth();
-        int height = bm.getHeight();
-
-        float scaleWidth = hasDrawableWidth ? ((float) newWidth) / width : 1;
-        float scaleHeight = hasDrawableHeight ? ((float) newHeight) / height : 1;
-
-        Matrix matrix = new Matrix();
-        matrix.postScale(scaleWidth, scaleHeight);
-
-        return Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
-    }
-
+    
     private void measureTextWidth(int width) {
         if (!hasText)
             return;
 
-        int bitmapWidth = hasDrawable && drawableGravity.isHorizontal() ? mBitmap.getWidth() : 0;
+        int bitmapWidth = hasDrawable && drawableGravity.isHorizontal() ? mDrawable.getIntrinsicWidth() : 0;
 
         int textWidth = width - (bitmapWidth + getPaddingLeft() + getPaddingRight());
 
@@ -177,11 +161,11 @@ public class SegmentedButton extends View {
         int heightRequirement = MeasureSpec.getSize(heightMeasureSpec);
 
         int width = 0;
-        int bitmapWidth = hasDrawable ? mBitmap.getWidth() : 0;
+        int bitmapWidth = hasDrawable ? mDrawable.getIntrinsicWidth() : 0;
         int textWidth = hasText ? mStaticLayout.getWidth() : 0;
 
         int height = getPaddingTop() + getPaddingBottom();
-        int bitmapHeight = hasDrawable ? mBitmap.getHeight() : 0;
+        int bitmapHeight = hasDrawable ? mDrawable.getIntrinsicHeight() : 0;
         int textHeight = hasText ? mStaticLayout.getHeight() : 0;
 
         switch (widthMode) {
@@ -265,8 +249,8 @@ public class SegmentedButton extends View {
 
         float bitmapHeight = 0, bitmapWidth = 0;
         if (hasDrawable) {
-            bitmapHeight = mBitmap.getHeight();
-            bitmapWidth = mBitmap.getWidth();
+            bitmapHeight = mDrawable.getIntrinsicHeight();
+            bitmapWidth = mDrawable.getIntrinsicWidth();
         }
 
 
@@ -336,7 +320,7 @@ public class SegmentedButton extends View {
 
     private PorterDuffColorFilter mBitmapNormalColor, mBitmapClipColor;
 
-    private Bitmap mBitmap;
+    private Drawable mDrawable;
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -372,8 +356,7 @@ public class SegmentedButton extends View {
 
         // Bitmap normal
         if (hasDrawable) {
-            mBitmapPaint.setColorFilter(mBitmapNormalColor);
-            canvas.drawBitmap(mBitmap, bitmap_X, bitmap_Y, mBitmapPaint);
+            drawDrawableWithColorFilter(canvas, mBitmapNormalColor);
         }
         // NORMAL -end
 
@@ -399,13 +382,27 @@ public class SegmentedButton extends View {
 
         // Bitmap clip
         if (hasDrawable) {
-            if (hasDrawableTintOnSelection)
-                mBitmapPaint.setColorFilter(mBitmapClipColor);
-            canvas.drawBitmap(mBitmap, bitmap_X, bitmap_Y, mBitmapPaint);
+            drawDrawableWithColorFilter(canvas, mBitmapClipColor);
         }
         // CLIP -end
 
         canvas.restore();
+    }
+
+    private void drawDrawableWithColorFilter(Canvas canvas, ColorFilter colorFilter){
+        int drawableX = (int)bitmap_X;
+        int drawableY = (int)bitmap_Y;
+        int drawableWidth = mDrawable.getIntrinsicWidth();
+        if (hasDrawableWidth) {
+            drawableWidth = this.drawableWidth;
+        }
+        int drawableHeight = mDrawable.getIntrinsicHeight();
+        if (hasDrawableHeight) {
+            drawableHeight = this.drawableHeight;
+        }
+        mDrawable.setColorFilter(colorFilter);
+        mDrawable.setBounds(drawableX, drawableY, drawableX + drawableWidth, drawableY + drawableHeight);
+        mDrawable.draw(canvas);
     }
 
     public void clipToLeft(float clip) {
@@ -557,8 +554,18 @@ public class SegmentedButton extends View {
      * @param resId is your drawable's resource id
      */
     public void setDrawable(int resId) {
-        drawable = resId;
-        mBitmap = BitmapFactory.decodeResource(context.getResources(), resId);
+        setDrawable(ContextCompat.getDrawable(context, resId));
+    }
+
+    /**
+     * Sets button's drawable by given drawable object and its position
+     *
+     * @param drawable is your drawable object
+     */
+    public void setDrawable(Drawable drawable){
+        mDrawable = drawable;
+        hasDrawable = true;
+        requestLayout();
     }
 
     /**
