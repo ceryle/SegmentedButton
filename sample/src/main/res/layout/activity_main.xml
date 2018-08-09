@@ -89,7 +89,7 @@
             app:sb_drawableGravity="top"
             app:sb_text="Aragorn"
             app:sb_textColor_onSelection="@color/orange_700"
-            app:sb_textTypefacePath="fonts/aniron.ttf"/>
+            app:sb_textFont="@font/aniron"/>
 
         <co.ceryle.segmentedbutton.SegmentedButton
             android:layout_width="0dp"
@@ -99,7 +99,7 @@
             app:sb_drawableGravity="top"
             app:sb_text="Gimli"
             app:sb_textColor_onSelection="@color/grey_600"
-            app:sb_textTypefacePath="fonts/aniron.ttf"/>
+            app:sb_textFont="@font/aniron"/>
 
         <co.ceryle.segmentedbutton.SegmentedButton
             android:layout_width="0dp"
@@ -109,7 +109,7 @@
             app:sb_drawableGravity="top"
             app:sb_text="Legolas"
             app:sb_textColor_onSelection="@color/yellow_200"
-            app:sb_textTypefacePath="fonts/aniron.ttf"/>
+            app:sb_textFont="@font/aniron"/>
     </co.ceryle.segmentedbutton.SegmentedButtonGroup>
 
     <co.ceryle.segmentedbutton.SegmentedButtonGroup

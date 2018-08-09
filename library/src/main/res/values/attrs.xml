@@ -29,6 +29,7 @@
             <flag name="serif" value="3"/>
         </attr>
         <attr name="sb_textTypefacePath" format="string"/>
+        <attr name="sb_textFont" format="reference"/>
         <attr name="sb_textFillSpace" format="boolean"/>
         <attr name="sb_textStyle" format="integer">
             <flag name="normal" value="0"/>
