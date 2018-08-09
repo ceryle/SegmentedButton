@@ -17,26 +17,22 @@ package co.ceryle.segmentedbutton;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 public class SegmentedButton extends View {
@@ -113,7 +109,9 @@ public class SegmentedButton extends View {
         mTextPaint.setTextSize(textSize);
         mTextPaint.setColor(textColor);
 
-        if (hasTextTypefacePath)
+        if (hasTextFont)
+            setTextFont(textFont);
+        else if (hasTextTypefacePath)
             setTypeface(textTypefacePath);
         else if (null != textTypeface) {
             setTypeface(textTypeface);
@@ -418,9 +416,9 @@ public class SegmentedButton extends View {
     }
 
     private int drawableTintOnSelection, textColorOnSelection, textColor, rippleColor, buttonWidth,
-            drawable, drawableTint, drawableWidth, drawableHeight, drawablePadding;
+            drawable, drawableTint, drawableWidth, drawableHeight, drawablePadding, textFont;
     private boolean hasTextColorOnSelection, hasRipple, hasWidth, hasWeight, hasDrawableTintOnSelection,
-            hasDrawableWidth, hasDrawableHeight, hasDrawableTint, hasTextTypefacePath;
+            hasDrawableWidth, hasDrawableHeight, hasDrawableTint, hasTextTypefacePath, hasTextFont;
     private float buttonWeight, textSize;
     private String textTypefacePath, text;
     private Typeface textTypeface;
@@ -441,7 +439,10 @@ public class SegmentedButton extends View {
         hasText = ta.hasValue(R.styleable.SegmentedButton_sb_text);
         textSize = ta.getDimension(R.styleable.SegmentedButton_sb_textSize, ConversionHelper.spToPx(getContext(), 14));
         textColor = ta.getColor(R.styleable.SegmentedButton_sb_textColor, Color.GRAY);
+        textFont = ta.getResourceId(R.styleable.SegmentedButton_sb_textFont, 0);
         textTypefacePath = ta.getString(R.styleable.SegmentedButton_sb_textTypefacePath);
+
+        hasTextFont = ta.hasValue(R.styleable.SegmentedButton_sb_textFont);
         hasTextTypefacePath = ta.hasValue(R.styleable.SegmentedButton_sb_textTypefacePath);
         int typeface = ta.getInt(R.styleable.SegmentedButton_sb_textTypeface, 1);
         switch (typeface) {
@@ -485,7 +486,6 @@ public class SegmentedButton extends View {
 
         drawableGravity = DrawableGravity.getById(ta.getInteger(R.styleable.SegmentedButton_sb_drawableGravity, 0));
 
-
         ta.recycle();
     }
 
@@ -504,9 +504,21 @@ public class SegmentedButton extends View {
     /**
      * @param location is .ttf file's path in assets folder. Example: 'fonts/my_font.ttf'
      */
+
     public void setTypeface(String location) {
         if (null != location && !location.equals("")) {
             Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), location);
+            mTextPaint.setTypeface(typeface);
+        }
+    }
+
+    /**
+     * @param font is R reference. Example: 'res/font/my_font.ttf' to R.font.my_font
+     */
+
+    public void setTextFont(int font) {
+        if (0 < font) {
+            Typeface typeface = ResourcesCompat.getFont(context, font);
             mTextPaint.setTypeface(typeface);
         }
     }
