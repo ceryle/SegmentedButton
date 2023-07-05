@@ -159,12 +159,13 @@ These animations can be set using the attribute noted above like so: `app:sbg_an
 ##### Listener Example
 ```java
 SegmentedButtonGroup segmentedButtonGroup = (SegmentedButtonGroup) findViewById(R.id.segmentedButtonGroup);
-segmentedButtonGroup.setOnClickedButtonPosition(new SegmentedButtonGroup.OnClickedButtonPosition() {
-    @Override
-    public void onClickedButtonPosition(int position) {
-        Toast.makeText(MainActivity.this, "Clicked: " + position, Toast.LENGTH_SHORT).show();
-    }
-});
+segmentedButtonGroup.setOnClickedButtonListener(new SegmentedButtonGroup.OnClickedButtonListener() {
+        @Override
+        public void onClickedButton(final int position) {
+             Toast.makeText(MainActivity.this, "Clicked: " + position, Toast.LENGTH_SHORT).show();
+        }
+ });
+
 segmentedButtonGroup.setPosition(2, 0);
 ```
 
